@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - SVS College</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    :root{--navy:#0b1f3a;--navy2:#142f54;--navy3:#1c3d6e;--gold:#d4af37;--gold-light:#f5e6c8;--sidebar-w:230px;}
+    body{background:#060f1e;color:white;min-height:100vh;display:flex;flex-direction:column;}
+
+    /* ── TOPBAR ── */
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;background:rgba(11,31,58,0.95);border-bottom:1px solid rgba(212,175,55,0.2);position:fixed;top:0;left:0;right:0;z-index:200;backdrop-filter:blur(10px);}
+    .topbar-left{display:flex;align-items:center;gap:12px;}
+    .tb-title{font-size:15px;font-weight:700;color:#d4af37;}
+    .tb-sub{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;}
+    .topbar-right{display:flex;align-items:center;gap:14px;}
+    .tb-user{font-size:13px;color:rgba(255,255,255,0.65);}
+    .tb-logout{padding:7px 18px;border-radius:20px;border:1px solid rgba(212,175,55,0.4);background:transparent;color:#d4af37;font-size:12px;font-weight:600;cursor:pointer;font-family:"Poppins",sans-serif;transition:0.2s;}
+    .tb-logout:hover{background:rgba(212,175,55,0.15);}
+    /* Hamburger for mobile sidebar */
+    .sidebar-toggle{display:none;background:none;border:none;cursor:pointer;padding:4px;flex-direction:column;gap:4px;justify-content:center;}
+    .sidebar-toggle span{display:block;width:22px;height:2px;background:#d4af37;border-radius:2px;transition:0.3s;}
+    .sidebar-toggle.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+    .sidebar-toggle.open span:nth-child(2){opacity:0;}
+    .sidebar-toggle.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+
+    /* ── LAYOUT ── */
+    .layout{display:flex;margin-top:54px;min-height:calc(100vh - 54px);}
+
+    /* ── SIDEBAR ── */
+    .sidebar{width:var(--sidebar-w);background:rgba(11,31,58,0.98);border-right:1px solid rgba(212,175,55,0.15);position:fixed;top:54px;bottom:0;left:0;overflow-y:auto;z-index:150;transition:transform 0.3s ease;}
+    .sidebar::-webkit-scrollbar{width:4px;}
+    .sidebar::-webkit-scrollbar-thumb{background:rgba(212,175,55,0.2);border-radius:10px;}
+    .sb-section{padding:16px 14px 8px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(212,175,55,0.5);}
+    .sb-item{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;color:rgba(255,255,255,0.55);cursor:pointer;border-left:3px solid transparent;transition:0.2s;}
+    .sb-item:hover{color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.04);}
+    .sb-item.active{color:#d4af37;border-left-color:#d4af37;background:rgba(212,175,55,0.08);}
+    .sb-divider{height:1px;background:rgba(255,255,255,0.06);margin:8px 14px;}
+    /* Mobile overlay */
+    .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:140;}
+    .sidebar-overlay.show{display:block;}
+
+    /* ── MAIN CONTENT ── */
+    .main{margin-left:var(--sidebar-w);flex:1;padding:28px;min-width:0;}
+
+    /* ── SECTION PANELS ── */
+    .panel{display:none;}
+    .panel.active{display:block;animation:fadeUp 0.3s ease both;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── CARDS ── */
+    .panel-title{font-size:20px;font-weight:700;color:#f5e6c8;margin-bottom:22px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .cards-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+    .dash-card{background:rgba(255,255,255,0.05);border:1px solid rgba(212,175,55,0.2);border-radius:14px;padding:20px;transition:0.2s;}
+    .dash-card:hover{border-color:rgba(212,175,55,0.4);}
+    .dc-icon{font-size:26px;margin-bottom:10px;}
+    .dc-val{font-size:28px;font-weight:700;color:#d4af37;line-height:1;}
+    .dc-label{font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;text-transform:uppercase;letter-spacing:1px;}
+
+    /* ── TABLE ── */
+    .table-wrap{overflow-x:auto;border-radius:12px;border:1px solid rgba(212,175,55,0.15);}
+    .enq-table{width:100%;border-collapse:collapse;font-size:13px;}
+    .enq-table th{background:rgba(212,175,55,0.1);padding:12px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#d4af37;white-space:nowrap;}
+    .enq-table td{padding:11px 14px;border-top:1px solid rgba(255,255,255,0.05);color:rgba(255,255,255,0.75);vertical-align:middle;}
+    .enq-table tr:hover td{background:rgba(255,255,255,0.02);}
+    .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+    .badge-new{background:rgba(74,222,128,0.15);color:#86efac;border:1px solid rgba(74,222,128,0.3);}
+    .badge-contacted{background:rgba(251,191,36,0.15);color:#fde68a;border:1px solid rgba(251,191,36,0.3);}
+    .badge-admitted{background:rgba(99,102,241,0.15);color:#c4b5fd;border:1px solid rgba(99,102,241,0.3);}
+    .badge-closed{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.35);border:1px solid rgba(255,255,255,0.1);}
+    .action-btn{padding:5px 12px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:transparent;color:#d4af37;font-size:11px;cursor:pointer;font-family:"Poppins",sans-serif;transition:0.2s;margin-right:4px;}
+    .action-btn:hover{background:rgba(212,175,55,0.1);}
+    .action-btn.del{border-color:rgba(255,80,80,0.3);color:#fca5a5;}
+    .action-btn.del:hover{background:rgba(255,80,80,0.1);}
+
+    /* ── FILTER BAR ── */
+    .filter-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;align-items:center;}
+    .filter-btn{padding:7px 16px;border-radius:20px;border:1px solid rgba(212,175,55,0.3);background:transparent;color:rgba(255,255,255,0.55);font-size:12px;cursor:pointer;font-family:"Poppins",sans-serif;transition:0.2s;}
+    .filter-btn.active,.filter-btn:hover{border-color:#d4af37;color:#d4af37;background:rgba(212,175,55,0.08);}
+    .search-box{flex:1;min-width:200px;padding:8px 14px;border-radius:20px;border:1px solid rgba(212,175,55,0.25);background:rgba(255,255,255,0.05);color:white;font-size:13px;font-family:"Poppins",sans-serif;outline:none;}
+    .search-box::placeholder{color:rgba(255,255,255,0.3);}
+    .search-box:focus{border-color:#d4af37;}
+
+    /* ── FORMS ── */
+    .form-section{background:rgba(255,255,255,0.03);border:1px solid rgba(212,175,55,0.15);border-radius:14px;padding:22px;margin-bottom:20px;}
+    .form-section h3{font-size:14px;font-weight:700;color:#d4af37;margin-bottom:16px;}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+    .form-grid.triple{grid-template-columns:1fr 1fr 1fr;}
+    .form-grid.single{grid-template-columns:1fr;}
+    .field{display:flex;flex-direction:column;gap:5px;}
+    .field label{font-size:11px;font-weight:600;color:rgba(212,175,55,0.7);text-transform:uppercase;letter-spacing:1px;}
+    .field input,.field select,.field textarea{padding:10px 12px;border-radius:9px;border:1px solid rgba(212,175,55,0.2);background:rgba(255,255,255,0.06);color:white;font-size:13px;font-family:"Poppins",sans-serif;outline:none;transition:0.2s;}
+    .field input:focus,.field select:focus,.field textarea:focus{border-color:#d4af37;box-shadow:0 0 0 2px rgba(212,175,55,0.1);}
+    .field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,0.25);}
+    .field select option{background:#0d2144;}
+    .field textarea{resize:vertical;min-height:80px;line-height:1.6;}
+    .save-btn{padding:11px 26px;border:none;border-radius:25px;background:linear-gradient(135deg,#d4af37,#f5e6c8);color:#0b1f3a;font-size:13px;font-weight:700;cursor:pointer;font-family:"Poppins",sans-serif;transition:0.2s;}
+    .save-btn:hover{transform:scale(1.04);}
+    .save-btn.danger{background:rgba(231,76,60,0.8);color:white;}
+    .save-btn.danger:hover{background:rgba(231,76,60,1);}
+
+    /* Knowledge base */
+    .kb-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+    .kb-item{background:rgba(255,255,255,0.04);border:1px solid rgba(212,175,55,0.15);border-radius:10px;padding:14px 16px;display:flex;justify-content:space-between;align-items:flex-start;gap:14px;}
+    .kb-item-text{flex:1;min-width:0;}
+    .kb-q{font-size:13px;font-weight:600;color:#f5e6c8;margin-bottom:4px;}
+    .kb-a{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.6;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+    .kb-actions{display:flex;gap:6px;flex-shrink:0;}
+    .knowledge-add-form{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end;margin-bottom:20px;}
+    .knowledge-add-form .save-btn{height:42px;white-space:nowrap;}
+
+    /* Courses editor */
+    .course-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+    .ct-btn{padding:8px 18px;border-radius:20px;border:1px solid rgba(212,175,55,0.3);background:transparent;color:rgba(255,255,255,0.55);font-size:12px;cursor:pointer;font-family:"Poppins",sans-serif;transition:0.2s;}
+    .ct-btn.active,.ct-btn:hover{border-color:#d4af37;color:#d4af37;background:rgba(212,175,55,0.08);}
+    .course-edit-panel{display:none;}.course-edit-panel.active{display:block;}
+    .sem-editor{margin-top:16px;}
+    .sem-row{background:rgba(255,255,255,0.03);border:1px solid rgba(212,175,55,0.12);border-radius:10px;padding:14px;margin-bottom:10px;}
+    .sem-row-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+    .sem-label-input{background:transparent;border:none;border-bottom:1px solid rgba(212,175,55,0.3);color:#d4af37;font-size:13px;font-weight:600;font-family:"Poppins",sans-serif;outline:none;width:200px;padding:4px 0;}
+    .subjects-input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(212,175,55,0.15);background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.75);font-size:12px;font-family:"Poppins",sans-serif;outline:none;resize:vertical;min-height:70px;line-height:1.6;}
+    .subjects-input::placeholder{color:rgba(255,255,255,0.2);}
+    .add-sem-btn{padding:8px 18px;border-radius:20px;border:2px dashed rgba(212,175,55,0.35);background:transparent;color:#d4af37;font-size:12px;cursor:pointer;font-family:"Poppins",sans-serif;transition:0.2s;margin-top:8px;}
+    .add-sem-btn:hover{background:rgba(212,175,55,0.08);}
+
+    /* Toast */
+    #toast{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;}
+    .toast-item{padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;animation:toastIn 0.3s ease both;box-shadow:0 8px 24px rgba(0,0,0,0.3);}
+    .toast-item.success{background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.4);color:#86efac;}
+    .toast-item.error{background:rgba(255,80,80,0.15);border:1px solid rgba(255,80,80,0.4);color:#fca5a5;}
+    @keyframes toastIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+    /* Modal for view detail */
+    #viewModal{display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;padding:20px;}
+    #viewModal.open{display:flex;}
+    .vm-backdrop{position:absolute;inset:0;background:rgba(6,15,30,0.85);backdrop-filter:blur(6px);}
+    .vm-box{position:relative;z-index:2;background:linear-gradient(145deg,#0d2144,#142f54);border:1px solid rgba(212,175,55,0.3);border-radius:20px;width:100%;max-width:500px;max-height:85vh;overflow-y:auto;padding:28px;box-shadow:0 30px 80px rgba(0,0,0,0.6);animation:fadeUp 0.3s ease both;}
+    .vm-close{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;}
+    .vm-close:hover{background:rgba(231,76,60,0.2);color:#fca5a5;}
+    .vm-title{font-size:18px;font-weight:700;color:#d4af37;margin-bottom:18px;}
+    .vm-row{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;}
+    .vm-row:last-child{border-bottom:none;}
+    .vm-key{color:rgba(255,255,255,0.45);min-width:110px;font-weight:600;font-size:12px;}
+    .vm-val{color:rgba(255,255,255,0.8);flex:1;word-break:break-word;}
+
+    /* ── TABLET ── */
+    @media(max-width:1024px){
+      .cards-row{grid-template-columns:repeat(2,1fr);}
+      .form-grid.triple{grid-template-columns:1fr 1fr;}
+      .knowledge-add-form{grid-template-columns:1fr;}
+      .main{padding:20px;}
+    }
+
+    /* ── MOBILE ── */
+    @media(max-width:768px){
+      .topbar{padding:10px 16px;}
+      .sidebar-toggle{display:flex;}
+      .tb-user{display:none;}
+      .sidebar{transform:translateX(-100%);}
+      .sidebar.open{transform:translateX(0);box-shadow:4px 0 24px rgba(0,0,0,0.5);}
+      .main{margin-left:0;padding:16px;}
+      .cards-row{grid-template-columns:1fr 1fr;}
+      .panel-title{font-size:17px;}
+      .form-grid,.form-grid.triple{grid-template-columns:1fr;}
+      .knowledge-add-form{grid-template-columns:1fr;}
+      .filter-bar{gap:8px;}
+      .filter-btn{font-size:11px;padding:6px 12px;}
+      .enq-table th:nth-child(4),.enq-table td:nth-child(4){display:none;}
+      #toast{right:12px;bottom:12px;}
+      .vm-box{padding:20px 16px;}
+    }
+
+    /* ── SMALL MOBILE ── */
+    @media(max-width:480px){
+      .cards-row{grid-template-columns:1fr;}
+      .course-tabs{gap:6px;}
+      .ct-btn{padding:6px 12px;font-size:11px;}
+      .enq-table th:nth-child(5),.enq-table td:nth-child(5){display:none;}
+    }
+
+    /* ── TV / LARGE ── */
+    @media(min-width:1600px){
+      :root{--sidebar-w:270px;}
+      .topbar{padding:14px 40px;}
+      .main{padding:36px;}
+      .tb-title{font-size:17px;}
+      .cards-row{grid-template-columns:repeat(4,1fr);gap:20px;}
+      .dc-val{font-size:34px;}
+      .enq-table{font-size:14px;}
+      .enq-table th{font-size:12px;}
+    }
+  </style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<!-- View modal -->
+<div id="viewModal">
+  <div class="vm-backdrop" onclick="closeViewModal()"></div>
+  <div class="vm-box">
+    <button class="vm-close" onclick="closeViewModal()">&#10005;</button>
+    <div class="vm-title">&#128196; Enquiry Details</div>
+    <div id="vmContent"></div>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+      <span></span><span></span><span></span>
+    </button>
+    <div>
+      <div class="tb-title">&#128737; SVS Admin Dashboard</div>
+      <div class="tb-sub">Sri Venkataramana Swamy College, Bantwal</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span class="tb-user" id="adminEmailDisplay"></span>
+    <button class="tb-logout" onclick="logout()">&#8592; Logout</button>
+  </div>
+</div>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-section">Overview</div>
+    <div class="sb-item active" onclick="showPanel('overview')">&#128200; Dashboard</div>
+    <div class="sb-divider"></div>
+    <div class="sb-section">Management</div>
+    <div class="sb-item" onclick="showPanel('enquiries')">&#128196; Enquiries</div>
+    <div class="sb-item" onclick="showPanel('stats')">&#128218; Site Stats</div>
+    <div class="sb-item" onclick="showPanel('contact')">&#128222; Contact Info</div>
+    <div class="sb-divider"></div>
+    <div class="sb-section">Content</div>
+    <div class="sb-item" onclick="showPanel('courses')">&#127891; Courses Editor</div>
+    <div class="sb-item" onclick="showPanel('knowledge')">&#129504; Unimate Knowledge</div>
+    <div class="sb-divider"></div>
+    <div class="sb-section">Settings</div>
+    <div class="sb-item" onclick="showPanel('credentials')">&#128274; Credentials</div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- OVERVIEW -->
+    <div class="panel active" id="panel-overview">
+      <div class="panel-title">&#128200; Dashboard Overview</div>
+      <div class="cards-row">
+        <div class="dash-card"><div class="dc-icon">&#128196;</div><div class="dc-val" id="ov-enquiries">—</div><div class="dc-label">Total Enquiries</div></div>
+        <div class="dash-card"><div class="dc-icon">&#127381;</div><div class="dc-val" id="ov-new">—</div><div class="dc-label">New Enquiries</div></div>
+        <div class="dash-card"><div class="dc-icon">&#128100;</div><div class="dc-val" id="ov-students">—</div><div class="dc-label">Students</div></div>
+        <div class="dash-card"><div class="dc-icon">&#128218;</div><div class="dc-val" id="ov-faculty">—</div><div class="dc-label">Faculty</div></div>
+      </div>
+      <div class="form-section">
+        <h3>&#128161; Quick Links</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+          <button class="save-btn" onclick="showPanel('enquiries')">&#128196; View Enquiries</button>
+          <button class="save-btn" onclick="showPanel('knowledge')">&#129504; Unimate Knowledge</button>
+          <button class="save-btn" onclick="showPanel('courses')">&#127891; Edit Courses</button>
+          <button class="save-btn" onclick="showPanel('stats')">&#128218; Update Stats</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENQUIRIES -->
+    <div class="panel" id="panel-enquiries">
+      <div class="panel-title">&#128196; Admission Enquiries</div>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterEnq('all',this)">All</button>
+        <button class="filter-btn" onclick="filterEnq('New',this)">New</button>
+        <button class="filter-btn" onclick="filterEnq('Contacted',this)">Contacted</button>
+        <button class="filter-btn" onclick="filterEnq('Admitted',this)">Admitted</button>
+        <button class="filter-btn" onclick="filterEnq('Closed',this)">Closed</button>
+        <input class="search-box" type="text" id="enqSearch" placeholder="&#128269; Search name, course, city…" oninput="renderEnquiries()"/>
+      </div>
+      <div class="table-wrap">
+        <table class="enq-table">
+          <thead>
+            <tr>
+              <th>#</th><th>Name</th><th>Course</th><th>City</th><th>Phone</th><th>Status</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="enqTbody"><tr><td colspan="7" style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="panel" id="panel-stats">
+      <div class="panel-title">&#128218; Site Stats &amp; Info</div>
+      <div class="form-section">
+        <h3>&#128200; Student &amp; Faculty Stats</h3>
+        <div class="form-grid triple">
+          <div class="field"><label>Students Count</label><input type="number" id="st-students" placeholder="e.g. 669"/></div>
+          <div class="field"><label>Faculty Count</label><input type="number" id="st-faculty" placeholder="e.g. 34"/></div>
+          <div class="field"><label>Results (%)</label><input type="number" id="st-results" placeholder="e.g. 98"/></div>
+        </div>
+        <button class="save-btn" onclick="saveStats()">&#128190; Save Stats</button>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="panel" id="panel-contact">
+      <div class="panel-title">&#128222; Contact Information</div>
+      <div class="form-section">
+        <h3>&#128222; Update Contact Details</h3>
+        <div class="form-grid">
+          <div class="field"><label>Mobile 1</label><input type="text" id="ct-mobile1" placeholder="+91 XXXXX XXXXX"/></div>
+          <div class="field"><label>Mobile 2</label><input type="text" id="ct-mobile2" placeholder="+91 XXXXX XXXXX"/></div>
+          <div class="field"><label>Landline</label><input type="text" id="ct-landline" placeholder="08255-XXXXXX"/></div>
+          <div class="field"><label>Email</label><input type="email" id="ct-email" placeholder="college@example.com"/></div>
+        </div>
+        <div class="form-grid single">
+          <div class="field"><label>Facebook URL</label><input type="url" id="ct-facebook" placeholder="https://facebook.com/…"/></div>
+        </div>
+        <button class="save-btn" onclick="saveContact()">&#128190; Save Contact</button>
+      </div>
+    </div>
+
+    <!-- COURSES EDITOR -->
+    <div class="panel" id="panel-courses">
+      <div class="panel-title">&#127891; Courses Editor</div>
+      <div class="course-tabs" id="courseEditorTabs">Loading…</div>
+      <div id="courseEditorPanels"></div>
+    </div>
+
+    <!-- UNIMATE KNOWLEDGE -->
+    <div class="panel" id="panel-knowledge">
+      <div class="panel-title">&#129504; Unimate Knowledge Base</div>
+      <div class="form-section">
+        <h3>&#10133; Add New Q&amp;A</h3>
+        <div class="knowledge-add-form" id="addKbForm">
+          <div class="field"><label>Question</label><input type="text" id="kbQ" placeholder="e.g. What courses are offered?"/></div>
+          <div class="field"><label>Answer</label><input type="text" id="kbA" placeholder="Short, direct answer…"/></div>
+          <button class="save-btn" onclick="addKbItem()" style="height:42px;">&#10133; Add</button>
+        </div>
+      </div>
+      <div class="kb-list" id="kbList"><div style="color:rgba(255,255,255,0.3);text-align:center;padding:20px;">Loading…</div></div>
+    </div>
+
+    <!-- CREDENTIALS -->
+    <div class="panel" id="panel-credentials">
+      <div class="panel-title">&#128274; Admin Credentials</div>
+      <div class="form-section">
+        <h3>&#128231; Change Email</h3>
+        <div class="form-grid">
+          <div class="field"><label>New Email</label><input type="email" id="new-email" placeholder="New admin email"/></div>
+          <div class="field"><label>Current Password</label><input type="password" id="email-pass" placeholder="Confirm with password"/></div>
+        </div>
+        <button class="save-btn" onclick="changeEmail()">&#128190; Update Email</button>
+      </div>
+      <div class="form-section">
+        <h3>&#128274; Change Password</h3>
+        <div class="form-grid triple">
+          <div class="field"><label>Current Password</label><input type="password" id="old-pass" placeholder="Current password"/></div>
+          <div class="field"><label>New Password</label><input type="password" id="new-pass" placeholder="New password"/></div>
+          <div class="field"><label>Confirm New</label><input type="password" id="conf-pass" placeholder="Confirm new password"/></div>
+        </div>
+        <button class="save-btn" onclick="changePassword()">&#128190; Update Password</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // ── AUTH GUARD ──
+  if (sessionStorage.getItem('adminLoggedIn') !== 'true') window.location.replace('auth.html');
+
+  // ── MOBILE SIDEBAR TOGGLE ──
+  const sidebarEl   = document.getElementById('sidebar');
+  const overlayEl   = document.getElementById('sidebarOverlay');
+  const toggleBtn   = document.getElementById('sidebarToggle');
+  toggleBtn.addEventListener('click', () => {
+    const isOpen = sidebarEl.classList.toggle('open');
+    toggleBtn.classList.toggle('open', isOpen);
+    overlayEl.classList.toggle('show', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  overlayEl.addEventListener('click', closeSidebar);
+  function closeSidebar() {
+    sidebarEl.classList.remove('open');
+    toggleBtn.classList.remove('open');
+    overlayEl.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  // Close sidebar when item clicked on mobile
+  document.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', () => { if (window.innerWidth <= 768) closeSidebar(); });
+  });
+  window.addEventListener('resize', () => { if (window.innerWidth > 768) closeSidebar(); });
+
+  // ── PANEL NAVIGATION ──
+  function showPanel(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.sb-item').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    const items = document.querySelectorAll('.sb-item');
+    items.forEach(item => { if (item.getAttribute('onclick') && item.getAttribute('onclick').includes("'"+id+"'")) item.classList.add('active'); });
+    if (id === 'enquiries')   loadEnquiries();
+    if (id === 'courses')     loadCoursesEditor();
+    if (id === 'knowledge')   loadKnowledge();
+    if (id === 'stats')       loadStats();
+    if (id === 'contact')     loadContact();
+    if (id === 'overview')    loadOverview();
+  }
+
+  // ── TOAST ──
+  function toast(msg, type='success') {
+    const el = document.createElement('div');
+    el.className = 'toast-item ' + type;
+    el.textContent = msg;
+    document.getElementById('toast').appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+  }
+
+  // ── LOGOUT ──
+  function logout() { sessionStorage.removeItem('adminLoggedIn'); window.location.replace('auth.html'); }
+
+  // ── OVERVIEW ──
+  async function loadOverview() {
+    try {
+      const [eq, d] = await Promise.all([fetch('/admin-get-enquiries').then(r=>r.json()), fetch('/admin-get-data').then(r=>r.json())]);
+      const enqs = eq.ok ? eq.enquiries : [];
+      document.getElementById('ov-enquiries').textContent = enqs.length;
+      document.getElementById('ov-new').textContent = enqs.filter(e=>e.status==='New').length;
+      if (d.ok) {
+        document.getElementById('ov-students').textContent = d.students || '—';
+        document.getElementById('ov-faculty').textContent  = d.faculty  || '—';
+      }
+      const info = await fetch('/admin-info').then(r=>r.json());
+      if (info.ok) document.getElementById('adminEmailDisplay').textContent = '👤 ' + info.email;
+    } catch(e) {}
+  }
+  loadOverview();
+
+  // ── ENQUIRIES ──
+  let allEnquiries = [], currentFilter = 'all';
+  async function loadEnquiries() {
+    try {
+      const res = await fetch('/admin-get-enquiries');
+      const data = await res.json();
+      if (data.ok) { allEnquiries = data.enquiries; renderEnquiries(); }
+    } catch(e) { document.getElementById('enqTbody').innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:#fca5a5;">Failed to load.</td></tr>'; }
+  }
+  function filterEnq(f, btn) {
+    currentFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderEnquiries();
+  }
+  function renderEnquiries() {
+    const q = (document.getElementById('enqSearch').value || '').toLowerCase();
+    let list = allEnquiries;
+    if (currentFilter !== 'all') list = list.filter(e => e.status === currentFilter);
+    if (q) list = list.filter(e => (e.name+e.course+e.city+e.phone).toLowerCase().includes(q));
+    if (!list.length) { document.getElementById('enqTbody').innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);">No enquiries found.</td></tr>'; return; }
+    document.getElementById('enqTbody').innerHTML = list.map((e,i) => `
+      <tr>
+        <td>${i+1}</td>
+        <td>${esc(e.name)}</td>
+        <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc((e.course||'').split('–')[0].trim())}</td>
+        <td>${esc(e.city||'—')}</td>
+        <td><a href="tel:${esc(e.phone)}" style="color:#d4af37;text-decoration:none;">${esc(e.phone)}</a></td>
+        <td>
+          <select onchange="updateStatus('${esc(e.id||'')}','${esc(e.name)}',this.value)" style="background:#0d2144;border:1px solid rgba(212,175,55,0.2);color:white;border-radius:8px;padding:4px 8px;font-size:12px;font-family:Poppins,sans-serif;cursor:pointer;">
+            ${['New','Contacted','Admitted','Closed'].map(s=>`<option value="${s}"${e.status===s?' selected':''}>${s}</option>`).join('')}
+          </select>
+        </td>
+        <td>
+          <button class="action-btn" onclick="viewEnq(${i})">&#128065; View</button>
+          <button class="action-btn del" onclick="deleteEnq('${esc(e.id||'')}','${esc(e.name)}')">&#128465;</button>
+        </td>
+      </tr>`).join('');
+  }
+  async function updateStatus(id, name, status) {
+    try { const r=await fetch('/admin-update-enquiry-status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,status})}); const d=await r.json(); if(d.ok){toast('✅ '+name+' → '+status); const eq=allEnquiries.find(e=>e.id===id); if(eq)eq.status=status;} else toast('❌ Failed','error'); } catch(e){toast('❌ Server error','error');}
+  }
+  async function deleteEnq(id, name) {
+    if (!confirm('Delete enquiry for ' + name + '?')) return;
+    try { const r=await fetch('/admin-delete-enquiry',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})}); const d=await r.json(); if(d.ok){toast('🗑️ Deleted'); allEnquiries=allEnquiries.filter(e=>e.id!==id); renderEnquiries();} else toast('❌ Failed','error'); } catch(e){toast('❌ Server error','error');}
+  }
+  function viewEnq(idx) {
+    const e=allEnquiries.find((_,i)=>i===idx)||allEnquiries[idx];if(!e)return;
+    const rows=[['Name',e.name],['Course',e.course],['City',e.city],['Phone',e.phone],['Email',e.email],['WhatsApp',e.whatsapp||'—'],['DOB',e.dob||'—'],['Gender',e.gender||'—'],['Qualification',e.qual||'—'],['Status',e.status||'—'],['Submitted',e.submittedAt?new Date(e.submittedAt).toLocaleString():'—'],['Message',e.message||'—']];
+    document.getElementById('vmContent').innerHTML=rows.map(([k,v])=>`<div class="vm-row"><span class="vm-key">${esc(k)}</span><span class="vm-val">${esc(String(v||''))}</span></div>`).join('');
+    document.getElementById('viewModal').classList.add('open');document.body.style.overflow='hidden';
+  }
+  function closeViewModal(){document.getElementById('viewModal').classList.remove('open');document.body.style.overflow='';}
+
+  // ── STATS ──
+  async function loadStats() {
+    try { const r=await fetch('/admin-get-data'); const d=await r.json(); if(d.ok){if(d.students)document.getElementById('st-students').value=d.students; if(d.faculty)document.getElementById('st-faculty').value=d.faculty; if(d.results)document.getElementById('st-results').value=d.results;} } catch(e){}
+  }
+  async function saveStats() {
+    const students=document.getElementById('st-students').value,faculty=document.getElementById('st-faculty').value,results=document.getElementById('st-results').value;
+    try { const r=await fetch('/admin-save-data',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({students,faculty,results})}); const d=await r.json(); d.ok?toast('✅ Stats saved!'):toast('❌ Failed','error'); } catch(e){toast('❌ Server error','error');}
+  }
+
+  // ── CONTACT ──
+  async function loadContact() {
+    try { const r=await fetch('/admin-get-data'); const d=await r.json(); if(d.ok){document.getElementById('ct-mobile1').value=d.mobile1||'';document.getElementById('ct-mobile2').value=d.mobile2||'';document.getElementById('ct-landline').value=d.landline||'';document.getElementById('ct-email').value=d.emailinfo||'';document.getElementById('ct-facebook').value=d.facebook||'';} } catch(e){}
+  }
+  async function saveContact() {
+    const mobile1=document.getElementById('ct-mobile1').value,mobile2=document.getElementById('ct-mobile2').value,landline=document.getElementById('ct-landline').value,emailinfo=document.getElementById('ct-email').value,facebook=document.getElementById('ct-facebook').value;
+    try { const r=await fetch('/admin-save-data',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mobile1,mobile2,landline,emailinfo,facebook})}); const d=await r.json(); d.ok?toast('✅ Contact info saved!'):toast('❌ Failed','error'); } catch(e){toast('❌ Server error','error');}
+  }
+
+  // ── COURSES EDITOR ──
+  let editCourses=[];
+  async function loadCoursesEditor() {
+    try {
+      const r=await fetch('/admin-get-courses'); const d=await r.json();
+      if(!d.ok||!d.courses)return;
+      editCourses=d.courses;
+      const tabs=document.getElementById('courseEditorTabs'),panels=document.getElementById('courseEditorPanels');
+      tabs.innerHTML=''; panels.innerHTML='';
+      d.courses.forEach((c,idx)=>{
+        const btn=document.createElement('button'); btn.className='ct-btn'+(idx===0?' active':''); btn.textContent=c.icon+' '+c.title; btn.onclick=()=>{ document.querySelectorAll('.ct-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.course-edit-panel').forEach(p=>p.classList.remove('active')); document.getElementById('cep-'+c.id).classList.add('active'); }; tabs.appendChild(btn);
+        const panel=document.createElement('div'); panel.id='cep-'+c.id; panel.className='course-edit-panel'+(idx===0?' active':'');
+        panel.innerHTML=`
+          <div class="form-section">
+            <h3>&#9998; Edit: ${esc(c.title)}</h3>
+            <div class="form-grid">
+              <div class="field"><label>Title (Short)</label><input type="text" id="ce-title-${c.id}" value="${esc(c.title)}"/></div>
+              <div class="field"><label>Full Name</label><input type="text" id="ce-fullname-${c.id}" value="${esc(c.fullName)}"/></div>
+              <div class="field"><label>Icon (emoji)</label><input type="text" id="ce-icon-${c.id}" value="${esc(c.icon)}" maxlength="4"/></div>
+              <div class="field"><label>Duration</label><input type="text" id="ce-duration-${c.id}" value="${esc(c.duration)}"/></div>
+              <div class="field"><label>Eligibility</label><input type="text" id="ce-eligibility-${c.id}" value="${esc(c.eligibility)}"/></div>
+              <div class="field"><label>Languages / Streams</label><input type="text" id="ce-languages-${c.id}" value="${esc(c.languages)}"/></div>
+            </div>
+            <div class="form-grid single">
+              <div class="field"><label>Combinations</label><input type="text" id="ce-combinations-${c.id}" value="${esc(c.combinations)}"/></div>
+              <div class="field" style="margin-top:12px;"><label>Description</label><textarea id="ce-desc-${c.id}">${esc(c.description)}</textarea></div>
+            </div>
+            <div class="sem-editor">
+              <h3 style="font-size:13px;color:#d4af37;margin-bottom:12px;">&#128197; Semesters</h3>
+              <div id="sems-${c.id}">${c.semesters.map((s,si)=>`
+                <div class="sem-row" id="semrow-${c.id}-${si}">
+                  <div class="sem-row-header">
+                    <input class="sem-label-input" id="semlabel-${c.id}-${si}" value="${esc(s.label)}"/>
+                    <button class="action-btn del" onclick="removeSem('${c.id}',${si})">&#128465; Remove</button>
+                  </div>
+                  <textarea class="subjects-input" id="semsubjects-${c.id}-${si}" placeholder="One subject per line">${s.subjects.join('\n')}</textarea>
+                </div>`).join('')}
+              </div>
+              <button class="add-sem-btn" onclick="addSem('${c.id}')">&#10133; Add Semester</button>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;">
+              <button class="save-btn" onclick="saveCourse('${c.id}')">&#128190; Save Changes</button>
+              <button class="save-btn danger" onclick="resetCourse('${c.id}')">&#8635; Reset to Default</button>
+            </div>
+          </div>`;
+        panels.appendChild(panel);
+      });
+    } catch(e){document.getElementById('courseEditorTabs').innerHTML='<p style="color:#fca5a5;font-size:13px;">Failed to load courses.</p>';}
+  }
+  function addSem(courseId) {
+    const course=editCourses.find(c=>c.id===courseId);if(!course)return;
+    const idx=course.semesters.length;course.semesters.push({label:'New Semester',subjects:[]});
+    const container=document.getElementById('sems-'+courseId);
+    const row=document.createElement('div');row.className='sem-row';row.id=`semrow-${courseId}-${idx}`;
+    row.innerHTML=`<div class="sem-row-header"><input class="sem-label-input" id="semlabel-${courseId}-${idx}" value="New Semester"/><button class="action-btn del" onclick="removeSem('${courseId}',${idx})">🗑️ Remove</button></div><textarea class="subjects-input" id="semsubjects-${courseId}-${idx}" placeholder="One subject per line"></textarea>`;
+    container.appendChild(row);
+  }
+  function removeSem(courseId, idx) {
+    const row=document.getElementById(`semrow-${courseId}-${idx}`);if(row)row.remove();
+  }
+  async function saveCourse(courseId) {
+    const title=document.getElementById(`ce-title-${courseId}`).value.trim(),fullName=document.getElementById(`ce-fullname-${courseId}`).value.trim(),icon=document.getElementById(`ce-icon-${courseId}`).value.trim(),duration=document.getElementById(`ce-duration-${courseId}`).value.trim(),eligibility=document.getElementById(`ce-eligibility-${courseId}`).value.trim(),languages=document.getElementById(`ce-languages-${courseId}`).value.trim(),combinations=document.getElementById(`ce-combinations-${courseId}`).value.trim(),description=document.getElementById(`ce-desc-${courseId}`).value.trim();
+    const semesters=[];
+    let si=0;
+    while(document.getElementById(`semrow-${courseId}-${si}`)){
+      const label=(document.getElementById(`semlabel-${courseId}-${si}`)?.value||'').trim();
+      const subjects=(document.getElementById(`semsubjects-${courseId}-${si}`)?.value||'').split('\n').map(s=>s.trim()).filter(Boolean);
+      if(label)semesters.push({label,subjects});
+      si++;
+    }
+    try { const r=await fetch('/admin-update-course',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:courseId,title,fullName,icon,duration,eligibility,languages,combinations,description,semesters})}); const d=await r.json(); d.ok?toast('✅ Course saved!'):toast('❌ '+d.msg,'error'); } catch(e){toast('❌ Server error','error');}
+  }
+  async function resetCourse(courseId) {
+    if(!confirm('Reset this course to default data?'))return;
+    try { const r=await fetch('/admin-reset-course',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:courseId})}); const d=await r.json(); if(d.ok){toast('✅ Course reset!');loadCoursesEditor();}else toast('❌ '+d.msg,'error'); } catch(e){toast('❌ Server error','error');}
+  }
+
+  // ── KNOWLEDGE BASE ──
+  let kbItems=[];
+  async function loadKnowledge() {
+    try { const r=await fetch('/admin-get-knowledge'); const d=await r.json(); if(d.ok){kbItems=d.knowledge;renderKb();}else document.getElementById('kbList').innerHTML='<p style="color:#fca5a5;">Failed to load.</p>'; } catch(e){ document.getElementById('kbList').innerHTML='<p style="color:#fca5a5;">Server error.</p>';}
+  }
+  function renderKb() {
+    if(!kbItems.length){document.getElementById('kbList').innerHTML='<p style="color:rgba(255,255,255,0.3);text-align:center;padding:20px;">No knowledge items yet.</p>';return;}
+    document.getElementById('kbList').innerHTML=kbItems.map((item,idx)=>`
+      <div class="kb-item">
+        <div class="kb-item-text">
+          <div class="kb-q">${esc(item.question)}</div>
+          <div class="kb-a">${esc(item.answer)}</div>
+        </div>
+        <div class="kb-actions">
+          <button class="action-btn" onclick="editKbItem(${idx})">&#9998; Edit</button>
+          <button class="action-btn del" onclick="deleteKbItem('${esc(item.id||idx)}')">&#128465;</button>
+        </div>
+      </div>`).join('');
+  }
+  async function addKbItem() {
+    const q=document.getElementById('kbQ').value.trim(),a=document.getElementById('kbA').value.trim();
+    if(!q||!a)return toast('⚠️ Question and answer required','error');
+    try { const r=await fetch('/admin-add-knowledge',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,answer:a})}); const d=await r.json(); if(d.ok){toast('✅ Added!');document.getElementById('kbQ').value='';document.getElementById('kbA').value='';loadKnowledge();}else toast('❌ '+d.msg,'error'); } catch(e){toast('❌ Server error','error');}
+  }
+  function editKbItem(idx) {
+    const item=kbItems[idx];if(!item)return;
+    const newQ=prompt('Edit question:',item.question); if(newQ===null)return;
+    const newA=prompt('Edit answer:',item.answer); if(newA===null)return;
+    updateKbItem(item.id||idx,newQ,newA);
+  }
+  async function updateKbItem(id,question,answer) {
+    try { const r=await fetch('/admin-update-knowledge',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,question,answer})}); const d=await r.json(); d.ok?(toast('✅ Updated!'),loadKnowledge()):toast('❌ '+d.msg,'error'); } catch(e){toast('❌ Server error','error');}
+  }
+  async function deleteKbItem(id) {
+    if(!confirm('Delete this knowledge item?'))return;
+    try { const r=await fetch('/admin-delete-knowledge',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})}); const d=await r.json(); d.ok?(toast('🗑️ Deleted'),loadKnowledge()):toast('❌ '+d.msg,'error'); } catch(e){toast('❌ Server error','error');}
+  }
+
+  // ── CREDENTIALS ──
+  async function changeEmail() {
+    const email=document.getElementById('new-email').value.trim(),password=document.getElementById('email-pass').value;
+    if(!email||!password)return toast('⚠️ Fill all fields','error');
+    try { const r=await fetch('/admin-change-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})}); const d=await r.json(); d.ok?toast('✅ Email updated! Please re-login.'):toast('❌ '+d.msg,'error'); } catch(e){toast('❌ Server error','error');}
+  }
+  async function changePassword() {
+    const oldPass=document.getElementById('old-pass').value,newPass=document.getElementById('new-pass').value,confPass=document.getElementById('conf-pass').value;
+    if(!oldPass||!newPass||!confPass)return toast('⚠️ Fill all fields','error');
+    if(newPass!==confPass)return toast('⚠️ New passwords do not match','error');
+    try { const r=await fetch('/admin-change-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({oldPassword:oldPass,newPassword:newPass})}); const d=await r.json(); d.ok?toast('✅ Password updated!'):toast('❌ '+d.msg,'error'); } catch(e){toast('❌ Server error','error');}
+  }
+
+  function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');}
+</script>
+</body>
+</html>

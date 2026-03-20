@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sri Venkataramana Swamy College</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="header-brand">
+      <img src="logo.png" alt="SVS College Logo" class="header-logo" />
+      <div class="header-title">
+        Sri Venkataramana Swamy College
+        <span>Bantwal &middot; Est. 1968</span>
+      </div>
+    </a>
+
+    <!-- Hamburger button (visible on mobile) -->
+    <button class="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav>
+      <ul>
+
+        <!-- HOME -->
+        <li>
+          <a href="#">Home</a>
+          <div class="dropdown home-dropdown">
+            <div id="authButtons">
+              <a href="auth.html" class="login-btn">Login</a>
+              <a href="auth.html?form=register" class="register-btn">Register</a>
+            </div>
+            <div id="userInfo" style="display:none; flex-direction:column; align-items:center; gap:8px; padding:5px;">
+              <span id="welcomeName" style="color:#0a1f44; font-size:13px; font-weight:600;"></span>
+              <button onclick="logout()" style="padding:8px 20px; border-radius:25px; border:none; background:#e74c3c; color:white; font-size:13px; font-weight:600; cursor:pointer;">Logout</button>
+            </div>
+          </div>
+        </li>
+
+        <!-- ABOUT -->
+        <li>
+          <a href="#">About</a>
+          <div class="dropdown">
+            <a href="about.html?tab=vision">&#127775; Our Vision</a>
+            <a href="about.html?tab=institution">&#127963; Institution</a>
+          </div>
+        </li>
+
+        <li>
+          <a href="courses.html">Courses</a>
+          <div class="dropdown">
+            <a href="courses.html?course=bca">&#128187; B.C.A.</a>
+            <a href="courses.html?course=bcom">&#128188; B.Com</a>
+            <a href="courses.html?course=bsc">&#128300; B.Sc.</a>
+            <a href="courses.html?course=ba">&#128214; B.A.</a>
+            <a href="courses.html?course=interior">&#127912; B.Sc. Interior Design</a>
+          </div>
+        </li>
+        <li><a href="admissions.html">Admissions</a></li>
+        <li><a href="unimate.html" onclick="checkUnimate(event)">Unimate</a></li>
+
+        <!-- CONTACT -->
+        <li>
+          <a href="#">Contact</a>
+          <div class="dropdown">
+            <a id="nav-mobile1"  href="tel:+916361794818">&#128222; +91 63617 94818</a>
+            <a id="nav-mobile2"  href="tel:+919480174676">&#128222; +91 94801 74676</a>
+            <a id="nav-landline" href="tel:08255233374">&#9990; 08255-233374</a>
+            <a id="nav-email"    href="mailto:svscollegebantwal@yahoo.co.in">&#128231; svscollegebantwal@yahoo.co.in</a>
+            <a id="nav-facebook" href="https://www.facebook.com/svsc2017/" target="_blank">&#128216; Facebook</a>
+            <a href="https://maps.google.com/?q=SVS+College+Bantwal" target="_blank">&#128205; Vidyagiri, Moodbidre Road, Bantwal</a>
+          </div>
+        </li>
+
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-box reveal">
+      <div class="hero-badge">&#127885; NAAC 'A' Grade Accredited</div>
+      <h2>Shape Your Future at SVS College</h2>
+      <p>Est. 1968 &middot; Bantwal's first centre of higher education &middot; Affiliated to Mangalore University</p>
+      <div class="hero-btns">
+        <a href="about.html?tab=institution" class="btn">Explore College</a>
+        <a href="admissions.html" class="btn-outline" onclick="checkAndApply(event)">Apply Now</a>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll Down</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span>&#127885; NAAC 'A' Grade &mdash; CGPA 3.31</span>
+      <span>&#127891; Affiliated to Mangalore University</span>
+      <span>&#128220; UGC Recognized since 1981</span>
+      <span>&#128300; DBT Star College Scheme &mdash; Govt. of India</span>
+      <span>&#127942; First College in Bantwal Taluk</span>
+      <span>&#128218; 669 Students &middot; 34 Faculty &middot; 10 Acre Campus</span>
+      <span>&#127885; NAAC 'A' Grade &mdash; CGPA 3.31</span>
+      <span>&#127891; Affiliated to Mangalore University</span>
+      <span>&#128220; UGC Recognized since 1981</span>
+      <span>&#128300; DBT Star College Scheme &mdash; Govt. of India</span>
+      <span>&#127942; First College in Bantwal Taluk</span>
+      <span>&#128218; 669 Students &middot; 34 Faculty &middot; 10 Acre Campus</span>
+    </div>
+  </div>
+
+  <!-- ABOUT STRIP -->
+  <section class="about-strip">
+    <div class="about-strip-text reveal">
+      <div class="section-badge">About Us</div>
+      <h2>A Legacy of Excellence Since <span>1968</span></h2>
+      <p>Founded by Late Sri Bantwal Raghurama Mukunda Prabhu, SVS College was the first centre of higher education in Bantwal Taluk. Nestled among serene hillocks at Vidyagiri, we have been shaping generations of graduates into independent thinkers, confident individuals, and compassionate leaders.</p>
+      <a href="about.html?tab=institution" class="btn">Our Story &rarr;</a>
+    </div>
+    <div class="about-strip-cards">
+      <div class="acard reveal">
+        <div class="acard-icon">&#127885;</div>
+        <h4>NAAC 'A' Grade</h4>
+        <p>Reaccredited with CGPA 3.31 on 4.0 scale in the 3rd cycle</p>
+      </div>
+      <div class="acard reveal">
+        <div class="acard-icon">&#128300;</div>
+        <h4>DBT Star College</h4>
+        <p>Recognized under the DBT Star College Scheme by Govt. of India</p>
+      </div>
+      <div class="acard reveal">
+        <div class="acard-icon">&#128220;</div>
+        <h4>UGC Recognized</h4>
+        <p>Under Section 2(f) since 26th May 1981</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES -->
+  <section class="courses-section">
+    <div class="section-head reveal">
+      <div class="section-badge dark">Academics</div>
+      <h2>Courses <span>Offered</span></h2>
+      <p>5 undergraduate programmes across Arts, Science, Commerce and Design</p>
+    </div>
+    <div class="courses-grid">
+      <a href="courses.html?course=bca"      class="course-card reveal"><div class="course-icon">&#128187;</div><h4>B.C.A.</h4><p>Bachelor of Computer Applications</p></a>
+      <a href="courses.html?course=bcom"     class="course-card reveal"><div class="course-icon">&#128188;</div><h4>B.Com</h4><p>Bachelor of Commerce</p></a>
+      <a href="courses.html?course=bsc"      class="course-card reveal"><div class="course-icon">&#128300;</div><h4>B.Sc.</h4><p>Bachelor of Science</p></a>
+      <a href="courses.html?course=ba"       class="course-card reveal"><div class="course-icon">&#128214;</div><h4>B.A.</h4><p>Bachelor of Arts</p></a>
+      <a href="courses.html?course=interior" class="course-card reveal"><div class="course-icon">&#127912;</div><h4>B.Sc. Interior Design</h4><p>Interior Design &amp; Decoration</p></a>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-section">
+    <div class="stat-item"><h3 class="counter" id="stat-year"     data-target="1968">0</h3><p>Year Established</p></div>
+    <div class="stat-item"><h3 class="counter" id="stat-students" data-target="669">0</h3><p>Students Enrolled</p></div>
+    <div class="stat-item"><h3 class="counter" id="stat-faculty"  data-target="34">0</h3><p>Expert Faculty</p></div>
+    <div class="stat-item"><h3 class="counter" id="stat-courses"  data-target="5">0</h3><p>Courses Offered</p></div>
+    <div class="stat-item"><h3 class="counter" id="stat-acres"    data-target="10">0</h3><p>Acres Campus</p></div>
+    <div class="stat-item"><h3 class="counter" id="stat-results"  data-target="98">0</h3><p>% Result Success Rate</p></div>
+  </section>
+
+  <!-- FACILITIES -->
+  <section class="facilities-section">
+    <div class="section-head reveal">
+      <div class="section-badge">Campus Life</div>
+      <h2>Campus <span>Facilities</span></h2>
+      <p>Everything you need for a complete college experience</p>
+    </div>
+    <div class="facilities-grid">
+      <div class="fac-card reveal"><span>&#128218;</span><p>Library</p></div>
+      <div class="fac-card reveal"><span>&#128187;</span><p>Computer Lab</p></div>
+      <div class="fac-card reveal"><span>&#127968;</span><p>Hostel</p></div>
+      <div class="fac-card reveal"><span>&#127947;</span><p>Gymnasium</p></div>
+      <div class="fac-card reveal"><span>&#127885;</span><p>Sports Ground</p></div>
+      <div class="fac-card reveal"><span>&#127917;</span><p>Auditorium</p></div>
+      <div class="fac-card reveal"><span>&#127869;</span><p>Cafeteria</p></div>
+      <div class="fac-card reveal"><span>&#128246;</span><p>Wi-Fi Campus</p></div>
+      <div class="fac-card reveal"><span>&#128652;</span><p>Transportation</p></div>
+      <div class="fac-card reveal"><span>&#127973;</span><p>Medical Facility</p></div>
+      <div class="fac-card reveal"><span>&#127975;</span><p>ATM Facility</p></div>
+      <div class="fac-card reveal"><span>&#127891;</span><p>Alumni Network</p></div>
+    </div>
+  </section>
+
+  <!-- LOCATION -->
+  <section class="location-section reveal">
+    <div class="loc-text">
+      <div class="section-badge">Find Us</div>
+      <h2>How to <span>Reach Us</span></h2>
+      <p>&#128205; Vidyagiri, Moodbidre Road, Bantwal &mdash; 574 211<br/>Dakshina Kannada, Karnataka, India</p>
+      <p style="margin-top:12px;">Located 5 km from B.C. Road on National Highway 75 (Mangalore&ndash;Bangalore). Mangalore is 25 km away.</p>
+      <div class="loc-contacts">
+        <a id="loc-mobile1" href="tel:+916361794818">&#128222; +91 63617 94818</a>
+        <a id="loc-email"   href="mailto:svscollegebantwal@yahoo.co.in">&#128231; svscollegebantwal@yahoo.co.in</a>
+        <a href="https://maps.google.com/?q=SVS+College+Bantwal" target="_blank">&#128506; Open in Google Maps</a>
+      </div>
+    </div>
+    <div class="loc-map">
+      <iframe
+        src="https://maps.google.com/maps?q=Sri+Venkataramana+Swamy+College+Bantwal+Karnataka+574211&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        width="100%" height="320" style="border:0; border-radius:16px;" allowfullscreen="" loading="lazy">
+      </iframe>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h3>SVS College</h3>
+        <p>Sri Venkataramana Swamy College, Bantwal<br/>Est. 1968 &middot; NAAC 'A' Grade</p>
+      </div>
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <a href="about.html?tab=vision">Our Vision</a>
+        <a href="about.html?tab=institution">Institution</a>
+        <a href="auth.html">Login / Register</a>
+        <a href="admissions.html" onclick="checkAndApply(event)">Apply Now</a>
+        <a href="unimate.html" onclick="checkUnimate(event)">Unimate AI</a>
+      </div>
+      <div class="footer-col">
+        <h3>Contact</h3>
+        <a id="footer-mobile1"  href="tel:+916361794818">&#128222; +91 63617 94818</a>
+        <a id="footer-landline" href="tel:08255233374">&#9990; 08255-233374</a>
+        <a id="footer-email"    href="mailto:svscollegebantwal@yahoo.co.in">&#128231; svscollegebantwal@yahoo.co.in</a>
+        <a id="footer-facebook" href="https://www.facebook.com/svsc2017/" target="_blank">&#128216; Facebook</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Sri Venkataramana Swamy College, Bantwal &middot; All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <!-- UNIMATE POPUP -->
+  <div id="unimate-popup">
+    <a href="unimate.html" onclick="checkUnimate(event)">
+      <div class="unimate-robot">
+        <svg viewBox="0 0 200 200" width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="blush-l" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ff7eb3" stop-opacity="0.65"/><stop offset="100%" stop-color="#ff7eb3" stop-opacity="0"/></radialGradient>
+            <radialGradient id="blush-r" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ff7eb3" stop-opacity="0.65"/><stop offset="100%" stop-color="#ff7eb3" stop-opacity="0"/></radialGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" rx="52" fill="#4a2882"/>
+          <rect x="28" y="28" width="144" height="144" rx="38" fill="#1e0f38"/>
+          <path class="eye-left"  d="M62 100 Q72 88 82 100" fill="none" stroke="white" stroke-width="5" stroke-linecap="round"/>
+          <path class="eye-right" d="M118 100 Q128 88 138 100" fill="none" stroke="white" stroke-width="5" stroke-linecap="round"/>
+          <ellipse cx="68"  cy="118" rx="18" ry="12" fill="url(#blush-l)"/>
+          <ellipse cx="132" cy="118" rx="18" ry="12" fill="url(#blush-r)"/>
+        </svg>
+      </div>
+      <div class="speech">Hello! I am Unimate</div>
+    </a>
+  </div>
+
+  <script>
+    function updateAuthUI() {
+      const loggedIn = localStorage.getItem('loggedIn');
+      const userName = localStorage.getItem('userName');
+      if (loggedIn === 'true' && userName) {
+        document.getElementById('authButtons').style.display = 'none';
+        document.getElementById('userInfo').style.display = 'flex';
+        document.getElementById('welcomeName').textContent = 'Hello, ' + userName + '!';
+      } else {
+        document.getElementById('authButtons').style.display = '';
+        document.getElementById('userInfo').style.display = 'none';
+        document.getElementById('welcomeName').textContent = '';
+      }
+    }
+    updateAuthUI();
+    window.addEventListener('pageshow', updateAuthUI);
+
+    function logout() {
+      localStorage.removeItem('loggedIn');
+      localStorage.removeItem('userName');
+      window.location.reload();
+    }
+
+    async function loadSiteData() {
+      try {
+        const res = await fetch('/site-data');
+        if (!res.ok) return;
+        const d = await res.json();
+        if (d.students) document.getElementById('stat-students').setAttribute('data-target', d.students);
+        if (d.faculty)  document.getElementById('stat-faculty').setAttribute('data-target',  d.faculty);
+        if (d.results)  document.getElementById('stat-results').setAttribute('data-target',  d.results);
+        if (d.mobile1)   { var el=document.getElementById('nav-mobile1');  if(el){el.href='tel:'+d.mobile1.replace(/\s/g,'');el.textContent='📞 Mobile: '+d.mobile1;} }
+        if (d.mobile2)   { var el=document.getElementById('nav-mobile2');  if(el){el.href='tel:'+d.mobile2.replace(/\s/g,'');el.textContent='📞 Mobile: '+d.mobile2;} }
+        if (d.landline)  { var el=document.getElementById('nav-landline'); if(el){el.href='tel:'+d.landline.replace(/\D/g,'');el.textContent='☎️ Landline: '+d.landline;} }
+        if (d.emailinfo) { var el=document.getElementById('nav-email');    if(el){el.href='mailto:'+d.emailinfo;el.textContent='📧 '+d.emailinfo;} }
+        if (d.facebook)  { var el=document.getElementById('nav-facebook'); if(el){el.href=d.facebook;} }
+        if (d.mobile1)   { var el=document.getElementById('loc-mobile1');  if(el){el.href='tel:'+d.mobile1.replace(/\s/g,'');el.textContent='📞 '+d.mobile1;} }
+        if (d.emailinfo) { var el=document.getElementById('loc-email');    if(el){el.href='mailto:'+d.emailinfo;el.textContent='📧 '+d.emailinfo;} }
+        if (d.mobile1)   { var el=document.getElementById('footer-mobile1');  if(el){el.href='tel:'+d.mobile1.replace(/\s/g,'');el.textContent='📞 '+d.mobile1;} }
+        if (d.landline)  { var el=document.getElementById('footer-landline'); if(el){el.href='tel:'+d.landline.replace(/\D/g,'');el.textContent='☎️ '+d.landline;} }
+        if (d.emailinfo) { var el=document.getElementById('footer-email');    if(el){el.href='mailto:'+d.emailinfo;el.textContent='📧 '+d.emailinfo;} }
+        if (d.facebook)  { var el=document.getElementById('footer-facebook'); if(el){el.href=d.facebook;} }
+      } catch(e) {}
+    }
+    loadSiteData();
+  </script>
+
+</body>
+</html>

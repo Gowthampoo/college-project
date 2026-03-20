@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login / Register - SVS College</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:"Poppins",sans-serif; }
+    body {
+      min-height:100vh; display:flex; justify-content:center; align-items:center;
+      background:linear-gradient(135deg,#0b1f3a,#142f54,#1c3d6e);
+      padding: 20px;
+    }
+    .box {
+      width:100%; max-width:420px; padding:35px;
+      background:rgba(255,255,255,0.08); backdrop-filter:blur(12px);
+      border-radius:15px; border:1px solid rgba(212,175,55,0.3); color:white;
+    }
+    h2 { text-align:center; margin-bottom:20px; font-size:20px; }
+    form { display:none; }
+    form.active { display:block; }
+    label { font-size:13px; color:rgba(255,255,255,0.8); }
+    input {
+      width:100%; padding:10px 12px; margin:6px 0 14px;
+      border-radius:8px; border:1px solid rgba(212,175,55,0.3);
+      background:rgba(255,255,255,0.1); color:white;
+      font-size:14px; outline:none; font-family:"Poppins",sans-serif;
+    }
+    input:focus { border-color:#d4af37; }
+    input::placeholder { color:rgba(255,255,255,0.4); }
+    .main-btn {
+      width:100%; padding:12px; border:none; border-radius:25px;
+      font-size:14px; font-weight:bold; cursor:pointer;
+      background:linear-gradient(135deg,#d4af37,#f5e6c8); color:#0b1f3a;
+      transition:0.3s; margin-top:4px; font-family:"Poppins",sans-serif;
+    }
+    .main-btn:hover { transform:scale(1.03); }
+    .msg {
+      text-align:center; padding:10px; border-radius:8px;
+      font-size:13px; margin-bottom:14px; display:none;
+    }
+    .msg.error   { background:rgba(255,80,80,0.2);   color:#fca5a5; display:block; }
+    .msg.success { background:rgba(74,222,128,0.15); color:#86efac; display:block; }
+    .switch { text-align:center; margin-top:14px; font-size:13px; color:rgba(255,255,255,0.6); }
+    .switch a { color:#d4af37; cursor:pointer; font-weight:600; }
+    .divider {
+      display:flex; align-items:center; gap:10px;
+      margin:18px 0; color:rgba(255,255,255,0.35); font-size:12px;
+    }
+    .divider::before,.divider::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.15); }
+    .google-btn {
+      width:100%; padding:11px 16px;
+      display:flex; align-items:center; justify-content:center; gap:12px;
+      border:1px solid rgba(255,255,255,0.2); border-radius:25px;
+      background:white; color:#3c4043;
+      font-size:14px; font-weight:600; cursor:pointer;
+      font-family:"Poppins",sans-serif; transition:0.25s;
+      text-decoration:none;
+    }
+    .google-btn:hover { box-shadow:0 4px 18px rgba(0,0,0,0.25); transform:scale(1.02); }
+    .google-btn svg { width:20px; height:20px; flex-shrink:0; }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .box { padding: 24px 18px; }
+      h2 { font-size: 18px; }
+      input { font-size: 13px; }
+      .google-btn { font-size: 13px; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+<div class="box">
+
+  <!-- LOGIN -->
+  <form id="loginForm" class="active">
+    <h2>&#127891; Student Login</h2>
+    <div class="msg" id="loginMsg"></div>
+    <label>Email</label>
+    <input type="email" id="loginEmail" placeholder="Enter your email" />
+    <label>Password</label>
+    <input type="password" id="loginPassword" placeholder="Enter your password" />
+    <button class="main-btn" onclick="login(event)">Login</button>
+    <div class="divider">or continue with</div>
+    <a class="google-btn" id="googleLoginBtn" href="/auth/google">
+      <svg viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        <path fill="none" d="M0 0h48v48H0z"/>
+      </svg>
+      Sign in with Google
+    </a>
+    <p class="switch">No account? <a onclick="showRegister()">Register here</a></p>
+  </form>
+
+  <!-- REGISTER -->
+  <form id="registerForm">
+    <h2>&#10024; Create Account</h2>
+    <div class="msg" id="registerMsg"></div>
+    <label>Full Name</label>
+    <input type="text" id="regName" placeholder="Enter your name" />
+    <label>Email</label>
+    <input type="email" id="regEmail" placeholder="Enter your email" />
+    <label>Password</label>
+    <input type="password" id="regPassword" placeholder="Create a password" />
+    <label>Confirm Password</label>
+    <input type="password" id="regConfirm" placeholder="Confirm your password" />
+    <button class="main-btn" onclick="register(event)">Create Account</button>
+    <div class="divider">or continue with</div>
+    <a class="google-btn" id="googleRegisterBtn" href="/auth/google">
+      <svg viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        <path fill="none" d="M0 0h48v48H0z"/>
+      </svg>
+      Sign up with Google
+    </a>
+    <p class="switch">Already registered? <a onclick="showLogin()">Login here</a></p>
+  </form>
+
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  (function() {
+    const isGoogleCallback = params.get('google') === 'success';
+    if (!isGoogleCallback && localStorage.getItem('loggedIn') === 'true') {
+      localStorage.removeItem('loggedIn'); localStorage.removeItem('userName');
+    }
+  })();
+  function getNextPage() {
+    const next = params.get('next');
+    const allowed = ['admissions.html'];
+    if (next && allowed.includes(next)) return next;
+    return 'index.html';
+  }
+  (function() {
+    const next = params.get('next') || '';
+    const allowed = ['admissions.html'];
+    const safeNext = allowed.includes(next) ? next : '';
+    const googleHref = '/auth/google' + (safeNext ? '?next=' + encodeURIComponent(safeNext) : '');
+    document.getElementById('googleLoginBtn').href    = googleHref;
+    document.getElementById('googleRegisterBtn').href = googleHref;
+  })();
+  if (params.get('google') === 'success') {
+    const name = params.get('name'); const next = params.get('next') || 'index.html';
+    localStorage.setItem('loggedIn','true'); localStorage.setItem('userName', decodeURIComponent(name));
+    window.location.replace(next);
+  }
+  if (params.get('google') === 'error') { showLogin(); msg('loginMsg','❌ Google sign-in failed. Please try again.','error'); }
+  if (params.get('form') === 'register') showRegister(); else showLogin();
+  function showLogin()    { document.getElementById('loginForm').classList.add('active'); document.getElementById('registerForm').classList.remove('active'); }
+  function showRegister() { document.getElementById('registerForm').classList.add('active'); document.getElementById('loginForm').classList.remove('active'); }
+  function msg(id, text, type) { const el=document.getElementById(id); el.textContent=text; el.className='msg '+type; }
+  async function login(e) {
+    e.preventDefault();
+    const email=document.getElementById('loginEmail').value.trim(), password=document.getElementById('loginPassword').value;
+    if (!email||!password) return msg('loginMsg','⚠️ Please fill all fields.','error');
+    try {
+      const adminRes=await fetch('/admin-login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+      const adminData=await adminRes.json();
+      if (adminData.ok) { sessionStorage.setItem('adminLoggedIn','true'); msg('loginMsg','🛡️ Admin access granted! Redirecting…','success'); setTimeout(()=>window.location.replace('admin-dashboard.html'),900); return; }
+    } catch(e){}
+    try {
+      const res=await fetch('/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+      const data=await res.json();
+      if (data.ok) { localStorage.setItem('loggedIn','true'); localStorage.setItem('userName',data.name); msg('loginMsg','✅ Welcome back '+data.name+'!','success'); setTimeout(()=>window.location.replace(getNextPage()),1000); }
+      else msg('loginMsg','❌ '+data.msg,'error');
+    } catch(e) { msg('loginMsg','⚠️ Could not connect to server.','error'); }
+  }
+  async function register(e) {
+    e.preventDefault();
+    const name=document.getElementById('regName').value.trim(), email=document.getElementById('regEmail').value.trim(),
+          password=document.getElementById('regPassword').value, confirm=document.getElementById('regConfirm').value;
+    if (!name||!email||!password||!confirm) return msg('registerMsg','⚠️ Please fill all fields.','error');
+    if (password!==confirm) return msg('registerMsg','⚠️ Passwords do not match.','error');
+    try {
+      const res=await fetch('/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,password})});
+      const data=await res.json();
+      if (data.ok) { localStorage.setItem('loggedIn','true'); localStorage.setItem('userName',data.name); msg('registerMsg','✅ Account created! Redirecting…','success'); setTimeout(()=>window.location.replace(getNextPage()),1000); }
+      else msg('registerMsg','❌ '+data.msg,'error');
+    } catch(e) { msg('registerMsg','⚠️ Could not connect to server.','error'); }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admissions - Sri Venkataramana Swamy College</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+    body{background:linear-gradient(135deg,#0b1f3a,#142f54,#1c3d6e);color:white;min-height:100vh;}
+    header{display:flex;justify-content:space-between;align-items:center;padding:14px 60px;position:fixed;width:100%;backdrop-filter:blur(10px);background:rgba(0,0,0,0.3);z-index:1000;}
+    .header-brand{display:flex;align-items:center;gap:14px;text-decoration:none;}
+    .header-logo{width:56px;height:56px;object-fit:cover;border-radius:50%;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(212,175,55,0.5));border:2px solid rgba(212,175,55,0.4);}
+    .header-title{color:#d4af37;font-size:20px;font-weight:700;letter-spacing:0.5px;line-height:1.25;}
+    .header-title span{display:block;font-size:10px;font-weight:400;color:rgba(255,255,255,0.55);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;cursor:pointer;background:none;border:none;padding:4px;z-index:1100;flex-shrink:0;}
+    .hamburger span{display:block;width:100%;height:2px;background:#d4af37;border-radius:2px;transition:all 0.3s ease;}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+    .hamburger.open span:nth-child(2){opacity:0;}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+    nav ul{list-style:none;display:flex;gap:22px;align-items:center;}
+    nav ul li{position:relative;}
+    nav ul li a{text-decoration:none;color:white;font-size:15px;padding:8px 10px;transition:0.3s;position:relative;}
+    nav ul li a:hover{color:#4da3ff;}
+    nav a::after{content:"";height:2px;width:0%;background:#d4af37;position:absolute;left:0;bottom:-5px;transition:0.3s;}
+    nav a:hover::after{width:100%;}
+    .dropdown{display:none;position:absolute;top:100%;left:0;background:#fff;border-radius:10px;min-width:200px;padding:12px;box-shadow:0 10px 25px rgba(0,0,0,0.25);z-index:100;}
+    nav ul li:hover .dropdown{display:block;}
+    .dropdown a{display:flex;align-items:center;gap:10px;padding:10px 5px;font-size:14px;color:#0a1f44;text-decoration:none;}
+    .dropdown a:hover{color:#1a3c8b;}
+    .hero{min-height:60vh;display:flex;align-items:center;padding:110px 60px 60px;position:relative;overflow:hidden;}
+    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 70% 40%,rgba(212,175,55,0.12) 0%,transparent 60%);pointer-events:none;}
+    .hero::after{content:"";position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to bottom,transparent,#0b1f3a);pointer-events:none;}
+    .hero-left{z-index:2;max-width:600px;}
+    .hero-badge{display:inline-block;padding:6px 18px;border-radius:20px;border:1px solid rgba(212,175,55,0.5);color:#d4af37;font-size:12px;font-weight:600;letter-spacing:1px;margin-bottom:18px;}
+    .hero-left h1{font-size:50px;font-weight:700;color:#f5e6c8;line-height:1.15;margin-bottom:14px;}
+    .hero-left h1 span{color:#d4af37;}
+    .hero-left p{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:28px;}
+    .hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+    .btn{padding:13px 28px;border:none;background:linear-gradient(90deg,#d4af37,#f5e6c8);color:#0b1f3a;font-weight:700;border-radius:25px;cursor:pointer;transition:0.3s;text-decoration:none;font-size:14px;display:inline-block;}
+    .btn:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(212,175,55,0.4);}
+    .btn-outline{padding:13px 28px;border:2px solid rgba(212,175,55,0.6);background:transparent;color:#f5e6c8;font-weight:600;border-radius:25px;cursor:pointer;transition:0.3s;text-decoration:none;font-size:14px;display:inline-block;}
+    .btn-outline:hover{background:rgba(212,175,55,0.15);}
+    .hero-right{position:absolute;right:60px;top:50%;transform:translateY(-50%);display:grid;grid-template-columns:1fr 1fr;gap:14px;z-index:2;}
+    .stat-card{background:rgba(255,255,255,0.06);border:1px solid rgba(212,175,55,0.25);border-radius:14px;padding:22px 20px;text-align:center;min-width:120px;}
+    .stat-card h3{font-size:28px;font-weight:700;color:#d4af37;}
+    .stat-card p{font-size:11px;color:rgba(255,255,255,0.5);margin-top:4px;}
+    .ticker-wrap{background:linear-gradient(90deg,#d4af37,#c9a227);overflow:hidden;padding:12px 0;white-space:nowrap;}
+    .ticker{display:inline-block;animation:ticker 30s linear infinite;}
+    .ticker span{display:inline-block;padding:0 40px;color:#0b1f3a;font-size:13px;font-weight:600;}
+    @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .section-badge{display:inline-block;padding:5px 16px;border-radius:20px;border:1px solid rgba(212,175,55,0.4);color:#d4af37;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;}
+    .section-badge.dark{border-color:rgba(11,31,58,0.3);color:#0b1f3a;}
+    .section-head{text-align:center;margin-bottom:50px;}
+    .section-head h2{font-size:34px;font-weight:700;margin-bottom:10px;}
+    .section-head h2 span{color:#d4af37;}
+    .section-head p{color:rgba(255,255,255,0.55);font-size:14px;}
+    .reveal{opacity:0;transform:translateY(40px);transition:opacity 0.7s ease,transform 0.7s ease;}
+    .reveal.revealed{opacity:1;transform:translateY(0);}
+    .apply-section{padding:90px 60px;background:#f5f7fa;color:#0b1f3a;}
+    .apply-section .section-head h2{color:#0b1f3a;}.apply-section .section-head p{color:#666;}
+    .apply-inner{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;max-width:1100px;margin:0 auto;}
+    .apply-text h3{font-size:22px;font-weight:700;color:#0b1f3a;margin-bottom:12px;}
+    .apply-text p{font-size:13.5px;color:#555;line-height:1.9;margin-bottom:20px;}
+    .apply-steps-list{display:flex;flex-direction:column;gap:14px;}
+    .step-item{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;background:white;border-radius:12px;border:1px solid rgba(212,175,55,0.2);box-shadow:0 2px 10px rgba(0,0,0,0.05);transition:0.3s;}
+    .step-item:hover{border-color:#d4af37;transform:translateX(5px);}
+    .step-num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#f5e6c8);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#0b1f3a;flex-shrink:0;}
+    .step-item h4{font-size:13px;font-weight:700;color:#0b1f3a;margin-bottom:3px;}
+    .step-item p{font-size:12px;color:#666;line-height:1.6;}
+    .apply-visual{background:linear-gradient(135deg,#0b1f3a,#142f54);border-radius:20px;padding:32px;border:1px solid rgba(212,175,55,0.25);}
+    .apply-visual h4{font-size:16px;color:#d4af37;margin-bottom:20px;font-weight:700;}
+    .av-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;}
+    .av-item:last-child{border-bottom:none;}
+    .av-item span:first-child{color:rgba(255,255,255,0.65);}
+    .av-item span:last-child{color:#d4af37;font-weight:600;}
+    .eligibility-section{padding:90px 60px;background:linear-gradient(135deg,#0b1f3a,#142f54);}
+    .elig-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;max-width:1100px;margin:0 auto;}
+    .elig-card{background:rgba(255,255,255,0.05);border:1px solid rgba(212,175,55,0.2);border-radius:16px;padding:26px 20px;transition:0.3s;}
+    .elig-card:hover{border-color:#d4af37;background:rgba(212,175,55,0.07);transform:translateY(-5px);}
+    .elig-icon{font-size:32px;margin-bottom:12px;}
+    .elig-card h4{font-size:15px;font-weight:700;color:#d4af37;margin-bottom:8px;}
+    .elig-card p{font-size:12.5px;color:rgba(255,255,255,0.6);line-height:1.7;}
+    .elig-tag{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:20px;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);font-size:11px;color:#d4af37;font-weight:600;}
+    .process-section{padding:90px 60px;background:#f5f7fa;color:#0b1f3a;}
+    .process-section .section-head h2{color:#0b1f3a;}.process-section .section-head p{color:#666;}
+    .steps-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;max-width:1100px;margin:0 auto;position:relative;}
+    .steps-grid::before{content:"";position:absolute;top:36px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,#d4af37,rgba(212,175,55,0.2));z-index:0;}
+    .process-step{text-align:center;position:relative;z-index:1;padding:20px 10px;}
+    .ps-num{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#f5e6c8);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#0b1f3a;margin:0 auto 14px;box-shadow:0 4px 14px rgba(212,175,55,0.3);}
+    .process-step h4{font-size:13px;font-weight:700;color:#0b1f3a;margin-bottom:6px;}
+    .process-step p{font-size:11.5px;color:#666;line-height:1.6;}
+    .docs-section{padding:90px 60px;background:linear-gradient(135deg,#0b1f3a,#142f54);}
+    .docs-inner{display:grid;grid-template-columns:1fr 1fr;gap:50px;max-width:1100px;margin:0 auto;}
+    .docs-list h3{font-size:18px;font-weight:700;color:#d4af37;margin-bottom:20px;}
+    .doc-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.06);}
+    .doc-item:last-child{border-bottom:none;}
+    .doc-check{width:24px;height:24px;border-radius:50%;background:rgba(212,175,55,0.15);border:1px solid rgba(212,175,55,0.35);display:flex;align-items:center;justify-content:center;font-size:11px;color:#d4af37;flex-shrink:0;margin-top:1px;}
+    .doc-item p{font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;}
+    .docs-aside{background:rgba(255,255,255,0.04);border:1px solid rgba(212,175,55,0.25);border-radius:18px;padding:28px;}
+    .docs-aside h4{font-size:16px;font-weight:700;color:#d4af37;margin-bottom:16px;}
+    .note-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;color:rgba(255,255,255,0.65);line-height:1.7;}
+    .note-item:last-child{border-bottom:none;}
+    .note-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+    .contact-section{padding:90px 60px;background:#f5f7fa;color:#0b1f3a;}
+    .contact-section .section-head h2{color:#0b1f3a;}.contact-section .section-head p{color:#666;}
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;max-width:1000px;margin:0 auto;align-items:start;}
+    .contact-cards{display:flex;flex-direction:column;gap:14px;}
+    .contact-card{background:white;border-radius:14px;padding:20px 22px;border:1px solid rgba(212,175,55,0.2);box-shadow:0 4px 16px rgba(0,0,0,0.05);display:flex;gap:16px;align-items:flex-start;transition:0.3s;}
+    .contact-card:hover{border-color:#d4af37;transform:translateX(5px);}
+    .cc-icon{font-size:24px;flex-shrink:0;}
+    .cc-label{font-size:11px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+    .cc-val{font-size:14px;font-weight:700;color:#0b1f3a;}
+    .cc-val a{color:#0b1f3a;text-decoration:none;}
+    .cc-val a:hover{color:#d4af37;}
+    .contact-map iframe{width:100%;height:280px;border-radius:16px;border:1px solid rgba(212,175,55,0.2);}
+    .cta-section{padding:90px 60px;text-align:center;background:linear-gradient(135deg,#0b1f3a,#142f54);position:relative;overflow:hidden;}
+    .cta-section::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(212,175,55,0.1) 0%,transparent 70%);pointer-events:none;}
+    .cta-section h2{font-size:36px;font-weight:700;color:#f5e6c8;margin-bottom:14px;position:relative;}
+    .cta-section h2 span{color:#d4af37;}
+    .cta-section p{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:28px;position:relative;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.8;}
+    .cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative;}
+    footer{background:#060f1e;color:rgba(255,255,255,0.6);}
+    .footer-inner{display:flex;gap:40px;flex-wrap:wrap;padding:56px 60px 36px;justify-content:space-between;}
+    .footer-col h3{color:#d4af37;font-size:15px;font-weight:700;margin-bottom:14px;}
+    .footer-col p,.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;margin-bottom:7px;line-height:1.7;transition:0.2s;}
+    .footer-col a:hover{color:#d4af37;}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,0.06);padding:18px 60px;text-align:center;font-size:12px;color:rgba(255,255,255,0.3);}
+    #admissionModal{display:none;position:fixed;inset:0;z-index:99999;align-items:center;justify-content:center;padding:20px;}
+    #admissionModal.open{display:flex;}
+    .modal-backdrop{position:absolute;inset:0;background:rgba(6,15,30,0.85);backdrop-filter:blur(8px);}
+    .modal-box{position:relative;z-index:2;background:linear-gradient(145deg,#0d2144,#142f54);border:1px solid rgba(212,175,55,0.35);border-radius:24px;width:100%;max-width:580px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,0.6);animation:modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;}
+    .modal-box::-webkit-scrollbar{width:5px;}.modal-box::-webkit-scrollbar-thumb{background:rgba(212,175,55,0.3);border-radius:10px;}
+    @keyframes modalIn{from{opacity:0;transform:translateY(40px) scale(0.95);}to{opacity:1;transform:scale(1);}}
+    .modal-header{padding:28px 32px 22px;border-bottom:1px solid rgba(212,175,55,0.15);position:relative;}
+    .modal-header::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#d4af37,#f5e6c8,#d4af37);border-radius:24px 24px 0 0;}
+    .modal-badge{display:inline-flex;align-items:center;gap:7px;padding:5px 14px;border-radius:20px;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);font-size:11px;color:#d4af37;font-weight:600;letter-spacing:1px;margin-bottom:10px;}
+    .modal-header h2{font-size:20px;font-weight:700;color:#f5e6c8;margin-bottom:5px;}
+    .modal-header h2 span{color:#d4af37;}
+    .modal-header p{font-size:12.5px;color:rgba(255,255,255,0.5);line-height:1.6;}
+    .modal-close{position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.2s;line-height:1;}
+    .modal-close:hover{background:rgba(231,76,60,0.2);color:#fca5a5;}
+    .modal-body{padding:24px 32px 32px;}
+    .modal-msg{padding:11px 15px;border-radius:9px;font-size:13px;font-weight:500;margin-bottom:18px;display:none;}
+    .modal-msg.error{background:rgba(255,80,80,0.15);border:1px solid rgba(255,80,80,0.3);color:#fca5a5;display:block;}
+    .modal-msg.success{background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);color:#86efac;display:block;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+    .form-row.single{grid-template-columns:1fr;}
+    .mfield{display:flex;flex-direction:column;gap:6px;}
+    .mfield label{font-size:11px;font-weight:600;color:rgba(212,175,55,0.8);text-transform:uppercase;letter-spacing:1px;}
+    .mfield input,.mfield select,.mfield textarea{padding:11px 14px;border-radius:9px;border:1px solid rgba(212,175,55,0.2);background:rgba(255,255,255,0.06);color:white;font-size:13px;font-family:"Poppins",sans-serif;outline:none;transition:0.25s;}
+    .mfield select option{background:#0d2144;color:white;}
+    .mfield input:focus,.mfield select:focus,.mfield textarea:focus{border-color:#d4af37;background:rgba(255,255,255,0.09);box-shadow:0 0 0 3px rgba(212,175,55,0.1);}
+    .mfield input::placeholder,.mfield textarea::placeholder{color:rgba(255,255,255,0.25);}
+    .mfield textarea{resize:vertical;min-height:75px;line-height:1.6;}
+    .modal-divider{height:1px;background:rgba(212,175,55,0.12);margin:18px 0;}
+    .modal-section-title{font-size:11px;font-weight:700;color:#d4af37;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;}
+    .modal-submit-btn{width:100%;padding:14px;border:none;border-radius:25px;background:linear-gradient(135deg,#d4af37,#f5e6c8);color:#0b1f3a;font-size:14px;font-weight:700;cursor:pointer;font-family:"Poppins",sans-serif;transition:0.3s;margin-top:22px;box-shadow:0 7px 22px rgba(212,175,55,0.35);}
+    .modal-submit-btn:hover:not(:disabled){transform:translateY(-2px);}
+    .modal-submit-btn:disabled{opacity:0.55;cursor:not-allowed;}
+    .modal-success-screen{display:none;flex-direction:column;align-items:center;text-align:center;padding:36px 18px;gap:14px;}
+    .modal-success-screen.show{display:flex;}
+    .success-ring{width:76px;height:76px;border-radius:50%;background:rgba(74,222,128,0.15);border:2px solid rgba(74,222,128,0.4);display:flex;align-items:center;justify-content:center;font-size:34px;}
+    .modal-success-screen h3{font-size:19px;font-weight:700;color:#86efac;}
+    .modal-success-screen p{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;max-width:360px;}
+    .close-success-btn{padding:10px 28px;border-radius:25px;border:none;background:linear-gradient(135deg,#d4af37,#f5e6c8);color:#0b1f3a;font-size:13px;font-weight:700;cursor:pointer;font-family:"Poppins",sans-serif;transition:0.2s;}
+    .close-success-btn:hover{transform:scale(1.04);}
+    @media(max-width:1024px){
+      header{padding:14px 32px;}.hero{padding:90px 32px 60px;}.hero-right{right:32px;gap:10px;}
+      .stat-card{min-width:100px;padding:16px 14px;}.stat-card h3{font-size:22px;}
+      .apply-section,.eligibility-section,.process-section,.docs-section,.contact-section,.cta-section{padding:70px 32px;}
+      .section-head h2{font-size:28px;}.steps-grid{grid-template-columns:repeat(3,1fr);}.steps-grid::before{display:none;}
+      .footer-inner{padding:44px 32px 30px;}.footer-bottom{padding:16px 32px;}
+    }
+    @media(max-width:768px){
+      header{padding:12px 20px;}.header-logo{width:38px;height:38px;}.header-title{font-size:13px;}.header-title span{font-size:9px;}
+      .hamburger{display:flex;z-index:1200;position:relative;}
+      nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:1050;}
+      nav.open{display:block;}
+      nav ul{position:fixed!important;top:0!important;left:0!important;bottom:0!important;height:100vh!important;width:80%!important;max-width:290px!important;background:#0d1e36!important;border-right:1px solid rgba(212,175,55,0.2)!important;display:flex!important;flex-direction:column!important;gap:0!important;align-items:stretch!important;overflow-y:auto!important;transform:translateX(-100%)!important;transition:transform 0.3s ease!important;padding:0 0 40px 0!important;margin:0!important;z-index:1051!important;visibility:hidden!important;}
+      nav.open ul{transform:translateX(0)!important;visibility:visible!important;}
+      nav ul li{display:block!important;width:100%!important;position:static!important;flex-shrink:0!important;}
+      nav ul li.drawer-brand{display:block!important;}
+      nav ul li>a{display:flex!important;align-items:center!important;justify-content:space-between!important;padding:15px 20px!important;font-size:15px!important;color:rgba(255,255,255,0.85)!important;border-bottom:1px solid rgba(255,255,255,0.07)!important;text-decoration:none!important;background:transparent!important;}
+      nav ul li>a:hover{background:rgba(212,175,55,0.08)!important;color:#d4af37!important;}
+      nav ul li.active-page>a{color:#d4af37!important;border-left:3px solid #d4af37!important;padding-left:17px!important;}
+      nav a::after{display:none!important;}
+      .nav-arrow{font-size:10px;color:rgba(212,175,55,0.4);transition:transform 0.25s;flex-shrink:0;}
+      li.has-dropdown.dd-open>a .nav-arrow{transform:rotate(90deg);color:#d4af37;}
+      li.has-dropdown.dd-open>a{color:#d4af37!important;background:rgba(212,175,55,0.06)!important;}
+      .dropdown,.home-dropdown{display:none!important;position:static!important;background:rgba(0,0,0,0.2)!important;border-radius:0!important;min-width:unset!important;padding:0!important;box-shadow:none!important;border:none!important;border-top:1px solid rgba(212,175,55,0.08)!important;flex-direction:column!important;}
+      nav ul li:hover .dropdown,nav ul li:hover .home-dropdown,nav ul li.active .home-dropdown{display:none!important;}
+      li.has-dropdown.dd-open .dropdown,li.has-dropdown.dd-open .home-dropdown{display:flex!important;}
+      .dropdown a,.home-dropdown a{padding:12px 20px 12px 38px!important;font-size:13px!important;color:rgba(255,255,255,0.6)!important;border-bottom:1px solid rgba(255,255,255,0.05)!important;display:flex!important;align-items:center;gap:10px;}
+      .dropdown a:last-child,.home-dropdown a:last-child{border-bottom:none!important;}
+      .dropdown a:hover,.home-dropdown a:hover{color:#d4af37!important;background:rgba(212,175,55,0.07)!important;}
+      .dropdown a::after{display:none!important;}
+      .hero{padding:80px 20px 50px;flex-direction:column;}.hero-left h1{font-size:30px;}.hero-left p{font-size:13px;}.hero-right{display:none;}
+      .apply-section,.eligibility-section,.process-section,.docs-section,.contact-section,.cta-section{padding:56px 20px;}
+      .apply-inner,.docs-inner,.contact-grid{grid-template-columns:1fr;gap:28px;}
+      .steps-grid{grid-template-columns:1fr 1fr;}.steps-grid::before{display:none;}
+      .section-head h2{font-size:24px;}.section-head{margin-bottom:32px;}
+      .footer-inner{padding:36px 20px;flex-direction:column;gap:22px;}.footer-bottom{padding:14px 20px;}
+      .modal-body{padding:18px 18px 26px;}.modal-header{padding:22px 18px 16px;}.form-row{grid-template-columns:1fr;}.cta-section h2{font-size:26px;}
+    }
+    @media(max-width:480px){.hero-left h1{font-size:24px;}.hero-badge{font-size:11px;}.elig-grid{grid-template-columns:1fr;}.steps-grid{grid-template-columns:1fr;}.btn,.btn-outline{padding:11px 20px;font-size:13px;}}
+    @media(min-width:1600px){header{padding:20px 100px;}.hero{padding:130px 100px 80px;}.hero-left h1{font-size:62px;}.hero-right{right:100px;gap:16px;}.apply-section,.eligibility-section,.process-section,.docs-section,.contact-section,.cta-section{padding:110px 100px;}.section-head h2{font-size:42px;}.footer-inner{padding:70px 100px 50px;}.footer-bottom{padding:22px 100px;}.header-logo{width:68px;height:68px;}.header-title{font-size:23px;}}
+  </style>
+</head>
+<body>
+
+<div id="admissionModal" role="dialog" aria-modal="true">
+  <div class="modal-backdrop" onclick="closeModal()"></div>
+  <div class="modal-box">
+    <div id="modalFormView">
+      <div class="modal-header">
+        <button class="modal-close" onclick="closeModal()">&#10005;</button>
+        <div class="modal-badge">&#128196; 2025&ndash;26 Admissions</div>
+        <h2>Admission <span>Enquiry Form</span></h2>
+        <p>Fill in your details and our admissions team will contact you shortly.</p>
+      </div>
+      <div class="modal-body">
+        <div class="modal-msg" id="modalMsg"></div>
+        <div class="modal-section-title">&#128100; Personal Information</div>
+        <div class="form-row">
+          <div class="mfield"><label>Full Name *</label><input type="text" id="enqName" placeholder="Your full name"/></div>
+          <div class="mfield"><label>Date of Birth</label><input type="date" id="enqDob"/></div>
+        </div>
+        <div class="form-row">
+          <div class="mfield"><label>Gender</label><select id="enqGender"><option value="">Select gender</option><option>Male</option><option>Female</option><option>Other</option><option>Prefer not to say</option></select></div>
+          <div class="mfield"><label>City / Town *</label><input type="text" id="enqCity" placeholder="e.g. Bantwal"/></div>
+        </div>
+        <div class="modal-divider"></div>
+        <div class="modal-section-title">&#128222; Contact Details</div>
+        <div class="form-row">
+          <div class="mfield"><label>Mobile *</label><input type="tel" id="enqPhone" placeholder="+91 XXXXX XXXXX" maxlength="15"/></div>
+          <div class="mfield"><label>Email *</label><input type="email" id="enqEmail" placeholder="your@email.com"/></div>
+        </div>
+        <div class="form-row single"><div class="mfield"><label>WhatsApp (if different)</label><input type="tel" id="enqWhatsapp" placeholder="+91 XXXXX XXXXX" maxlength="15"/></div></div>
+        <div class="modal-divider"></div>
+        <div class="modal-section-title">&#127891; Academic Interest</div>
+        <div class="form-row">
+          <div class="mfield"><label>Course *</label>
+            <select id="enqCourse">
+              <option value="">Select a course</option>
+              <option>B.C.A. &ndash; Bachelor of Computer Applications</option>
+              <option>B.Com &ndash; Bachelor of Commerce</option>
+              <option>B.Sc. &ndash; Physics, Chemistry, Mathematics (PCM)</option>
+              <option>B.Sc. &ndash; Botany, Zoology, Chemistry (BZC)</option>
+              <option>B.A. &ndash; History, Economics, Political Science</option>
+              <option>B.A. &ndash; History, Economics, Optional Kannada</option>
+              <option>B.Sc. Interior Design &amp; Decoration</option>
+              <option>Not decided yet</option>
+            </select>
+          </div>
+          <div class="mfield"><label>Current Qualification</label>
+            <select id="enqQual">
+              <option value="">Select qualification</option>
+              <option>PUC (2nd Year) &ndash; Appearing</option>
+              <option>PUC (2nd Year) &ndash; Passed</option>
+              <option>10+2 Equivalent &ndash; Passed</option>
+              <option>Diploma / ITI &ndash; Passed</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row single"><div class="mfield"><label>Questions / Message</label><textarea id="enqMessage" placeholder="Any questions about fees, hostel, scholarships…"></textarea></div></div>
+        <button class="modal-submit-btn" id="modalSubmitBtn" onclick="submitEnquiry()">&#128228;&nbsp; Submit Enquiry</button>
+      </div>
+    </div>
+    <div class="modal-success-screen" id="modalSuccessView">
+      <div class="success-ring">&#10003;</div>
+      <h3>Enquiry Submitted!</h3>
+      <p>Thank you! Our admissions team will contact you within 1&ndash;2 working days.</p>
+      <p style="font-size:12px;color:rgba(255,255,255,0.35);">Or call: <strong style="color:#d4af37;">+91 63617 94818</strong></p>
+      <button class="close-success-btn" onclick="closeModal()">&#10003;&nbsp; Done</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <a href="index.html" class="header-brand">
+    <img src="logo.png" alt="SVS College Logo" class="header-logo"/>
+    <div class="header-title">Sri Venkataramana Swamy College<span>Bantwal &middot; Est. 1968</span></div>
+  </a>
+  <button class="hamburger" id="mainHamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  <nav id="mainNav">
+    <ul>
+      <li><a href="index.html">&#8592; Home</a></li>
+      <li class="has-dropdown"><a href="courses.html">Courses <span class="nav-arrow">&#9658;</span></a>
+        <div class="dropdown">
+          <a href="courses.html?course=bca">&#128187; B.C.A.</a>
+          <a href="courses.html?course=bcom">&#128188; B.Com</a>
+          <a href="courses.html?course=bsc">&#128300; B.Sc.</a>
+          <a href="courses.html?course=ba">&#128214; B.A.</a>
+          <a href="courses.html?course=interior">&#127912; Interior Design</a>
+        </div>
+      </li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="unimate.html">Unimate</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">&#127891; Admissions Open 2025&ndash;26</div>
+    <h1>Start Your Journey at <span>SVS College</span></h1>
+    <p>Affordable, quality education since 1968. NAAC 'A' Grade &middot; 5 UG Programmes &middot; Mangalore University Affiliated.</p>
+    <div class="hero-btns">
+      <button class="btn" onclick="openModal()">&#128196; Apply Now</button>
+      <a href="courses.html" class="btn-outline">&#128218; View Courses</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-card"><h3>1968</h3><p>Established</p></div>
+    <div class="stat-card"><h3>669</h3><p>Students</p></div>
+    <div class="stat-card"><h3>98%</h3><p>Results</p></div>
+    <div class="stat-card"><h3>NAAC</h3><p>'A' Grade</p></div>
+  </div>
+</section>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>&#127891; Admissions Open 2025&ndash;26</span><span>&#127885; NAAC &lsquo;A&rsquo; Grade &mdash; CGPA 3.31</span><span>&#128218; 5 Undergraduate Programmes</span><span>&#128300; DBT Star College &mdash; Govt. of India</span><span>&#128222; Call: +91 63617 94818</span>
+    <span>&#127891; Admissions Open 2025&ndash;26</span><span>&#127885; NAAC &lsquo;A&rsquo; Grade &mdash; CGPA 3.31</span><span>&#128218; 5 Undergraduate Programmes</span><span>&#128300; DBT Star College &mdash; Govt. of India</span><span>&#128222; Call: +91 63617 94818</span>
+  </div>
+</div>
+
+<section class="apply-section">
+  <div class="section-head reveal"><div class="section-badge dark">Get Started</div><h2>How to <span>Apply</span></h2><p>Simple and straightforward admission process</p></div>
+  <div class="apply-inner">
+    <div class="apply-text">
+      <h3>Your path to SVS College starts here</h3>
+      <p>Admissions to all UG programmes are based on merit and governed by the Karnataka Government's reservation policy. The process is simple &mdash; fill our enquiry form and our team will guide you through every step.</p>
+      <div class="apply-steps-list">
+        <div class="step-item reveal"><div class="step-num">1</div><div><h4>Fill Enquiry Form</h4><p>Submit the online enquiry form on this page. Our team will contact you within 1–2 working days.</p></div></div>
+        <div class="step-item reveal"><div class="step-num">2</div><div><h4>Visit the College</h4><p>Come to the campus, collect the application form, and meet with our admissions counsellors.</p></div></div>
+        <div class="step-item reveal"><div class="step-num">3</div><div><h4>Submit Documents</h4><p>Submit the filled form along with all required original and photocopied documents.</p></div></div>
+        <div class="step-item reveal"><div class="step-num">4</div><div><h4>Confirmation</h4><p>Upon verification, receive your admission confirmation and fee receipt from the college office.</p></div></div>
+      </div>
+    </div>
+    <div class="apply-visual reveal">
+      <h4>&#128197; Key Dates &amp; Info</h4>
+      <div class="av-item"><span>Academic Year</span><span>2025&ndash;26</span></div>
+      <div class="av-item"><span>Application Mode</span><span>Offline + Enquiry Online</span></div>
+      <div class="av-item"><span>Affiliation</span><span>Mangalore University</span></div>
+      <div class="av-item"><span>Accreditation</span><span>NAAC 'A' Grade</span></div>
+      <div class="av-item"><span>Campus</span><span>Vidyagiri, Bantwal</span></div>
+      <div class="av-item"><span>Contact</span><span>+91 63617 94818</span></div>
+      <div class="av-item"><span>Hostel</span><span>Ladies Hostel (95 seats)</span></div>
+      <div style="margin-top:20px;"><button class="btn" style="width:100%;" onclick="openModal()">&#128196; Fill Enquiry Now</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="eligibility-section">
+  <div class="section-head reveal"><div class="section-badge">Eligibility</div><h2>Programme <span>Eligibility</span></h2><p>Minimum qualification required for each undergraduate programme</p></div>
+  <div class="elig-grid">
+    <div class="elig-card reveal"><div class="elig-icon">&#128187;</div><h4>B.C.A.</h4><p>Pass in 2nd PUC or 10+2 with any stream. Preference for students with Mathematics or Computer Science.</p><div class="elig-tag">Any Stream</div></div>
+    <div class="elig-card reveal"><div class="elig-icon">&#128188;</div><h4>B.Com</h4><p>Pass in 2nd PUC or 10+2. Commerce background preferred but open to all streams.</p><div class="elig-tag">Any Stream</div></div>
+    <div class="elig-card reveal"><div class="elig-icon">&#128300;</div><h4>B.Sc. (PCM / BZC)</h4><p>Pass in 2nd PUC or 10+2 with Science stream (Physics, Chemistry, Math / Biology).</p><div class="elig-tag">Science Stream</div></div>
+    <div class="elig-card reveal"><div class="elig-icon">&#128214;</div><h4>B.A.</h4><p>Pass in 2nd PUC or 10+2 with Arts / Humanities. Open to students from all streams.</p><div class="elig-tag">Any Stream</div></div>
+    <div class="elig-card reveal"><div class="elig-icon">&#127912;</div><h4>B.Sc. Interior Design</h4><p>Pass in 2nd PUC or 10+2 from any stream. Aptitude for design and creativity is a plus.</p><div class="elig-tag">Any Stream</div></div>
+  </div>
+</section>
+
+<section class="process-section">
+  <div class="section-head reveal"><div class="section-badge dark">Admission Process</div><h2>5 Simple <span>Steps</span></h2><p>From enquiry to confirmation in just a few easy steps</p></div>
+  <div class="steps-grid">
+    <div class="process-step reveal"><div class="ps-num">1</div><h4>Enquiry</h4><p>Fill our online enquiry form or call us directly at +91 63617 94818.</p></div>
+    <div class="process-step reveal"><div class="ps-num">2</div><h4>Counselling</h4><p>Visit campus for counselling and to collect the official application form.</p></div>
+    <div class="process-step reveal"><div class="ps-num">3</div><h4>Application</h4><p>Fill the form, attach all required documents and submit to the college office.</p></div>
+    <div class="process-step reveal"><div class="ps-num">4</div><h4>Verification</h4><p>Original document verification by the admissions committee.</p></div>
+    <div class="process-step reveal"><div class="ps-num">5</div><h4>Confirmation</h4><p>Receive your admission confirmation letter and fee receipt. You're in!</p></div>
+  </div>
+</section>
+
+<section class="docs-section">
+  <div class="section-head reveal"><div class="section-badge">Documents</div><h2>Required <span>Documents</span></h2><p>Bring originals and self-attested photocopies</p></div>
+  <div class="docs-inner">
+    <div class="docs-list reveal">
+      <h3>&#128196; Documents Checklist</h3>
+      <div class="doc-item"><div class="doc-check">&#10003;</div><p>2nd PUC / 10+2 Marks Card (Original + 2 Photocopies)</p></div>
+      <div class="doc-item"><div class="doc-check">&#10003;</div><p>SSLC / 10th Marks Card (Original + 2 Photocopies)</p></div>
+      <div class="doc-item"><div class="doc-check">&#10003;</div><p>Transfer Certificate (TC) from previous institution</p></div>
+      <div class="doc-item"><div class="doc-check">&#10003;</div><p>Migration Certificate (if from outside Karnataka)</p></div>
+      <div class="doc-item"><div class="doc-check">&#10003;</div><p>Caste / Category Certificate (if applicable &mdash; SC/ST/OBC)</p></div>
+      <div class="doc-item"><div class="doc-check">&#10003;</div><p>Income Certificate (for fee concession if applicable)</p></div>
+      <div class="doc-item"><div class="doc-check">&#10003;</div><p>Passport-size Photographs (6 copies)</p></div>
+      <div class="doc-item"><div class="doc-check">&#10003;</div><p>Aadhaar Card (Original + Photocopy)</p></div>
+    </div>
+    <div class="docs-aside reveal">
+      <h4>&#128161; Important Notes</h4>
+      <div class="note-item"><div class="note-icon">&#128204;</div><p>All admissions are subject to availability of seats and eligibility verification.</p></div>
+      <div class="note-item"><div class="note-icon">&#128204;</div><p>Admission is governed by the Karnataka Government's reservation policy (SC/ST/Category 1/2A/2B/3A/3B).</p></div>
+      <div class="note-item"><div class="note-icon">&#128204;</div><p>Original documents will be returned after verification on the day of admission.</p></div>
+      <div class="note-item"><div class="note-icon">&#128204;</div><p>No capitation fee. This is a government-aided institution with regulated fee structure.</p></div>
+      <div class="note-item"><div class="note-icon">&#128204;</div><p>Scholarship opportunities available for eligible students under various government schemes.</p></div>
+      <div style="margin-top:22px;"><button class="btn" style="width:100%;border:none;border-radius:25px;padding:13px;font-weight:700;font-size:13px;cursor:pointer;" onclick="openModal()">&#128228; Apply Now</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-section">
+  <div class="section-head reveal"><div class="section-badge dark">Contact</div><h2>Reach the <span>Admissions Office</span></h2><p>We're happy to answer any questions you have</p></div>
+  <div class="contact-grid">
+    <div class="contact-cards">
+      <div class="contact-card reveal"><div class="cc-icon">&#128222;</div><div><div class="cc-label">Mobile</div><div class="cc-val"><a id="c-mobile1" href="tel:+916361794818">+91 63617 94818</a></div></div></div>
+      <div class="contact-card reveal"><div class="cc-icon">&#9990;</div><div><div class="cc-label">Landline</div><div class="cc-val"><a id="c-landline" href="tel:08255233374">08255-233374</a></div></div></div>
+      <div class="contact-card reveal"><div class="cc-icon">&#128231;</div><div><div class="cc-label">Email</div><div class="cc-val"><a id="c-email" href="mailto:svscollegebantwal@yahoo.co.in">svscollegebantwal@yahoo.co.in</a></div></div></div>
+      <div class="contact-card reveal"><div class="cc-icon">&#128205;</div><div><div class="cc-label">Address</div><div class="cc-val">Vidyagiri, Moodbidre Road, Bantwal &mdash; 574 211</div></div></div>
+    </div>
+    <div class="contact-map reveal">
+      <iframe src="https://maps.google.com/maps?q=Sri+Venkataramana+Swamy+College+Bantwal+Karnataka+574211&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="280" style="border:0;border-radius:16px;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2 class="reveal">Ready to <span>Apply?</span></h2>
+  <p class="reveal">Applications for 2025&ndash;26 are open. Our team is here to help you every step of the way.</p>
+  <div class="cta-btns reveal">
+    <button class="btn" onclick="openModal()">&#128196; Apply Now</button>
+    <a href="courses.html" class="btn-outline">&#128218; View All Courses</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-col"><h3>SVS College</h3><p>Sri Venkataramana Swamy College, Bantwal<br/>Est. 1968 &middot; NAAC &lsquo;A&rsquo; Grade</p></div>
+    <div class="footer-col"><h3>Quick Links</h3><a href="index.html">Home</a><a href="courses.html">Courses</a><a href="about.html?tab=vision">Our Vision</a><a href="about.html?tab=institution">Institution</a><a href="auth.html">Login / Register</a><a href="unimate.html">Unimate AI</a></div>
+    <div class="footer-col"><h3>Contact</h3><a id="f-mobile" href="tel:+916361794818">&#128222; +91 63617 94818</a><a id="f-landline" href="tel:08255233374">&#9990; 08255-233374</a><a id="f-email" href="mailto:svscollegebantwal@yahoo.co.in">&#128231; svscollegebantwal@yahoo.co.in</a></div>
+  </div>
+  <div class="footer-bottom"><p>&copy; 2026 Sri Venkataramana Swamy College, Bantwal &middot; All Rights Reserved</p></div>
+</footer>
+
+<script>
+  // ── SLIDE-IN DRAWER NAV ──
+  (function () {
+    var hbtn = document.getElementById('mainHamburger');
+    var nav  = document.getElementById('mainNav');
+    if (!hbtn || !nav) return;
+    var ul = nav.querySelector('ul');
+    if (!ul.querySelector('.drawer-brand')) {
+      var brand = document.createElement('li');
+      brand.className = 'drawer-brand';
+      brand.innerHTML = '<div style="display:flex;align-items:center;gap:12px;padding:20px 20px 16px;background:rgba(0,0,0,0.25);border-bottom:1px solid rgba(212,175,55,0.2);"><img src="logo.png" alt="" style="width:38px;height:38px;border-radius:50%;border:2px solid rgba(212,175,55,0.4);object-fit:cover;flex-shrink:0;"/><div><div style="color:#d4af37;font-size:13px;font-weight:700;line-height:1.3;">SVS College</div><div style="color:rgba(255,255,255,0.4);font-size:10px;letter-spacing:1px;text-transform:uppercase;">Bantwal &middot; Est. 1968</div></div></div>';
+      ul.insertBefore(brand, ul.firstChild);
+    }
+    var cur = window.location.pathname.split('/').pop() || 'index.html';
+    ul.querySelectorAll('li > a').forEach(function(a) {
+      var href = (a.getAttribute('href') || '').split('?')[0].split('/').pop();
+      if (href === cur) a.closest('li').classList.add('active-page');
+    });
+    ul.querySelectorAll('li').forEach(function(li) {
+      if (li.classList.contains('drawer-brand')) return;
+      if (li.querySelector('.dropdown, .home-dropdown')) {
+        li.classList.add('has-dropdown');
+        var link = li.querySelector(':scope > a');
+        if (link && !link.querySelector('.nav-arrow')) {
+          var arr = document.createElement('span'); arr.className = 'nav-arrow'; arr.innerHTML = '&#9658;';
+          link.appendChild(arr);
+        }
+      }
+    });
+    hbtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var open = nav.classList.toggle('open');
+      hbtn.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    nav.addEventListener('click', function(e) {
+      if (!ul.contains(e.target) && !hbtn.contains(e.target)) closeDrawer();
+    });
+    ul.querySelectorAll('li.has-dropdown > a').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        if (window.innerWidth > 768) return;
+        e.preventDefault();
+        var li = link.parentElement, was = li.classList.contains('dd-open');
+        ul.querySelectorAll('li.has-dropdown').forEach(function(el) { el.classList.remove('dd-open'); });
+        if (!was) li.classList.add('dd-open');
+      });
+    });
+    ul.querySelectorAll('.dropdown a, .home-dropdown a, li:not(.has-dropdown) > a').forEach(function(a) {
+      a.addEventListener('click', function() { if (window.innerWidth <= 768) closeDrawer(); });
+    });
+    document.addEventListener('click', function(e) {
+      if (nav.classList.contains('open') && !ul.contains(e.target) && !hbtn.contains(e.target)) closeDrawer();
+    });
+    window.addEventListener('resize', function() { if (window.innerWidth > 768) closeDrawer(); });
+    function closeDrawer() {
+      nav.classList.remove('open'); hbtn.classList.remove('open');
+      document.body.style.overflow = '';
+      ul.querySelectorAll('li.has-dropdown').forEach(function(el) { el.classList.remove('dd-open'); });
+    }
+  })();
+
+  // ── LOGIN GATE ──
+  (function () {
+    if (localStorage.getItem('loggedIn') !== 'true') window.location.replace('auth.html?next=admissions.html');
+  })();
+
+  window.addEventListener('pageshow', function () {
+    if (document.getElementById('admissionModal').classList.contains('open') && localStorage.getItem('loggedIn') !== 'true') closeModal();
+    if (new URLSearchParams(window.location.search).get('openform') === '1') openModal();
+  });
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  function openModal() {
+    if (localStorage.getItem('loggedIn') !== 'true') { window.location.replace('auth.html?next=admissions.html'); return; }
+    document.getElementById('admissionModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    const n = localStorage.getItem('userName');
+    if (n) { const f = document.getElementById('enqName'); if (f && !f.value) f.value = n; }
+  }
+  function closeModal() {
+    document.getElementById('admissionModal').classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      document.getElementById('modalFormView').style.display = '';
+      document.getElementById('modalSuccessView').classList.remove('show');
+      document.getElementById('modalMsg').className = 'modal-msg';
+      document.getElementById('modalSubmitBtn').disabled = false;
+      document.getElementById('modalSubmitBtn').innerHTML = '&#128228;&nbsp; Submit Enquiry';
+    }, 300);
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  async function submitEnquiry() {
+    const name=document.getElementById('enqName').value.trim(),city=document.getElementById('enqCity').value.trim(),phone=document.getElementById('enqPhone').value.trim(),email=document.getElementById('enqEmail').value.trim(),course=document.getElementById('enqCourse').value,dob=document.getElementById('enqDob').value,gender=document.getElementById('enqGender').value,whatsapp=document.getElementById('enqWhatsapp').value.trim(),qual=document.getElementById('enqQual').value,message=document.getElementById('enqMessage').value.trim();
+    const msgEl=document.getElementById('modalMsg');msgEl.className='modal-msg';msgEl.textContent='';
+    if(!name)return showMsg('⚠️ Please enter your full name.','error');
+    if(!phone)return showMsg('⚠️ Please enter your mobile number.','error');
+    if(!email)return showMsg('⚠️ Please enter your email address.','error');
+    if(!course)return showMsg('⚠️ Please select the course.','error');
+    if(!city)return showMsg('⚠️ Please enter your city.','error');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return showMsg('⚠️ Please enter a valid email address.','error');
+    const btn=document.getElementById('modalSubmitBtn');btn.disabled=true;btn.innerHTML='&#9203;&nbsp; Submitting&hellip;';
+    try{
+      const res=await fetch('/admission-enquiry',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,city,phone,email,course,dob,gender,whatsapp,qual,message,submittedAt:new Date().toISOString()})});
+      const data=await res.json();
+      if(data.ok){document.getElementById('modalFormView').style.display='none';document.getElementById('modalSuccessView').classList.add('show');}
+      else{showMsg('❌ '+(data.msg||'Something went wrong.'),'error');btn.disabled=false;btn.innerHTML='&#128228;&nbsp; Submit Enquiry';}
+    }catch(e){showMsg('⚠️ Could not connect. Please call +91 63617 94818.','error');btn.disabled=false;btn.innerHTML='&#128228;&nbsp; Submit Enquiry';}
+  }
+  function showMsg(t,type){const el=document.getElementById('modalMsg');el.textContent=t;el.className='modal-msg '+type;el.scrollIntoView({behavior:'smooth',block:'nearest'});}
+
+  async function loadSiteData(){
+    try{
+      const res=await fetch('/site-data');if(!res.ok)return;const d=await res.json();
+      if(d.mobile1){['c-mobile1','f-mobile'].forEach(id=>{const el=document.getElementById(id);if(el){el.href='tel:'+d.mobile1.replace(/\s/g,'');el.textContent=d.mobile1;}});}
+      if(d.landline){['c-landline','f-landline'].forEach(id=>{const el=document.getElementById(id);if(el){el.href='tel:'+d.landline.replace(/\D/g,'');el.textContent=d.landline;}});}
+      if(d.emailinfo){['c-email','f-email'].forEach(id=>{const el=document.getElementById(id);if(el){el.href='mailto:'+d.emailinfo;el.textContent=d.emailinfo;}});}
+    }catch(e){}
+  }
+  loadSiteData();
+  if(new URLSearchParams(window.location.search).get('openform')==='1')openModal();
+</script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Royal College</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Georgia", serif;
+      }
+
+      body {
+        background: #2b1d14;
+        color: #f5e6c8;
+      }
+
+      /* NAVBAR */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 50px;
+        background: rgba(20, 10, 5, 0.9);
+        border-bottom: 2px solid #c8a96a;
+      }
+
+      header h1 {
+        color: #c8a96a;
+        letter-spacing: 2px;
+      }
+
+      nav a {
+        color: #f5e6c8;
+        margin-left: 25px;
+        text-decoration: none;
+        position: relative;
+      }
+
+      nav a::after {
+        content: "";
+        width: 0%;
+        height: 2px;
+        background: #c8a96a;
+        position: absolute;
+        left: 0;
+        bottom: -5px;
+        transition: 0.3s;
+      }
+
+      nav a:hover::after {
+        width: 100%;
+      }
+
+      /* SLIDER */
+      .slider {
+        height: 90vh;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .slides {
+        display: flex;
+        animation: slide 12s infinite;
+      }
+
+      .slides img {
+        width: 100vw;
+        height: 90vh;
+        object-fit: cover;
+        filter: brightness(70%);
+      }
+
+      /* SLIDE ANIMATION */
+      @keyframes slide {
+        0% {
+          transform: translateX(0);
+        }
+        33% {
+          transform: translateX(-100vw);
+        }
+        66% {
+          transform: translateX(-200vw);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+
+      /* HERO TEXT */
+      .hero-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+
+      .hero-text h2 {
+        font-size: 50px;
+        color: #c8a96a;
+        letter-spacing: 3px;
+      }
+
+      .hero-text p {
+        margin-top: 10px;
+        font-size: 18px;
+      }
+
+      /* BUTTON */
+      .btn {
+        margin-top: 20px;
+        padding: 12px 28px;
+        background: transparent;
+        border: 2px solid #c8a96a;
+        color: #c8a96a;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .btn:hover {
+        background: #c8a96a;
+        color: #2b1d14;
+      }
+
+      /* SECTION */
+      .section {
+        padding: 80px 50px;
+        text-align: center;
+      }
+
+      .section h2 {
+        color: #c8a96a;
+        margin-bottom: 30px;
+        font-size: 32px;
+      }
+
+      /* CARDS */
+      .cards {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .card {
+        background: #3b261a;
+        padding: 25px;
+        width: 280px;
+        border-radius: 10px;
+        border: 1px solid #c8a96a;
+        transition: 0.3s;
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      }
+
+      /* FOOTER */
+      footer {
+        background: #1a0f0a;
+        text-align: center;
+        padding: 20px;
+        border-top: 2px solid #c8a96a;
+      }
+
+      /* MOBILE */
+      @media (max-width: 768px) {
+        .hero-text h2 {
+          font-size: 30px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Royal College</h1>
+      <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Courses</a>
+        <a href="#">Admissions</a>
+        <a href="#">Contact</a>
+      </nav>
+    </header>
+
+    <div class="slider">
+      <div class="slides">
+        <img src="Gemini_Generated_Image_cd7blzcd7blzcd7b.png" alt="" />
+        <img src="Gemini_Generated_Image_iengifiengifieng.png" alt="" />
+        <img src="Gemini_Generated_Image_fztkk9fztkk9fztk.png" alt="" />
+      </div>
+
+      <div class="hero-text">
+        <h2>Excellence in Tradition</h2>
+        <p>Where Knowledge Meets Elegance</p>
+        <button class="btn">Discover More</button>
+      </div>
+    </div>
+
+    <section class="section">
+      <h2>Our Prestige</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Elite Faculty</h3>
+          <p>Highly qualified and experienced mentors.</p>
+        </div>
+        <div class="card">
+          <h3>Grand Campus</h3>
+          <p>Beautiful wooden-style infrastructure.</p>
+        </div>
+        <div class="card">
+          <h3>Top Placements</h3>
+          <p>Connections with leading global companies.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2026 Royal College</p>
+    </footer>
+  </body>
+</html>

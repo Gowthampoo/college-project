@@ -1,0 +1,19 @@
+[
+  {
+    "name": "varun",
+    "email": "varun@gmail.com",
+    "password": "varun.2003"
+  },
+  {
+    "name": "Shravan Kulal",
+    "email": "shravankulal99@gmail.com",
+    "password": "google-oauth",
+    "googleUser": true
+  },
+  {
+    "name": "Gowtham Poojary",
+    "email": "tmkgangstar@gmail.com",
+    "password": "google-oauth",
+    "googleUser": true
+  }
+]

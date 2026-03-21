@@ -1,0 +1,310 @@
+[
+  {
+    "id": "bca",
+    "title": "B.C.A.",
+    "fullName": "Bachelor of Computer Applications",
+    "icon": "💻",
+    "duration": "3 Years · 6 Semesters",
+    "eligibility": "PUC Pass · Min. 40% Aggregate",
+    "languages": "English · Kannada or Hindi",
+    "combinations": "All compulsory subjects",
+    "description": "A three-year undergraduate programme building foundations in computer science, programming, networking and software development. Ideal for students who wish to enter the IT industry or pursue higher education in computer science.",
+    "semesters": [
+      {
+        "label": "Semester I",
+        "subjects": [
+          "Language I – Com. English & Gen. Proficiency",
+          "Language II – Kannada / Hindi",
+          "Fundamentals of I.T.",
+          "Programming in C",
+          "Computer Organization",
+          "General Studies"
+        ]
+      },
+      {
+        "label": "Semester II",
+        "subjects": [
+          "Language I – Com. English & Gen. Proficiency",
+          "Language II – Kannada / Hindi",
+          "Basics of Networking",
+          "Object Oriented Programming using C++",
+          "Database Concepts and Oracle",
+          "General Studies"
+        ]
+      },
+      {
+        "label": "Semester III",
+        "subjects": [
+          "Basic Mathematics",
+          "Micro Processors",
+          "Data Structures",
+          "Operating Systems",
+          "Data Mining"
+        ]
+      },
+      {
+        "label": "Semester IV",
+        "subjects": [
+          "Computer Graphics and Multimedia",
+          "Visual Basic .NET Programming",
+          "Principles of TCP/IP",
+          "E-Commerce",
+          "Elective – Computer Oriented Numeric Analysis (CONA)"
+        ]
+      },
+      {
+        "label": "Semester V",
+        "subjects": [
+          "Software Engineering",
+          "Linux Environment",
+          "Web Development in .NET",
+          "Java Programming",
+          "Distributed Computing",
+          "Elective – LAMP Technology"
+        ]
+      },
+      {
+        "label": "Semester VI",
+        "subjects": [
+          "Project Work / Dissertation"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bcom",
+    "title": "B.Com",
+    "fullName": "Bachelor of Commerce",
+    "icon": "💼",
+    "duration": "3 Years · 6 Semesters",
+    "eligibility": "PUC Pass · Business Studies & Accountancy",
+    "languages": "English · Kannada / Hindi / Sanskrit",
+    "combinations": "All compulsory subjects | Elective: HRM or Business Taxation",
+    "description": "A comprehensive three-year programme covering accountancy, business law, economics, banking, finance, taxation and management. Prepares students for commerce, finance, banking and entrepreneurship careers, or CA / MBA / MCom higher studies.",
+    "semesters": [
+      {
+        "label": "Semester I",
+        "subjects": [
+          "Com. English & Gen. Proficiency",
+          "Kannada / Hindi / Sanskrit",
+          "Business Economics",
+          "Financial Accounting I",
+          "Principles of Management",
+          "Business Statistics and Mathematics I"
+        ]
+      },
+      {
+        "label": "Semester II",
+        "subjects": [
+          "Com. English & Gen. Proficiency",
+          "Kannada / Hindi / Sanskrit",
+          "Money and Public Finance",
+          "Financial Accounting II",
+          "Modern Banking",
+          "Business Statistics and Mathematics II"
+        ]
+      },
+      {
+        "label": "Semester III",
+        "subjects": [
+          "Com. English & Gen. Proficiency",
+          "Kannada / Hindi / Sanskrit",
+          "International Trade & Finance I",
+          "Financial Accounting III",
+          "Cost & Management Accounting I",
+          "Elective – HRM I / Business Taxation I"
+        ]
+      },
+      {
+        "label": "Semester IV",
+        "subjects": [
+          "Com. English & Gen. Proficiency",
+          "Kannada / Hindi / Sanskrit",
+          "International Trade & Finance II",
+          "Financial Accounting IV",
+          "Cost & Management Accounting II",
+          "Elective – HRM II / Business Taxation II"
+        ]
+      },
+      {
+        "label": "Semester V",
+        "subjects": [
+          "Business Law",
+          "Modern Marketing",
+          "Financial Management I",
+          "Financial Accounting V",
+          "Cost & Management Accounting III",
+          "Elective – HRM III / Business Taxation III"
+        ]
+      },
+      {
+        "label": "Semester VI",
+        "subjects": [
+          "Indian Corporate Law",
+          "Auditing",
+          "Financial Management II",
+          "Financial Accounting VI",
+          "Cost & Management Accounting IV",
+          "Elective – HRM IV / Business Taxation IV"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bsc",
+    "title": "B.Sc.",
+    "fullName": "Bachelor of Science",
+    "icon": "🔬",
+    "duration": "3 Years · 6 Semesters",
+    "eligibility": "PUC Science Pass (respective subjects)",
+    "languages": "English · Kannada / Hindi / Sanskrit",
+    "combinations": "PCM: Physics · Chemistry · Mathematics | BZC: Botany · Zoology · Chemistry",
+    "description": "A rigorous three-year science programme with two combinations — PCM (Physics, Chemistry, Mathematics) and BZC (Botany, Zoology, Chemistry). Prepares students for research, education, medicine and engineering, or MSc / competitive exam preparation.",
+    "semesters": [
+      {
+        "label": "Semester I",
+        "subjects": [
+          "Language I – Communicative English & Gen. Proficiency",
+          "Language II – Kannada / Hindi / Sanskrit",
+          "Physics – General Physics I",
+          "Mathematics – Calculus and Number Theory",
+          "Chemistry – Paper I",
+          "Botany – Protophyta and Phycology",
+          "Zoology – Animal Diversity I"
+        ]
+      },
+      {
+        "label": "Semester II",
+        "subjects": [
+          "Language I – Communicative English & Gen. Proficiency",
+          "Language II – Kannada / Hindi / Sanskrit",
+          "Physics – General Physics II",
+          "Mathematics – Calculus, Analytical Geometry & Number Theory",
+          "Chemistry – Paper II",
+          "Botany – Mycology, Plant Pathology & Bryophyta",
+          "Zoology – Animal Diversity II"
+        ]
+      },
+      {
+        "label": "Semester III",
+        "subjects": [
+          "Language I – Communicative English & Gen. Proficiency",
+          "Language II – Kannada / Hindi / Sanskrit",
+          "Physics – Optics",
+          "Mathematics – Differential Equations, Functions of Several Variables & Complex Variables",
+          "Chemistry – Paper III",
+          "Botany – Bryophyta, Pteridophyta & Gymnosperms",
+          "Zoology – Physiology, Bio-Chemistry, Immunology"
+        ]
+      },
+      {
+        "label": "Semester IV",
+        "subjects": [
+          "Language I – Communicative English & Gen. Proficiency",
+          "Language II – Kannada / Hindi / Sanskrit",
+          "Physics – Electricity and Quantum Physics",
+          "Mathematics – Multiple Integrals, Group Theory & Infinite Sequence & Series",
+          "Chemistry – Paper IV",
+          "Botany – Morphology of Angiosperms, Taxonomy & Economic Botany",
+          "Zoology – Histology, Animal Behaviour, Applied Zoology & Toxicology"
+        ]
+      },
+      {
+        "label": "Semester V",
+        "subjects": [
+          "Physics (V) – Modern Physics",
+          "Physics (VI) – Condensed Matter Physics",
+          "Mathematics (V) – Differential Equations, Ring Theory",
+          "Mathematics (VI) – Discrete Mathematics / Numerical Analysis",
+          "Chemistry – Paper V & VI",
+          "Botany (V) – Plant Physiology I & Ecology I",
+          "Botany (VI) – Cell Biology, Molecular Biology & Genetics",
+          "Zoology (V) – Cell Biology & Biotechnology",
+          "Zoology (VI) – Genetics, Evolutions & Paleontology"
+        ]
+      },
+      {
+        "label": "Semester VI",
+        "subjects": [
+          "Physics (VII) – Nuclear Physics",
+          "Physics (VIII) – Electronics",
+          "Mathematics (VII) – Partial Differential Equations, Fourier Series & Algebra",
+          "Mathematics (VIII) – Graph Theory / Linear Programming",
+          "Chemistry – Paper VII & VIII",
+          "Botany (VII) – Plant Physiology II & Ecology II",
+          "Botany (VIII) – Plant Anatomy, Microbiology, Bio-Technology & Plant Propagation",
+          "Zoology (VII) – Reproductive Biology & Developmental Biology",
+          "Zoology (VIII) – Environmental Biology & Wild-life Biology"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ba",
+    "title": "B.A.",
+    "fullName": "Bachelor of Arts",
+    "icon": "📖",
+    "duration": "3 Years · 6 Semesters",
+    "eligibility": "PUC Pass · Any Stream",
+    "languages": "English · Kannada / Hindi / Sanskrit",
+    "combinations": "HEP: History · Economics · Political Science | HEK: History · Economics · Optional Kannada",
+    "description": "A versatile three-year programme in humanities and social sciences covering History, Economics, Political Science and Languages. Develops critical thinking and analytical skills — ideal for civil services, teaching, journalism and law. Open to all streams.",
+    "semesters": [
+      {
+        "label": "Combination 1 – HEP",
+        "subjects": [
+          "History",
+          "Economics",
+          "Political Science",
+          "Language I – English",
+          "Language II – Kannada / Hindi / Sanskrit"
+        ]
+      },
+      {
+        "label": "Combination 2 – HEK",
+        "subjects": [
+          "History",
+          "Economics",
+          "Optional Kannada",
+          "Language I – English",
+          "Language II – Kannada / Hindi / Sanskrit"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "interior",
+    "title": "B.Sc. Interior Design",
+    "fullName": "Bachelor of Science in Interior Design & Decoration",
+    "icon": "🎨",
+    "duration": "3 Years · 6 Semesters",
+    "eligibility": "Min. 40% in PUC · Any Stream",
+    "languages": "As per Mangalore University",
+    "combinations": "Streams Accepted: Science / Commerce / Arts / Diploma / ITI",
+    "description": "A creative and technical three-year programme blending design aesthetics, spatial planning and materials science. Open to students from Science, Commerce and Arts streams. The only Interior Design programme in Bantwal Taluk.",
+    "semesters": [
+      {
+        "label": "Programme Highlights",
+        "subjects": [
+          "3-year BSc programme under Mangalore University",
+          "Studio-based practical learning environment",
+          "Residential & commercial space design projects",
+          "Colour theory, materials & furniture design",
+          "Digital design & visualization tools",
+          "Industry visits and live project exposure"
+        ]
+      },
+      {
+        "label": "Career Opportunities",
+        "subjects": [
+          "Interior Designer / Space Planner",
+          "Furniture & Colour Consultant",
+          "Visual Merchandiser",
+          "Set Designer (Film / Events)",
+          "Exhibition Designer",
+          "M.Des / MBA Design (Higher Studies)"
+        ]
+      }
+    ]
+  }
+]

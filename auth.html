@@ -163,7 +163,7 @@
     try {
       const adminRes=await fetch('/admin-login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
       const adminData=await adminRes.json();
-      if (adminData.ok) { sessionStorage.setItem('adminLoggedIn','true'); msg('loginMsg','🛡️ Admin access granted! Redirecting…','success'); setTimeout(()=>window.location.replace('admin-dashboard.html'),900); return; }
+      if (adminData.ok) { sessionStorage.setItem('adminLoggedIn','true'); sessionStorage.setItem('adminToken', adminData.token || ''); msg('loginMsg','🛡️ Admin access granted! Redirecting…','success'); setTimeout(()=>window.location.replace('admin-dashboard.html'),900); return; }
     } catch(e){}
     try {
       const res=await fetch('/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});

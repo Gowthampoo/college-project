@@ -207,6 +207,44 @@
   </div>
 </div>
 
+<!-- Event Modal -->
+<div class="ev-modal-overlay" id="evModalOverlay">
+  <div class="ev-modal">
+    <h3 id="evModalTitle">Add New Event</h3>
+    <input type="hidden" id="evEditId">
+    <div class="ev-field">
+      <label>Event Title *</label>
+      <input type="text" id="evTitle" placeholder="e.g. Annual Cultural Fest 2026">
+    </div>
+    <div class="ev-field">
+      <label>Description *</label>
+      <textarea id="evDesc" rows="3" placeholder="Describe the event..."></textarea>
+    </div>
+    <div class="ev-field">
+      <label>Date *</label>
+      <input type="date" id="evDate">
+    </div>
+    <div class="ev-field">
+      <label>Image URL *</label>
+      <input type="url" id="evImage" placeholder="https://...">
+    </div>
+    <div class="ev-field">
+      <label>Badge (optional)</label>
+      <select id="evBadge">
+        <option value="">None</option>
+        <option value="Upcoming">Upcoming</option>
+        <option value="Live">Live</option>
+        <option value="Completed">Completed</option>
+        <option value="New">New</option>
+      </select>
+    </div>
+    <div class="ev-modal-actions">
+      <button class="btn-ev-save" onclick="saveEvent()">Save Event</button>
+      <button class="btn-ev-cancel" onclick="closeEvModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="topbar-left">
@@ -239,6 +277,7 @@
     <div class="sb-divider"></div>
     <div class="sb-section">Content</div>
     <div class="sb-item" onclick="showPanel('courses')">&#127891; Courses Editor</div>
+    <div class="sb-item" onclick="showPanel('events')">&#128197; Events</div>
     <div class="sb-item" onclick="showPanel('knowledge')">&#129504; Unimate Knowledge</div>
     <div class="sb-divider"></div>
     <div class="sb-section">Settings</div>
@@ -330,6 +369,17 @@
       <div id="courseEditorPanels"></div>
     </div>
 
+    <!-- ── EVENTS PANEL ── -->
+    <div id="panel-events" class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+        <div class="panel-title">&#128197; Events</div>
+        <button onclick="openEvModal()" style="padding:10px 22px;border:none;border-radius:25px;background:linear-gradient(135deg,#d4af37,#f5e6c8);color:#0a1f44;font-size:13px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;">&#43; Add Event</button>
+      </div>
+      <div class="events-admin-grid" id="adminEventsGrid">
+        <p style="color:rgba(255,255,255,0.4);text-align:center;padding:40px 0;grid-column:1/-1;">Loading events...</p>
+      </div>
+    </div>
+
     <!-- UNIMATE KNOWLEDGE -->
     <div class="panel" id="panel-knowledge">
       <div class="panel-title">&#129504; Unimate Knowledge Base</div>
@@ -409,6 +459,7 @@
     if (id === 'stats')       loadStats();
     if (id === 'contact')     loadContact();
     if (id === 'overview')    loadOverview();
+    if (id === 'events')      loadAdminEvents();
   }
 
   // ── TOAST ──
@@ -638,6 +689,109 @@
     if(!oldPass||!newPass||!confPass)return toast('⚠️ Fill all fields','error');
     if(newPass!==confPass)return toast('⚠️ New passwords do not match','error');
     try { const r=await fetch('/admin-change-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({oldPassword:oldPass,newPassword:newPass})}); const d=await r.json(); d.ok?toast('✅ Password updated!'):toast('❌ '+d.msg,'error'); } catch(e){toast('❌ Server error','error');}
+  }
+
+  // ===== EVENTS MANAGEMENT =====
+  let adminEvents = [];
+
+  function getAdminToken() {
+    return localStorage.getItem('adminToken') || sessionStorage.getItem('adminToken') || '';
+  }
+
+  async function loadAdminEvents() {
+    try {
+      const res = await fetch('/events');
+      adminEvents = await res.json();
+      renderAdminEvents();
+    } catch(e) { console.error('Load events error:', e); }
+  }
+
+  function renderAdminEvents() {
+    const grid = document.getElementById('adminEventsGrid');
+    if (!grid) return;
+    if (!Array.isArray(adminEvents) || !adminEvents.length) {
+      grid.innerHTML = '<p style="color:rgba(255,255,255,0.4);text-align:center;padding:40px 0;grid-column:1/-1;">No events yet. Click "Add Event" to create one.</p>';
+      return;
+    }
+    grid.innerHTML = adminEvents.map(ev => {
+      const dateStr = new Date(ev.date).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+      return `<div class="admin-event-card">
+        <img src="${ev.image}" alt="${esc(ev.title)}" onerror="this.src='logo.png'" loading="lazy">
+        <div class="admin-event-info">
+          <h4>${esc(ev.title)}</h4>
+          <div class="ev-date">&#128197; ${dateStr}${ev.badge ? ` &nbsp;<span style="background:linear-gradient(135deg,#d4af37,#f5e6c8);color:#0a1f44;font-size:0.7rem;font-weight:700;padding:2px 8px;border-radius:10px;">${esc(ev.badge)}</span>` : ''}</div>
+          <p>${esc(ev.description)}</p>
+        </div>
+        <div class="admin-event-actions">
+          <button class="btn-ev-edit" onclick="editEvent(${ev.id})">&#9998; Edit</button>
+          <button class="btn-ev-delete" onclick="deleteEvent(${ev.id})">&#128465; Delete</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function openEvModal(data) {
+    document.getElementById('evModalTitle').textContent = data ? 'Edit Event' : 'Add New Event';
+    document.getElementById('evEditId').value = data ? data.id : '';
+    document.getElementById('evTitle').value = data ? data.title : '';
+    document.getElementById('evDesc').value = data ? data.description : '';
+    document.getElementById('evDate').value = data ? data.date : '';
+    document.getElementById('evImage').value = data ? data.image : '';
+    document.getElementById('evBadge').value = data ? (data.badge || '') : 'Upcoming';
+    document.getElementById('evModalOverlay').classList.add('active');
+  }
+
+  function closeEvModal() {
+    document.getElementById('evModalOverlay').classList.remove('active');
+  }
+
+  function editEvent(id) {
+    const ev = adminEvents.find(e => e.id === id);
+    if (ev) openEvModal(ev);
+  }
+
+  async function deleteEvent(id) {
+    if (!confirm('Delete this event? This cannot be undone.')) return;
+    try {
+      const res = await fetch('/admin-events/' + id, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + getAdminToken() }
+      });
+      const data = await res.json();
+      if (data.ok) { loadAdminEvents(); toast('🗑️ Event deleted.', 'success'); }
+      else toast(data.msg || 'Failed to delete.', 'error');
+    } catch(e) { toast('Error: ' + e.message, 'error'); }
+  }
+
+  async function saveEvent() {
+    const id = document.getElementById('evEditId').value;
+    const payload = {
+      title: document.getElementById('evTitle').value.trim(),
+      description: document.getElementById('evDesc').value.trim(),
+      date: document.getElementById('evDate').value,
+      image: document.getElementById('evImage').value.trim(),
+      badge: document.getElementById('evBadge').value
+    };
+    if (!payload.title || !payload.description || !payload.date || !payload.image) {
+      toast('⚠️ Please fill all required fields.', 'error'); return;
+    }
+    try {
+      const method = id ? 'PUT' : 'POST';
+      const url = id ? '/admin-events/' + id : '/admin-events';
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAdminToken() },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.ok) {
+        closeEvModal();
+        loadAdminEvents();
+        toast(id ? '✅ Event updated!' : '✅ Event added!', 'success');
+      } else {
+        toast(data.msg || 'Failed to save event.', 'error');
+      }
+    } catch(e) { toast('Error: ' + e.message, 'error'); }
   }
 
   function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');}

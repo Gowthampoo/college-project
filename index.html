@@ -158,6 +158,18 @@
     </div>
   </section>
 
+  <!-- EVENTS -->
+  <section class="events-section" id="events">
+    <div class="section-head reveal">
+      <div class="section-badge">What's Happening</div>
+      <h2>Current <span>Events</span></h2>
+      <p>Stay updated with the latest happenings at SVS College</p>
+    </div>
+    <div class="events-grid" id="eventsGrid">
+      <!-- Events loaded via JS -->
+    </div>
+  </section>
+
   <!-- STATS -->
   <section class="stats-section">
     <div class="stat-item"><h3 class="counter" id="stat-year"     data-target="1968">0</h3><p>Year Established</p></div>
@@ -306,6 +318,39 @@
       } catch(e) {}
     }
     loadSiteData();
+  </script>
+
+  <script>
+    // ── LOAD EVENTS ──
+    async function loadEvents() {
+      try {
+        const res = await fetch('/events');
+        const events = await res.json();
+        const grid = document.getElementById('eventsGrid');
+        if (!grid) return;
+        if (!Array.isArray(events) || !events.length) {
+          grid.innerHTML = '<p style="color:rgba(255,255,255,0.5);text-align:center;grid-column:1/-1;padding:40px 0;">No events at the moment. Check back soon!</p>';
+          return;
+        }
+        grid.innerHTML = events.map(ev => {
+          const dateStr = new Date(ev.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+          return `
+          <div class="event-card reveal">
+            <div class="event-img-wrap">
+              <img src="${ev.image}" alt="${ev.title}" loading="lazy" onerror="this.src='logo.png'">
+              ${ev.badge ? `<span class="event-badge">${ev.badge}</span>` : ''}
+            </div>
+            <div class="event-body">
+              <div class="event-date">&#128197; ${dateStr}</div>
+              <h3 class="event-title">${ev.title}</h3>
+              <p class="event-desc">${ev.description}</p>
+            </div>
+          </div>`;
+        }).join('');
+        document.querySelectorAll('.event-card.reveal').forEach(el => { if (typeof revealObserver !== 'undefined' && revealObserver) revealObserver.observe(el); });
+      } catch(e) { console.error('Events load error:', e); }
+    }
+    loadEvents();
   </script>
 
 </body>

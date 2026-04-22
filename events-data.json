@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Annual Cultural Fest 2026",
+    "description": "Join us for a spectacular celebration of arts, music, and culture featuring performances by students across all departments.",
+    "date": "2026-05-10",
+    "image": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&q=80",
+    "badge": "Upcoming"
+  },
+  {
+    "id": 2,
+    "title": "Science & Tech Expo",
+    "description": "Students showcase innovative projects and research in science and technology. Open to all visitors.",
+    "date": "2026-05-18",
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80",
+    "badge": "Upcoming"
+  },
+  {
+    "id": 3,
+    "title": "Sports Day 2026",
+    "description": "Annual sports meet with inter-department competitions in athletics, cricket, football, and indoor games.",
+    "date": "2026-06-02",
+    "image": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&q=80",
+    "badge": "Upcoming"
+  }
+]

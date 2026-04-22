@@ -13,6 +13,7 @@ const DATA_FILE      = "website-data.json";
 const KNOWLEDGE_FILE = "unimate-knowledge.json";
 const COURSES_FILE   = "courses-data.json";
 const ENQUIRIES_FILE = "admission-enquiries.json";
+const EVENTS_FILE    = "events-data.json";
 
 // ── Load secrets from .env file (required — server will throw if missing)
 const GROQ_API_KEY         = process.env.GROQ_API_KEY;
@@ -228,6 +229,27 @@ function getEnquiries() {
   return JSON.parse(fs.readFileSync(ENQUIRIES_FILE));
 }
 function saveEnquiries(e) { fs.writeFileSync(ENQUIRIES_FILE, JSON.stringify(e, null, 2)); }
+
+function getEvents() {
+  if (!fs.existsSync(EVENTS_FILE)) {
+    fs.writeFileSync(EVENTS_FILE, "[]"); return [];
+  }
+  return JSON.parse(fs.readFileSync(EVENTS_FILE));
+}
+function saveEvents(e) { fs.writeFileSync(EVENTS_FILE, JSON.stringify(e, null, 2)); }
+
+function isAdminAuth(req) {
+  const authHeader = req.headers["authorization"] || "";
+  if (!authHeader.startsWith("Bearer ")) return false;
+  const token = authHeader.slice(7);
+  try {
+    const decoded = Buffer.from(token, "base64").toString("utf8");
+    const [email, ...passParts] = decoded.split(":");
+    const password = passParts.join(":");
+    const admin = getAdmin();
+    return email === admin.email && password === admin.password;
+  } catch (e) { return false; }
+}
 
 // ════════════════════════════════════════════════════════════
 // COURSES
@@ -449,7 +471,8 @@ http.createServer(async (req, res) => {
     const admin = getAdmin();
     if (body.email !== admin.email || body.password !== admin.password)
       return send(res, 401, { ok:false, msg:"Invalid admin credentials." });
-    return send(res, 200, { ok:true });
+    const tokenStr = Buffer.from(admin.email + ":" + admin.password).toString("base64");
+    return send(res, 200, { ok:true, token: tokenStr });
   }
 
   if (url === "/admin-info" && req.method === "GET")
@@ -616,6 +639,54 @@ http.createServer(async (req, res) => {
       return send(res, 200, { ok:true, reply: SAFE_FALLBACK_REPLY });
     }
     return send(res, 200, { ok:true, reply });
+  }
+
+  // ── EVENTS ──
+  if (url === "/events" && req.method === "GET") {
+    return send(res, 200, getEvents());
+  }
+
+  if (url === "/admin-events" && req.method === "POST") {
+    if (!isAdminAuth(req)) return send(res, 401, { ok: false, msg: "Unauthorized" });
+    const body = await getBody(req);
+    if (!body.title || !body.description || !body.date || !body.image)
+      return send(res, 400, { ok: false, msg: "Missing required fields." });
+    const events = getEvents();
+    const newEvent = {
+      id: Date.now(),
+      title: body.title.trim(),
+      description: body.description.trim(),
+      date: body.date,
+      image: body.image.trim(),
+      badge: body.badge || ""
+    };
+    events.push(newEvent);
+    saveEvents(events);
+    return send(res, 201, { ok: true, event: newEvent });
+  }
+
+  if (req.method === "PUT" && url.startsWith("/admin-events/")) {
+    if (!isAdminAuth(req)) return send(res, 401, { ok: false, msg: "Unauthorized" });
+    const evId = parseInt(url.split("/")[2]);
+    const body = await getBody(req);
+    const events = getEvents();
+    const idx = events.findIndex(e => e.id === evId);
+    if (idx === -1) return send(res, 404, { ok: false, msg: "Event not found." });
+    const allowed = ["title", "description", "date", "image", "badge"];
+    allowed.forEach(f => { if (body[f] !== undefined) events[idx][f] = typeof body[f] === "string" ? body[f].trim() : body[f]; });
+    saveEvents(events);
+    return send(res, 200, { ok: true, event: events[idx] });
+  }
+
+  if (req.method === "DELETE" && url.startsWith("/admin-events/")) {
+    if (!isAdminAuth(req)) return send(res, 401, { ok: false, msg: "Unauthorized" });
+    const evId = parseInt(url.split("/")[2]);
+    const events = getEvents();
+    const idx = events.findIndex(e => e.id === evId);
+    if (idx === -1) return send(res, 404, { ok: false, msg: "Event not found." });
+    events.splice(idx, 1);
+    saveEvents(events);
+    return send(res, 200, { ok: true });
   }
 
   // ── STATIC FILES ──

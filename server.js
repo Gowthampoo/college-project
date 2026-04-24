@@ -690,7 +690,7 @@ http.createServer(async (req, res) => {
   }
 
   // ── STATIC FILES ──
-  const filePath = path.join(__dirname, url === "/" ? "index.html" : url);
+  const filePath = path.join(__dirname,url === "/" ? "index.html" : url);
   serveFile(res, filePath);
 
 }).listen(PORT, () => {

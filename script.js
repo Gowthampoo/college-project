@@ -98,24 +98,6 @@
   }
 })();
 
-// ══════════════════════════════════════════
-//  DESKTOP DROPDOWN CLICK TOGGLE
-// ══════════════════════════════════════════
-const menuItems = document.querySelectorAll("nav ul li");
-menuItems.forEach((item) => {
-  item.addEventListener("click", function (e) {
-    if (window.innerWidth > 768) {
-      e.stopPropagation();
-      menuItems.forEach((el) => { if (el !== item) el.classList.remove("active"); });
-      item.classList.toggle("active");
-    }
-  });
-});
-document.addEventListener("click", () => {
-  if (window.innerWidth > 768) {
-    menuItems.forEach((el) => el.classList.remove("active"));
-  }
-});
 
 // ══════════════════════════════════════════
 //  UNIMATE POPUP (desktop only)

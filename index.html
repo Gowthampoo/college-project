@@ -115,6 +115,45 @@
     </div>
   </div>
 
+  <!-- CAMPUS GALLERY SLIDER -->
+  <section class="gallery-section" id="gallerySection" style="display:none;">
+    <div class="gallery-header reveal">
+      <div class="section-badge">Campus Life</div>
+      <h2>Our <span>Gallery</span></h2>
+    </div>
+    <div class="gallery-track-wrap">
+      <button class="gallery-arrow gallery-prev" onclick="galleryMove(-1)" aria-label="Previous">&#8249;</button>
+      <div class="gallery-viewport" id="galleryViewport">
+        <div class="gallery-track" id="galleryTrack"></div>
+      </div>
+      <button class="gallery-arrow gallery-next" onclick="galleryMove(1)" aria-label="Next">&#8250;</button>
+    </div>
+    <div class="gallery-dots" id="galleryDots"></div>
+  </section>
+
+  <style>
+    .gallery-section{padding:60px 0 40px;background:linear-gradient(180deg,#060f1e 0%,#0a1828 100%);}
+    .gallery-header{text-align:center;margin-bottom:32px;}
+    .gallery-track-wrap{position:relative;display:flex;align-items:center;gap:0;}
+    .gallery-viewport{overflow:hidden;flex:1;border-radius:16px;}
+    .gallery-track{display:flex;transition:transform 0.5s cubic-bezier(.4,0,.2,1);will-change:transform;}
+    .gallery-slide{min-width:33.333%;padding:0 8px;box-sizing:border-box;flex-shrink:0;}
+    .gallery-slide img{width:100%;height:240px;object-fit:cover;border-radius:12px;display:block;box-shadow:0 8px 28px rgba(0,0,0,0.4);transition:transform 0.3s;}
+    .gallery-slide img:hover{transform:scale(1.03);}
+    .gallery-arrow{background:rgba(212,175,55,0.15);border:1px solid rgba(212,175,55,0.35);color:#d4af37;width:44px;height:44px;border-radius:50%;font-size:28px;line-height:1;cursor:pointer;flex-shrink:0;transition:0.2s;z-index:2;display:flex;align-items:center;justify-content:center;margin:0 10px;}
+    .gallery-arrow:hover{background:rgba(212,175,55,0.3);}
+    .gallery-dots{display:flex;justify-content:center;gap:8px;margin-top:20px;}
+    .gallery-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);border:none;cursor:pointer;transition:0.2s;padding:0;}
+    .gallery-dot.active{background:#d4af37;transform:scale(1.3);}
+    @media(max-width:768px){
+      .gallery-slide{min-width:80%;}
+      .gallery-slide img{height:180px;}
+    }
+    @media(max-width:480px){
+      .gallery-slide{min-width:100%;}
+    }
+  </style>
+
   <!-- ABOUT STRIP -->
   <section class="about-strip">
     <div class="about-strip-text reveal">
@@ -318,6 +357,69 @@
       } catch(e) {}
     }
     loadSiteData();
+  </script>
+
+  <script>
+    // ── GALLERY SLIDER ──
+    let galleryImages = [], galleryIndex = 0, galleryTimer = null, galleryPerView = 3;
+
+    function getGalleryPerView() {
+      return window.innerWidth <= 480 ? 1 : window.innerWidth <= 768 ? Math.min(2, galleryImages.length) : Math.min(3, galleryImages.length);
+    }
+
+    async function loadGallery() {
+      try {
+        const res = await fetch('/gallery-images');
+        if (!res.ok) return;
+        galleryImages = await res.json();
+        if (!galleryImages.length) return;
+        document.getElementById('gallerySection').style.display = '';
+        renderGallery();
+        startGalleryAuto();
+      } catch(e) {}
+    }
+
+    function renderGallery() {
+      galleryPerView = getGalleryPerView();
+      const track = document.getElementById('galleryTrack');
+      const dots = document.getElementById('galleryDots');
+      track.innerHTML = galleryImages.map((img, i) =>
+        `<div class="gallery-slide"><img src="${img.url}" alt="${img.caption||'Campus'}" onerror="this.src='logo.png'" loading="lazy"></div>`
+      ).join('');
+      const maxIndex = Math.max(0, galleryImages.length - galleryPerView);
+      dots.innerHTML = Array.from({length: maxIndex + 1}, (_, i) =>
+        `<button class="gallery-dot${i===galleryIndex?' active':''}" onclick="galleryGoTo(${i})"></button>`
+      ).join('');
+      applyGalleryPos();
+    }
+
+    function applyGalleryPos() {
+      const pct = 100 / galleryPerView;
+      document.getElementById('galleryTrack').style.transform = `translateX(-${galleryIndex * pct}%)`;
+      document.querySelectorAll('.gallery-dot').forEach((d,i)=>d.classList.toggle('active',i===galleryIndex));
+    }
+
+    function galleryMove(dir) {
+      const max = Math.max(0, galleryImages.length - galleryPerView);
+      galleryIndex = Math.max(0, Math.min(max, galleryIndex + dir));
+      applyGalleryPos();
+      resetGalleryAuto();
+    }
+
+    function galleryGoTo(i) { galleryIndex = i; applyGalleryPos(); resetGalleryAuto(); }
+
+    function startGalleryAuto() {
+      galleryTimer = setInterval(() => {
+        const max = Math.max(0, galleryImages.length - getGalleryPerView());
+        galleryIndex = galleryIndex >= max ? 0 : galleryIndex + 1;
+        applyGalleryPos();
+      }, 3500);
+    }
+
+    function resetGalleryAuto() { clearInterval(galleryTimer); startGalleryAuto(); }
+
+    window.addEventListener('resize', () => { if(galleryImages.length) renderGallery(); });
+    loadGallery();
   </script>
 
   <script>

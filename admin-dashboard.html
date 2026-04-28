@@ -99,6 +99,37 @@
     .knowledge-add-form{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end;margin-bottom:20px;}
     .knowledge-add-form .save-btn{height:42px;white-space:nowrap;}
 
+    /* ── PDF IMPORT STYLES ── */
+    .pdf-drop-zone{border:2px dashed rgba(212,175,55,0.4);border-radius:14px;padding:36px 20px;text-align:center;cursor:pointer;transition:all 0.25s;background:rgba(255,255,255,0.02);position:relative;}
+    .pdf-drop-zone:hover,.pdf-drop-zone.drag-over{border-color:#d4af37;background:rgba(212,175,55,0.07);}
+    .pdf-drop-zone.has-file{border-style:solid;border-color:rgba(212,175,55,0.5);background:rgba(212,175,55,0.05);}
+    .pdf-drop-icon{font-size:38px;margin-bottom:10px;opacity:0.75;}
+    .pdf-drop-text{font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:5px;}
+    .pdf-drop-text strong{color:#d4af37;}
+    .pdf-drop-hint{font-size:11px;color:rgba(255,255,255,0.28);}
+    .pdf-file-info{display:none;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap;}
+    .pdf-file-info.show{display:flex;}
+    .pdf-file-name{font-size:13px;font-weight:600;color:#f5e6c8;word-break:break-all;}
+    .pdf-file-size{font-size:11px;color:rgba(255,255,255,0.4);}
+    .pdf-clear-btn{padding:4px 12px;border-radius:20px;border:1px solid rgba(255,80,80,0.4);background:transparent;color:#fca5a5;font-size:11px;cursor:pointer;font-family:"Poppins",sans-serif;transition:0.2s;}
+    .pdf-clear-btn:hover{background:rgba(255,80,80,0.12);}
+    .pdf-progress-wrap{margin-top:14px;display:none;}
+    .pdf-progress-wrap.show{display:block;}
+    .pdf-progress-label{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:6px;}
+    .pdf-progress-bar-bg{height:4px;background:rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;}
+    .pdf-progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#d4af37,#f5e6c8);border-radius:10px;transition:width 0.4s;}
+    .pdf-preview-list{max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-top:14px;}
+    .pdf-preview-list::-webkit-scrollbar{width:4px;}
+    .pdf-preview-list::-webkit-scrollbar-thumb{background:rgba(212,175,55,0.2);border-radius:10px;}
+    .pdf-qa-row{background:rgba(255,255,255,0.03);border:1px solid rgba(212,175,55,0.12);border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;}
+    .pdf-qa-texts{flex:1;min-width:0;}
+    .pdf-qa-q{font-size:12px;font-weight:600;color:#f5e6c8;margin-bottom:3px;}
+    .pdf-qa-a{font-size:11px;color:rgba(255,255,255,0.45);line-height:1.5;}
+    .pdf-qa-del{background:none;border:none;color:rgba(255,80,80,0.5);font-size:15px;cursor:pointer;padding:0 4px;line-height:1;transition:0.2s;flex-shrink:0;}
+    .pdf-qa-del:hover{color:#fca5a5;}
+    .pdf-action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center;}
+    #pdfFileInput{display:none;}
+
     .course-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
     .ct-btn{padding:8px 18px;border-radius:20px;border:1px solid rgba(212,175,55,0.3);background:transparent;color:rgba(255,255,255,0.55);font-size:12px;cursor:pointer;font-family:"Poppins",sans-serif;transition:0.2s;}
     .ct-btn.active,.ct-btn:hover{border-color:#d4af37;color:#d4af37;background:rgba(212,175,55,0.08);}
@@ -364,6 +395,24 @@
     .btn-ev-save:hover{transform:scale(1.03);box-shadow:0 6px 22px rgba(212,175,55,0.45);}
     .btn-ev-cancel{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.15);}
     .btn-ev-cancel:hover{background:rgba(255,255,255,0.12);color:#fff;}
+
+    /* ── GALLERY ADMIN ── */
+    .gallery-drop-zone{border:2px dashed rgba(212,175,55,0.4);border-radius:14px;padding:40px 20px;text-align:center;cursor:pointer;transition:all 0.25s;background:rgba(255,255,255,0.02);}
+    .gallery-drop-zone:hover,.gallery-drop-zone.drag-over{border-color:#d4af37;background:rgba(212,175,55,0.07);}
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-top:20px;}
+    .gallery-item{position:relative;border-radius:12px;overflow:hidden;border:1px solid rgba(212,175,55,0.2);background:#0d2040;aspect-ratio:4/3;cursor:grab;}
+    .gallery-item.dragging{opacity:0.4;cursor:grabbing;}
+    .gallery-item.drag-over-target{border:2px solid #d4af37;box-shadow:0 0 0 3px rgba(212,175,55,0.2);}
+    .gallery-item img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;}
+    .gallery-item-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,0.6) 0%,transparent 60%);opacity:0;transition:0.2s;display:flex;align-items:flex-end;justify-content:space-between;padding:10px;}
+    .gallery-item:hover .gallery-item-overlay{opacity:1;}
+    .gallery-del-btn{background:rgba(239,68,68,0.85);border:none;color:white;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer;font-family:"Poppins",sans-serif;transition:0.2s;}
+    .gallery-del-btn:hover{background:#ef4444;}
+    .gallery-drag-handle{color:rgba(255,255,255,0.7);font-size:18px;cursor:grab;user-select:none;padding:4px;}
+    .gallery-upload-progress{height:3px;background:rgba(212,175,55,0.15);border-radius:10px;margin-top:10px;overflow:hidden;display:none;}
+    .gallery-upload-progress.show{display:block;}
+    .gallery-upload-progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#d4af37,#f5e6c8);border-radius:10px;transition:width 0.3s;}
+    #galleryFileInput{display:none;}
   </style>
 </head>
 <body>
@@ -497,7 +546,9 @@
     <div class="sb-divider"></div>
     <div class="sb-section">Content</div>
     <div class="sb-item" onclick="showPanel('courses')">&#127891; Courses Editor</div>
+    <div class="sb-item" onclick="showPanel('users')">&#128101; Login Users</div>
     <div class="sb-item" onclick="showPanel('events')">&#128197; Events</div>
+    <div class="sb-item" onclick="showPanel('gallery')">&#128444; Gallery Images</div>
     <div class="sb-item" onclick="showPanel('knowledge')">&#129504; Unimate Knowledge</div>
     <div class="sb-divider"></div>
     <div class="sb-section">Settings</div>
@@ -523,6 +574,30 @@
           <button class="save-btn" onclick="showPanel('courses')">&#127891; Edit Courses</button>
           <button class="save-btn" onclick="showPanel('stats')">&#128218; Update Stats</button>
         </div>
+      </div>
+    </div>
+
+    <!-- USERS PANEL -->
+    <div class="panel" id="panel-users">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap;gap:12px;">
+        <div class="panel-title" style="margin-bottom:0;">&#128101; Login Users</div>
+        <button onclick="loadUsers()" style="padding:8px 20px;border-radius:20px;border:1px solid rgba(212,175,55,0.4);background:transparent;color:#d4af37;font-size:12px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:0.2s;" onmouseover="this.style.background='rgba(212,175,55,0.1)'" onmouseout="this.style.background='transparent'">&#8635; Refresh</button>
+      </div>
+      <div class="filter-bar" style="margin-bottom:14px;">
+        <button class="filter-btn active" id="userFilterAll" onclick="filterUsers('all',this)">All</button>
+        <button class="filter-btn" id="userFilterInactive" onclick="filterUsers('inactive',this)">&#9888; Offline 30+ Days</button>
+        <button class="filter-btn" id="userFilterGoogle" onclick="filterUsers('google',this)">&#128279; Google</button>
+        <input class="search-box" type="text" id="userSearch" placeholder="&#128269; Search name or email…" oninput="renderUsers()"/>
+      </div>
+      <div id="userInactiveBanner" style="display:none;background:rgba(255,160,50,0.12);border:1px solid rgba(255,160,50,0.35);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:13px;color:#ffd580;display:flex;align-items:center;gap:10px;">
+        <span>&#9888;</span><span id="userInactiveCount"></span>
+        <button onclick="removeAllInactive()" style="margin-left:auto;padding:6px 16px;border-radius:20px;border:1px solid rgba(255,100,100,0.5);background:rgba(255,80,80,0.12);color:#fca5a5;font-size:12px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;">&#128465; Remove All Inactive</button>
+      </div>
+      <div class="table-wrap">
+        <table class="enq-table">
+          <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Type</th><th>Last Login</th><th>Inactive Days</th><th>Action</th></tr></thead>
+          <tbody id="usersTbody"><tr><td colspan="7" style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);">Loading…</td></tr></tbody>
+        </table>
       </div>
     </div>
 
@@ -595,6 +670,33 @@
       </div>
     </div>
 
+    <!-- GALLERY IMAGES PANEL -->
+    <div id="panel-gallery" class="panel">
+      <div class="panel-title">&#128444; Gallery Images</div>
+      <div class="form-section">
+        <h3>&#128247; Upload Images</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:14px;">Drag &amp; drop images or click to upload. Drag cards below to reorder. Images appear as an animated slider on the home page.</p>
+        <input type="file" id="galleryFileInput" accept="image/*" multiple onchange="galleryFilesChosen(this.files)">
+        <div class="gallery-drop-zone" id="galleryDropZone"
+             onclick="document.getElementById('galleryFileInput').click()"
+             ondragover="galleryDragOver(event)" ondragleave="galleryDragLeave(event)" ondrop="galleryDrop(event)">
+          <div style="font-size:36px;margin-bottom:10px;opacity:0.7;">&#128444;&#65039;</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:5px;"><strong style="color:#d4af37;">Click to upload</strong> or drag &amp; drop images here</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.28);">JPG, PNG, WebP — multiple files supported</div>
+        </div>
+        <div class="gallery-upload-progress" id="galleryUploadProgress">
+          <div class="gallery-upload-progress-bar" id="galleryUploadBar"></div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>&#128248; Current Gallery <span id="galleryCnt" style="font-weight:400;color:rgba(255,255,255,0.4);font-size:12px;"></span></h3>
+        <p style="font-size:12px;color:rgba(255,255,255,0.35);margin-bottom:4px;">&#8635; Drag cards to reorder · hover to delete</p>
+        <div class="gallery-grid" id="galleryAdminGrid">
+          <p style="color:rgba(255,255,255,0.3);padding:20px 0;">Loading…</p>
+        </div>
+      </div>
+    </div>
+
     <!-- UNIMATE KNOWLEDGE -->
     <div class="panel" id="panel-knowledge">
       <div class="panel-title">&#129504; Unimate Knowledge Base</div>
@@ -606,6 +708,57 @@
           <button class="save-btn" onclick="addKbItem()" style="height:42px;">&#10133; Add</button>
         </div>
       </div>
+      <!-- PDF IMPORT SECTION -->
+      <div class="form-section" style="margin-bottom:20px;">
+        <h3>&#128196; Import Knowledge from File</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:16px;line-height:1.6;">Drop a file (PDF, TXT, MD, CSV, JSON, DOCX) — Unimate will read it and auto-generate Q&amp;A pairs for the knowledge base.</p>
+
+        <input type="file" id="pdfFileInput" accept=".pdf,.txt,.md,.csv,.json,.docx" onchange="pdfFileChosen(this.files[0])"/>
+
+        <div class="pdf-drop-zone" id="pdfDropZone"
+          onclick="document.getElementById('pdfFileInput').click()"
+          ondragover="pdfDragOver(event)" ondragleave="pdfDragLeave(event)" ondrop="pdfDrop(event)">
+          <div id="pdfDropPlaceholder">
+            <div class="pdf-drop-icon">&#128196;</div>
+            <div class="pdf-drop-text"><strong>Click to browse</strong> or drag &amp; drop a file here</div>
+            <div class="pdf-drop-hint">PDF, TXT, MD, CSV, JSON, DOCX · Max 10 MB</div>
+          </div>
+          <div class="pdf-file-info" id="pdfFileInfo">
+            <span class="pdf-drop-icon" style="font-size:24px;margin:0;">&#128196;</span>
+            <span class="pdf-file-name" id="pdfFileName">—</span>
+            <span class="pdf-file-size" id="pdfFileSize"></span>
+            <button class="pdf-clear-btn" onclick="clearPdf(event)">&#10005; Clear</button>
+          </div>
+        </div>
+
+        <div class="pdf-progress-wrap" id="pdfProgressWrap">
+          <div class="pdf-progress-label" id="pdfProgressLabel">Extracting text…</div>
+          <div class="pdf-progress-bar-bg"><div class="pdf-progress-bar" id="pdfProgressBar"></div></div>
+        </div>
+
+        <div id="pdfPreviewList" class="pdf-preview-list" style="display:none;"></div>
+
+        <div class="pdf-action-row" id="pdfActionRow" style="display:none;">
+          <button class="save-btn" id="pdfSaveAllBtn" onclick="pdfSaveAll()">&#128190; Save All to Knowledge Base</button>
+          <span id="pdfQaCount" style="font-size:12px;color:rgba(255,255,255,0.4);"></span>
+        </div>
+      </div>
+
+      <!-- KB SEARCH + COUNT -->
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+        <div style="position:relative;flex:1;min-width:200px;">
+          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;opacity:0.45;pointer-events:none;">&#128269;</span>
+          <input class="search-box" type="text" id="kbSearch" placeholder="Search questions &amp; answers…"
+            oninput="renderKbFiltered()" style="padding-left:34px;width:100%;"/>
+        </div>
+        <span id="kbCountBadge" style="font-size:12px;color:rgba(255,255,255,0.35);white-space:nowrap;"></span>
+        <button onclick="renderKbFiltered()" title="Clear search"
+          style="padding:8px 14px;border-radius:20px;border:1px solid rgba(212,175,55,0.25);background:transparent;color:rgba(212,175,55,0.6);font-size:11px;cursor:pointer;font-family:'Poppins',sans-serif;transition:0.2s;"
+          onmouseover="this.style.borderColor='#d4af37';this.style.color='#d4af37'"
+          onmouseout="this.style.borderColor='rgba(212,175,55,0.25)';this.style.color='rgba(212,175,55,0.6)'"
+          onclick="document.getElementById('kbSearch').value='';renderKbFiltered()">&#10005; Clear</button>
+      </div>
+
       <div class="kb-list" id="kbList"><div style="color:rgba(255,255,255,0.3);text-align:center;padding:20px;">Loading…</div></div>
     </div>
 
@@ -665,6 +818,8 @@
     document.querySelectorAll('.sb-item').forEach(item => {
       if (item.getAttribute('onclick') && item.getAttribute('onclick').includes("'"+id+"'")) item.classList.add('active');
     });
+    sessionStorage.setItem('adminActivePanel', id);
+    if (id === 'users')     loadUsers();
     if (id === 'enquiries') loadEnquiries();
     if (id === 'courses')   loadCoursesEditor();
     if (id === 'knowledge') loadKnowledge();
@@ -672,7 +827,15 @@
     if (id === 'contact')   loadContact();
     if (id === 'overview')  loadOverview();
     if (id === 'events')    loadAdminEvents();
+    if (id === 'gallery')   loadGalleryAdmin();
   }
+
+  // Restore last active panel on F5 / reload
+  (function() {
+    const last = sessionStorage.getItem('adminActivePanel');
+    if (last && document.getElementById('panel-' + last)) showPanel(last);
+    else showPanel('overview');
+  })();
 
   function toast(msg, type='success') {
     const el = document.createElement('div');
@@ -682,7 +845,7 @@
     setTimeout(() => el.remove(), 3500);
   }
 
-  function logout() { sessionStorage.removeItem('adminLoggedIn'); window.location.replace('auth.html'); }
+  function logout() { sessionStorage.removeItem('adminLoggedIn'); sessionStorage.removeItem('adminActivePanel'); window.location.replace('auth.html'); }
 
   async function loadOverview() {
     try {
@@ -698,7 +861,6 @@
       if (info.ok) document.getElementById('adminEmailDisplay').textContent = '👤 ' + info.email;
     } catch(e) {}
   }
-  loadOverview();
 
   let allEnquiries = [], currentFilter = 'all';
   async function loadEnquiries() {
@@ -808,9 +970,25 @@
   async function loadKnowledge() {
     try { const r=await fetch('/admin-get-knowledge'); const d=await r.json(); if(d.ok){kbItems=d.knowledge;renderKb();}else document.getElementById('kbList').innerHTML='<p style="color:#fca5a5;">Failed to load.</p>'; } catch(e){ document.getElementById('kbList').innerHTML='<p style="color:#fca5a5;">Server error.</p>';}
   }
-  function renderKb() {
-    if(!kbItems.length){document.getElementById('kbList').innerHTML='<p style="color:rgba(255,255,255,0.3);text-align:center;padding:20px;">No knowledge items yet.</p>';return;}
-    document.getElementById('kbList').innerHTML=kbItems.map((item,idx)=>`<div class="kb-item"><div class="kb-item-text"><div class="kb-q">${esc(item.question)}</div><div class="kb-a">${esc(item.answer)}</div></div><div class="kb-actions"><button class="action-btn" onclick="editKbItem(${idx})">&#9998; Edit</button><button class="action-btn del" onclick="deleteKbItem('${esc(item.id||idx)}')">&#128465;</button></div></div>`).join('');
+  function renderKb() { renderKbFiltered(); }
+  function renderKbFiltered() {
+    const q = (document.getElementById('kbSearch')?.value || '').toLowerCase().trim();
+    const badge = document.getElementById('kbCountBadge');
+    if (!kbItems.length) {
+      document.getElementById('kbList').innerHTML = '<p style="color:rgba(255,255,255,0.3);text-align:center;padding:20px;">No knowledge items yet.</p>';
+      if (badge) badge.textContent = ''; return;
+    }
+    const filtered = q ? kbItems.filter(item => (item.question||'').toLowerCase().includes(q) || (item.answer||'').toLowerCase().includes(q)) : kbItems;
+    if (badge) badge.textContent = q ? filtered.length + ' of ' + kbItems.length + ' results' : kbItems.length + ' items';
+    if (!filtered.length) {
+      document.getElementById('kbList').innerHTML = '<p style="color:rgba(255,255,255,0.3);text-align:center;padding:20px;">No matches for &ldquo;' + esc(q) + '&rdquo;</p>'; return;
+    }
+    const re = q ? new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi') : null;
+    const hl = (str) => re ? esc(str).replace(re, '<mark style="background:rgba(212,175,55,0.35);color:#f5e6c8;border-radius:3px;padding:0 2px;">$1</mark>') : esc(str);
+    document.getElementById('kbList').innerHTML = filtered.map(item => {
+      const idx = kbItems.indexOf(item);
+      return `<div class="kb-item"><div class="kb-item-text"><div class="kb-q">${hl(item.question)}</div><div class="kb-a">${hl(item.answer)}</div></div><div class="kb-actions"><button class="action-btn" onclick="editKbItem(${idx})">&#9998; Edit</button><button class="action-btn del" onclick="deleteKbItem('${esc(item.id||idx)}')">&#128465;</button></div></div>`;
+    }).join('');
   }
   async function addKbItem() {
     const q=document.getElementById('kbQ').value.trim(),a=document.getElementById('kbA').value.trim();
@@ -1085,7 +1263,446 @@
     } catch(e) { toast('Error: ' + e.message, 'error'); }
   }
 
+  // ── USERS MANAGEMENT ──
+  let allUsers = [];
+  let userFilter = 'all';
+
+  function daysSince(dateStr) {
+    if (!dateStr) return Infinity;
+    return Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000);
+  }
+
+  async function loadUsers() {
+    document.getElementById('usersTbody').innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);">Loading…</td></tr>';
+    document.getElementById('userInactiveBanner').style.display = 'none';
+    try {
+      const res = await fetch('/admin-get-users?_=' + Date.now(), { headers: { 'Authorization': 'Bearer ' + getAdminToken() } });
+      const data = await res.json();
+      if (!data.ok) { toast('Failed to load users', 'error'); return; }
+      allUsers = data.users;
+      updateInactiveBanner();
+      renderUsers();
+    } catch(e) { toast('Error: ' + e.message, 'error'); }
+  }
+
+  function updateInactiveBanner() {
+    const inactive = allUsers.filter(u => u.lastLogin && daysSince(u.lastLogin) >= 30);
+    const never    = allUsers.filter(u => !u.lastLogin);
+    const banner   = document.getElementById('userInactiveBanner');
+    const parts    = [];
+    if (inactive.length) parts.push(inactive.length + ' user' + (inactive.length > 1 ? 's' : '') + ' offline 30+ days');
+    if (never.length)    parts.push(never.length + ' user' + (never.length > 1 ? 's' : '') + ' never logged in');
+    if (parts.length) {
+      banner.style.display = 'flex';
+      document.getElementById('userInactiveCount').textContent = parts.join(' · ');
+    } else {
+      banner.style.display = 'none';
+    }
+  }
+
+  function filterUsers(type, btn) {
+    userFilter = type;
+    document.querySelectorAll('#panel-users .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderUsers();
+  }
+
+  function renderUsers() {
+    const q = (document.getElementById('userSearch').value || '').toLowerCase();
+    let list = allUsers.filter(u => {
+      if (q && !u.name.toLowerCase().includes(q) && !u.email.toLowerCase().includes(q)) return false;
+      if (userFilter === 'inactive') return u.lastLogin && daysSince(u.lastLogin) >= 30;
+      if (userFilter === 'google')   return u.googleUser;
+      return true;
+    });
+    const tbody = document.getElementById('usersTbody');
+    if (!list.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);">No users found.</td></tr>'; return; }
+    tbody.innerHTML = list.map((u, i) => {
+      const days = daysSince(u.lastLogin);
+      const inactive = u.lastLogin && days >= 30;
+      const daysLabel = days === Infinity ? '<span style="color:rgba(255,255,255,0.3)">Never logged in</span>'
+                      : inactive ? '<span style="color:#fca5a5;font-weight:600;">' + days + ' days</span>'
+                      : '<span style="color:#86efac;">' + days + ' days</span>';
+      const lastLogin = u.lastLogin ? new Date(u.lastLogin).toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'}) : '<span style="color:rgba(255,255,255,0.3)">—</span>';
+      const typeBadge = u.googleUser ? '<span class="badge" style="background:rgba(66,133,244,0.15);color:#93c5fd;border:1px solid rgba(66,133,244,0.3);">&#128279; Google</span>'
+                                     : '<span class="badge" style="background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.12);">&#128274; Email</span>';
+      return '<tr>' +
+        '<td style="color:rgba(255,255,255,0.3)">' + (i+1) + '</td>' +
+        '<td style="font-weight:600;">' + esc(u.name) + '</td>' +
+        '<td style="color:rgba(255,255,255,0.6);font-size:12px;">' + esc(u.email) + '</td>' +
+        '<td>' + typeBadge + '</td>' +
+        '<td style="font-size:12px;">' + lastLogin + '</td>' +
+        '<td>' + daysLabel + '</td>' +
+        '<td><button class="action-btn del" onclick="deleteUser(\'' + esc(u.email) + '\')">&#128465; Remove</button></td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  async function deleteUser(email) {
+    if (!confirm('Remove user ' + email + '?\nThey will no longer be able to login. This cannot be undone.')) return;
+    try {
+      const res = await fetch('/admin-delete-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+      if (data.ok) { toast('🗑️ User ' + email + ' removed.', 'success'); loadUsers(); }
+      else toast('❌ ' + (data.msg || 'Failed to remove user.'), 'error');
+    } catch(e) { toast('❌ Error: ' + e.message, 'error'); }
+  }
+
+  async function removeAllInactive() {
+    const inactive = allUsers.filter(u => u.lastLogin && daysSince(u.lastLogin) >= 30);
+    if (!inactive.length) return;
+    if (!confirm('Remove ' + inactive.length + ' inactive user(s)? This cannot be undone.')) return;
+    for (const u of inactive) {
+      await fetch('/admin-delete-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: u.email })
+      });
+    }
+    toast('🗑️ Removed ' + inactive.length + ' inactive user(s).', 'success');
+    loadUsers();
+  }
+
   function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');}
+
+  // ══════════════════════════════════════════════
+  // PDF IMPORT — drag-drop → PDF.js → Claude → KB
+  // ══════════════════════════════════════════════
+  let pdfQaPairs = [];   // [{question, answer}]
+
+  // drag/drop events
+  function pdfDragOver(e) { e.preventDefault(); document.getElementById('pdfDropZone').classList.add('drag-over'); }
+  function pdfDragLeave(e){ document.getElementById('pdfDropZone').classList.remove('drag-over'); }
+  function pdfDrop(e) {
+    e.preventDefault();
+    document.getElementById('pdfDropZone').classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file && isAcceptedFileType(file)) pdfFileChosen(file);
+    else toast('⚠️ Unsupported file type. Use PDF, TXT, MD, CSV, JSON, or DOCX.', 'error');
+  }
+
+  function clearPdf(e) {
+    if (e) e.stopPropagation();
+    document.getElementById('pdfFileInput').value = '';
+    document.getElementById('pdfDropZone').classList.remove('has-file');
+    document.getElementById('pdfDropPlaceholder').style.display = '';
+    document.getElementById('pdfFileInfo').classList.remove('show');
+    document.getElementById('pdfProgressWrap').style.display = 'none';
+    document.getElementById('pdfProgressBar').style.width = '0%';
+    document.getElementById('pdfPreviewList').style.display = 'none';
+    document.getElementById('pdfPreviewList').innerHTML = '';
+    document.getElementById('pdfActionRow').style.display = 'none';
+    pdfQaPairs = [];
+  }
+
+  function isAcceptedFileType(file) {
+    const accepted = ['application/pdf','text/plain','text/markdown','text/csv','application/json',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    const ext = file.name.split('.').pop().toLowerCase();
+    return accepted.includes(file.type) || ['pdf','txt','md','csv','json','docx'].includes(ext);
+  }
+
+  async function pdfFileChosen(file) {
+    if (!file) return;
+    if (file.size > 10 * 1024 * 1024) return toast('⚠️ File too large (max 10 MB)', 'error');
+
+    // show file info
+    const zone = document.getElementById('pdfDropZone');
+    zone.classList.add('has-file');
+    document.getElementById('pdfDropPlaceholder').style.display = 'none';
+    document.getElementById('pdfFileName').textContent = file.name;
+    document.getElementById('pdfFileSize').textContent = (file.size / 1024).toFixed(1) + ' KB';
+    document.getElementById('pdfFileInfo').classList.add('show');
+    document.getElementById('pdfPreviewList').style.display = 'none';
+    document.getElementById('pdfActionRow').style.display = 'none';
+    pdfQaPairs = [];
+
+    // show progress
+    const progressWrap = document.getElementById('pdfProgressWrap');
+    const progressBar  = document.getElementById('pdfProgressBar');
+    const progressLabel= document.getElementById('pdfProgressLabel');
+    progressWrap.classList.add('show'); progressWrap.style.display = 'block';
+
+    const ext = file.name.split('.').pop().toLowerCase();
+    let fullText = '';
+
+    if (ext === 'pdf') {
+      progressLabel.textContent = 'Loading PDF.js…';
+      progressBar.style.width = '10%';
+      if (!window.pdfjsLib) {
+        await new Promise((res, rej) => {
+          const s = document.createElement('script');
+          s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+          s.onload = res; s.onerror = rej;
+          document.head.appendChild(s);
+        });
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      }
+      progressLabel.textContent = 'Reading PDF…';
+      progressBar.style.width = '25%';
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdfDoc = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        const total  = pdfDoc.numPages;
+        for (let p = 1; p <= total; p++) {
+          const page    = await pdfDoc.getPage(p);
+          const content = await page.getTextContent();
+          fullText += content.items.map(i => i.str).join(' ') + '\n';
+          progressBar.style.width = (25 + Math.floor((p / total) * 35)) + '%';
+        }
+      } catch(err) {
+        progressWrap.style.display = 'none';
+        return toast('❌ Could not read PDF: ' + err.message, 'error');
+      }
+    } else if (ext === 'docx') {
+      progressLabel.textContent = 'Loading docx parser…';
+      progressBar.style.width = '10%';
+      if (!window.mammoth) {
+        await new Promise((res, rej) => {
+          const s = document.createElement('script');
+          s.src = 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js';
+          s.onload = res; s.onerror = rej;
+          document.head.appendChild(s);
+        });
+      }
+      progressLabel.textContent = 'Reading DOCX…';
+      progressBar.style.width = '30%';
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const result = await window.mammoth.extractRawText({ arrayBuffer });
+        fullText = result.value;
+      } catch(err) {
+        progressWrap.style.display = 'none';
+        return toast('❌ Could not read DOCX: ' + err.message, 'error');
+      }
+    } else {
+      // TXT, MD, CSV, JSON — plain text read
+      progressLabel.textContent = 'Reading file…';
+      progressBar.style.width = '30%';
+      try {
+        fullText = await file.text();
+        if (ext === 'json') {
+          // pretty-print JSON so Claude can read it better
+          try { fullText = JSON.stringify(JSON.parse(fullText), null, 2); } catch(e) { /* leave as-is */ }
+        }
+      } catch(err) {
+        progressWrap.style.display = 'none';
+        return toast('❌ Could not read file: ' + err.message, 'error');
+      }
+    }
+
+    fullText = fullText.trim();
+    if (fullText.length < 50) {
+      progressWrap.style.display = 'none';
+      return toast('⚠️ File has too little text to extract knowledge from.', 'error');
+    }
+
+    progressLabel.textContent = 'Generating Q&A with AI…';
+    progressBar.style.width = '65%';
+
+    // Call server-side /generate-qa endpoint (uses Groq)
+    let pairs = [];
+    try {
+      const resp = await fetch('/generate-qa', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: fullText.slice(0, 12000) })
+      });
+      const data = await resp.json();
+      if (!data.ok) throw new Error(data.msg || 'Server error');
+      pairs = data.pairs;
+    } catch(err) {
+      progressWrap.style.display = 'none';
+      return toast('❌ AI generation failed: ' + err.message, 'error');
+    }
+
+    progressBar.style.width = '100%';
+    progressLabel.textContent = '✅ Done! Review Q&A pairs below.';
+
+    pdfQaPairs = pairs.filter(p => p.question && p.answer);
+    renderPdfPreview();
+
+    setTimeout(() => { progressWrap.style.display = 'none'; }, 1200);
+  }
+
+  function renderPdfPreview() {
+    const list = document.getElementById('pdfPreviewList');
+    const row  = document.getElementById('pdfActionRow');
+    const cnt  = document.getElementById('pdfQaCount');
+    if (!pdfQaPairs.length) { list.style.display = 'none'; row.style.display = 'none'; return; }
+    list.style.display = 'flex';
+    list.innerHTML = pdfQaPairs.map((p, i) => `
+      <div class="pdf-qa-row" id="pdfqarow-${i}">
+        <div class="pdf-qa-texts">
+          <div class="pdf-qa-q">Q: ${esc(p.question)}</div>
+          <div class="pdf-qa-a">A: ${esc(p.answer)}</div>
+        </div>
+        <button class="pdf-qa-del" title="Remove" onclick="removePdfQa(${i})">&#10005;</button>
+      </div>`).join('');
+    row.style.display = 'flex';
+    cnt.textContent = pdfQaPairs.length + ' pair' + (pdfQaPairs.length !== 1 ? 's' : '') + ' ready';
+  }
+
+  function removePdfQa(i) {
+    pdfQaPairs.splice(i, 1);
+    renderPdfPreview();
+  }
+
+  async function pdfSaveAll() {
+    if (!pdfQaPairs.length) return;
+    const btn = document.getElementById('pdfSaveAllBtn');
+    btn.disabled = true; btn.textContent = '⏳ Saving…';
+    let saved = 0, failed = 0;
+    for (const pair of pdfQaPairs) {
+      try {
+        const r = await fetch('/admin-add-knowledge', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: pair.question, answer: pair.answer })
+        });
+        const d = await r.json();
+        if (d.ok) saved++; else failed++;
+      } catch { failed++; }
+    }
+    btn.disabled = false; btn.textContent = '💾 Save All to Knowledge Base';
+    if (saved) toast('✅ ' + saved + ' Q&A pairs added to Unimate!');
+    if (failed) toast('⚠️ ' + failed + ' failed to save', 'error');
+    clearPdf();
+    loadKnowledge();
+  }
+</script>
+
+<script>
+  // ── GALLERY ADMIN ──
+  let galleryData = [];
+  let galleryDragSrc = null;
+
+  async function loadGalleryAdmin() {
+    try {
+      const res = await fetch('/gallery-images');
+      galleryData = await res.json();
+      renderGalleryAdmin();
+    } catch(e) { toast('Failed to load gallery', 'error'); }
+  }
+
+  function renderGalleryAdmin() {
+    const grid = document.getElementById('galleryAdminGrid');
+    const cnt  = document.getElementById('galleryCnt');
+    cnt.textContent = '(' + galleryData.length + ' image' + (galleryData.length !== 1 ? 's' : '') + ')';
+    if (!galleryData.length) {
+      grid.innerHTML = '<p style="color:rgba(255,255,255,0.3);padding:20px 0;grid-column:1/-1;">No images yet. Upload some above!</p>';
+      return;
+    }
+    grid.innerHTML = galleryData.map((img, i) => `
+      <div class="gallery-item" draggable="true" data-idx="${i}"
+           ondragstart="galItemDragStart(event,${i})" ondragover="galItemDragOver(event,${i})"
+           ondragleave="galItemDragLeave(event)" ondrop="galItemDrop(event,${i})" ondragend="galItemDragEnd(event)">
+        <img src="${img.url}" alt="Gallery ${i+1}" onerror="this.src='logo.png'">
+        <div class="gallery-item-overlay">
+          <span class="gallery-drag-handle" title="Drag to reorder">&#8597;</span>
+          <button class="gallery-del-btn" onclick="deleteGalleryImg('${img.id}',event)">&#128465; Delete</button>
+        </div>
+      </div>`).join('');
+  }
+
+  // Drag-to-reorder
+  function galItemDragStart(e, i) {
+    galleryDragSrc = i;
+    e.currentTarget.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  }
+  function galItemDragOver(e, i) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    document.querySelectorAll('.gallery-item').forEach(el => el.classList.remove('drag-over-target'));
+    e.currentTarget.classList.add('drag-over-target');
+  }
+  function galItemDragLeave(e) { e.currentTarget.classList.remove('drag-over-target'); }
+  function galItemDragEnd(e) {
+    document.querySelectorAll('.gallery-item').forEach(el => { el.classList.remove('dragging','drag-over-target'); });
+  }
+  async function galItemDrop(e, i) {
+    e.preventDefault();
+    if (galleryDragSrc === null || galleryDragSrc === i) return;
+    const moved = galleryData.splice(galleryDragSrc, 1)[0];
+    galleryData.splice(i, 0, moved);
+    galleryDragSrc = null;
+    renderGalleryAdmin();
+    // save new order
+    try {
+      await fetch('/admin-gallery-reorder', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+getAdminToken() },
+        body: JSON.stringify({ ids: galleryData.map(g => g.id) })
+      });
+    } catch(e) {}
+  }
+
+  // Drop-zone for uploads
+  function galleryDragOver(e) { e.preventDefault(); document.getElementById('galleryDropZone').classList.add('drag-over'); }
+  function galleryDragLeave(e) { document.getElementById('galleryDropZone').classList.remove('drag-over'); }
+  function galleryDrop(e) { e.preventDefault(); document.getElementById('galleryDropZone').classList.remove('drag-over'); galleryFilesChosen(e.dataTransfer.files); }
+
+  async function galleryFilesChosen(files) {
+    if (!files || !files.length) return;
+    const prog = document.getElementById('galleryUploadProgress');
+    const bar  = document.getElementById('galleryUploadBar');
+    prog.classList.add('show');
+    let done = 0;
+    for (const file of Array.from(files)) {
+      if (!file.type.startsWith('image/')) { done++; continue; }
+      try {
+        const b64 = await toBase64(file);
+        const r = await fetch('/admin-gallery', {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+getAdminToken() },
+          body: JSON.stringify({ dataUrl: b64, filename: file.name })
+        });
+        const d = await r.json();
+        if (d.ok) galleryData.push(d.image);
+        else toast('Failed: ' + file.name, 'error');
+      } catch(err) { toast('Upload error: ' + err.message, 'error'); }
+      done++;
+      bar.style.width = Math.round((done / files.length) * 100) + '%';
+    }
+    setTimeout(() => { prog.classList.remove('show'); bar.style.width = '0%'; }, 800);
+    document.getElementById('galleryFileInput').value = '';
+    renderGalleryAdmin();
+    toast('✅ ' + done + ' image' + (done !== 1 ? 's' : '') + ' uploaded!');
+  }
+
+  async function deleteGalleryImg(id, e) {
+    e.stopPropagation();
+    if (!confirm('Delete this image?')) return;
+    try {
+      const r = await fetch('/admin-gallery/' + id, {
+        method: 'DELETE',
+        headers: { 'Authorization':'Bearer '+getAdminToken() }
+      });
+      const d = await r.json();
+      if (d.ok) {
+        galleryData = galleryData.filter(g => g.id !== id);
+        renderGalleryAdmin();
+        toast('🗑️ Image deleted');
+      } else toast('Delete failed', 'error');
+    } catch(err) { toast('Error: ' + err.message, 'error'); }
+  }
+
+  function toBase64(file) {
+    return new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => res(r.result);
+      r.onerror = () => rej(new Error('Read failed'));
+      r.readAsDataURL(file);
+    });
+  }
+
+
 </script>
 </body>
 </html>

@@ -1,10 +1,14 @@
-// Load environment variables from .env file (install with: npm install dotenv)
+// Load environment variables from .env file (install with: npm install dotenv nodemailer)
 require("dotenv").config();
 
-const http  = require("http");
-const fs    = require("fs");
-const path  = require("path");
-const https = require("https");
+const http       = require("http");
+const fs         = require("fs");
+const path       = require("path");
+const https      = require("https");
+const nodemailer = require("nodemailer");
+
+// ── In-memory OTP store: { email_context: { otp, expires } }
+const otpStore = {};
 
 const PORT           = process.env.PORT           || 3000;
 const USERS_FILE     = "users.json";
@@ -24,7 +28,7 @@ const REDIRECT_URI         = process.env.APP_URL
                                : "http://localhost:" + PORT + "/auth/google/callback";
 
 // ── Validate required env vars on startup
-const REQUIRED_ENV = ["GROQ_API_KEY", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"];
+const REQUIRED_ENV = ["GROQ_API_KEY", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "EMAIL_USER", "EMAIL_PASS"];
 const missingEnv = REQUIRED_ENV.filter(key => !process.env[key]);
 if (missingEnv.length > 0) {
   console.error("\n❌  Missing required environment variables:");
@@ -332,7 +336,7 @@ function getBody(req) {
 }
 
 function send(res, status, obj) {
-  res.writeHead(status, { "Content-Type":"application/json", "Access-Control-Allow-Origin":"*" });
+  res.writeHead(status, { "Content-Type":"application/json", "Access-Control-Allow-Origin":"*", "Access-Control-Allow-Headers":"Content-Type, Authorization" });
   res.end(JSON.stringify(obj));
 }
 
@@ -400,7 +404,7 @@ http.createServer(async (req, res) => {
   const url    = urlObj.pathname;
 
   if (req.method === "OPTIONS") {
-    res.writeHead(204, { "Access-Control-Allow-Origin":"*", "Access-Control-Allow-Headers":"Content-Type" });
+    res.writeHead(204, { "Access-Control-Allow-Origin":"*", "Access-Control-Allow-Headers":"Content-Type, Authorization", "Access-Control-Allow-Methods":"GET,POST,PUT,DELETE,OPTIONS" });
     return res.end();
   }
 
@@ -434,8 +438,11 @@ http.createServer(async (req, res) => {
       const email = userInfo.email;
       const users = getUsers();
       if (!users.find(u => u.email === email)) {
-        users.push({ name, email, password:"google-oauth", googleUser:true });
+        users.push({ name, email, password:"google-oauth", googleUser:true, lastLogin: new Date().toISOString() });
         saveUsers(users);
+      } else {
+        const idx = users.findIndex(u => u.email === email);
+        if (idx !== -1) { users[idx].lastLogin = new Date().toISOString(); saveUsers(users); }
       }
       return redirect(res, "/auth.html?google=success&name=" + encodeURIComponent(name) + "&next=" + encodeURIComponent(next));
     } catch(err) {
@@ -452,7 +459,7 @@ http.createServer(async (req, res) => {
     const users = getUsers();
     if (users.find(u => u.email === body.email))
       return send(res, 400, { ok:false, msg:"Email already exists. Please login." });
-    users.push({ name:body.name, email:body.email, password:body.password });
+    users.push({ name:body.name, email:body.email, password:body.password, lastLogin: new Date().toISOString() });
     saveUsers(users);
     return send(res, 200, { ok:true, name:body.name });
   }
@@ -462,6 +469,8 @@ http.createServer(async (req, res) => {
     const users = getUsers();
     const user = users.find(u => u.email === body.email && u.password === body.password);
     if (!user) return send(res, 400, { ok:false, msg:"Wrong email or password." });
+    user.lastLogin = new Date().toISOString();
+    saveUsers(users);
     return send(res, 200, { ok:true, name:user.name });
   }
 
@@ -480,6 +489,29 @@ http.createServer(async (req, res) => {
 
   if (url === "/admin-user-count" && req.method === "GET")
     return send(res, 200, { ok:true, count:getUsers().length });
+
+  // ── ADMIN USER MANAGEMENT ──
+  if (url === "/admin-get-users" && req.method === "GET") {
+    if (!isAdminAuth(req)) return send(res, 401, { ok:false, msg:"Unauthorized" });
+    const users = getUsers().map(u => ({
+      name: u.name, email: u.email,
+      googleUser: !!u.googleUser,
+      lastLogin: u.lastLogin || null
+    }));
+    res.writeHead(200, { "Content-Type":"application/json", "Access-Control-Allow-Origin":"*", "Cache-Control":"no-store" });
+    return res.end(JSON.stringify({ ok:true, users }));
+  }
+
+  if (url === "/admin-delete-user" && req.method === "POST") {
+    const body = await getBody(req);
+    if (!body.email) return send(res, 400, { ok:false, msg:"Email required." });
+    const users = getUsers();
+    const filtered = users.filter(u => u.email !== body.email);
+    if (filtered.length === users.length) return send(res, 404, { ok:false, msg:"User not found." });
+    saveUsers(filtered);
+    console.log(`[ADMIN] Deleted user: ${body.email}`);
+    return send(res, 200, { ok:true });
+  }
 
   if (url === "/admin-change-email" && req.method === "POST") {
     const body = await getBody(req);
@@ -500,24 +532,107 @@ http.createServer(async (req, res) => {
   }
 
   // ── WEBSITE DATA ──
-  if (url === "/admin-get-data" && req.method === "GET")
-    return send(res, 200, { ok:true, data:getWebsiteData() });
+  if (url === "/admin-get-data" && req.method === "GET") {
+    const d = getWebsiteData();
+    return send(res, 200, Object.assign({ ok:true }, d));
+  }
 
   if (url === "/admin-save-data" && req.method === "POST") {
     const body = await getBody(req);
-    if (!body.key) return send(res, 400, { ok:false, msg:"Key is required." });
     const d = getWebsiteData();
-    if (body.key === "contact") {
-      if (body.value.mobile1)  d.mobile1  = body.value.mobile1;
-      if (body.value.mobile2)  d.mobile2  = body.value.mobile2;
-      if (body.value.landline) d.landline = body.value.landline;
-    } else { d[body.key] = body.value; }
+    if (body.key) {
+      if (body.key === "contact") {
+        if (body.value && body.value.mobile1)  d.mobile1  = body.value.mobile1;
+        if (body.value && body.value.mobile2)  d.mobile2  = body.value.mobile2;
+        if (body.value && body.value.landline) d.landline = body.value.landline;
+      } else { d[body.key] = body.value; }
+    } else {
+      const allowed = ["students","faculty","results","mobile1","mobile2","landline","emailinfo","facebook"];
+      allowed.forEach(k => { if (body[k] !== undefined) d[k] = body[k]; });
+    }
     saveWebsiteData(d);
     return send(res, 200, { ok:true });
   }
 
   if (url === "/site-data" && req.method === "GET")
     return send(res, 200, getWebsiteData());
+
+  // ── GALLERY IMAGES ──
+  if (url === "/gallery-images" && req.method === "GET") {
+    const d = getWebsiteData();
+    return send(res, 200, d.galleryImages || []);
+  }
+
+  if (url === "/admin-gallery" && req.method === "POST") {
+    if (!isAdminAuth(req)) return send(res, 401, { ok:false, msg:"Unauthorized" });
+    const body = await getBody(req);
+    if (!body.dataUrl) return send(res, 400, { ok:false, msg:"No image data." });
+    const d = getWebsiteData();
+    if (!d.galleryImages) d.galleryImages = [];
+    const img = { id: Date.now() + "_" + Math.random().toString(36).slice(2,7), url: body.dataUrl, filename: body.filename || "image" };
+    d.galleryImages.push(img);
+    saveWebsiteData(d);
+    return send(res, 200, { ok:true, image: img });
+  }
+
+  if (url === "/admin-gallery-reorder" && req.method === "POST") {
+    if (!isAdminAuth(req)) return send(res, 401, { ok:false, msg:"Unauthorized" });
+    const body = await getBody(req);
+    if (!Array.isArray(body.ids)) return send(res, 400, { ok:false, msg:"ids required." });
+    const d = getWebsiteData();
+    const map = {};
+    (d.galleryImages || []).forEach(g => { map[g.id] = g; });
+    d.galleryImages = body.ids.map(id => map[id]).filter(Boolean);
+    saveWebsiteData(d);
+    return send(res, 200, { ok:true });
+  }
+
+  if (req.method === "DELETE" && url.startsWith("/admin-gallery/")) {
+    if (!isAdminAuth(req)) return send(res, 401, { ok:false, msg:"Unauthorized" });
+    const imgId = url.split("/admin-gallery/")[1];
+    const d = getWebsiteData();
+    const before = (d.galleryImages || []).length;
+    d.galleryImages = (d.galleryImages || []).filter(g => g.id !== imgId);
+    if (d.galleryImages.length === before) return send(res, 404, { ok:false, msg:"Not found." });
+    saveWebsiteData(d);
+    return send(res, 200, { ok:true });
+  }
+
+  // ── GENERATE Q&A FROM FILE TEXT ──
+  if (url === "/generate-qa" && req.method === "POST") {
+    const body = await getBody(req);
+    if (!body.text || body.text.trim().length < 50)
+      return send(res, 400, { ok:false, msg:"Text too short to extract knowledge from." });
+    const snippet = body.text.trim().slice(0, 12000);
+    let pairs = [];
+    try {
+      const bodyStr = JSON.stringify({
+        model: "llama-3.1-8b-instant", max_tokens: 1500, temperature: 0.4,
+        messages: [
+          { role: "system", content: "You are a knowledge extraction assistant. From the provided college document text, extract useful Q&A pairs that a college chatbot (Unimate) could use to answer student questions. Generate 8-15 diverse Q&A pairs covering key facts. Respond ONLY with a JSON array, no markdown, no preamble, no explanation. Format: [{\"question\":\"...\",\"answer\":\"...\"}]" },
+          { role: "user", content: "Document text:\n\n" + snippet }
+        ]
+      });
+      const options = { hostname:"api.groq.com", path:"/openai/v1/chat/completions", method:"POST",
+        headers:{ "Content-Type":"application/json", "Authorization":"Bearer "+GROQ_API_KEY, "Content-Length":Buffer.byteLength(bodyStr) } };
+      const raw = await new Promise((resolve, reject) => {
+        const r = https.request(options, groqRes => {
+          let data = "";
+          groqRes.on("data", c => data += c);
+          groqRes.on("end", () => { try { resolve(JSON.parse(data).choices[0].message.content); } catch(e) { reject("Groq error: " + data); } });
+        });
+        r.on("error", reject); r.write(bodyStr); r.end();
+      });
+      const clean = raw.replace(/```json|```/g, "").trim();
+      pairs = JSON.parse(clean);
+    } catch(err) {
+      console.error("generate-qa error:", err);
+      return send(res, 500, { ok:false, msg:"AI generation failed: " + String(err) });
+    }
+    pairs = pairs.filter(p => p.question && p.answer);
+    if (!pairs.length) return send(res, 500, { ok:false, msg:"AI returned no valid Q&A pairs." });
+    return send(res, 200, { ok:true, pairs });
+  }
 
   // ── KNOWLEDGE ──
   if (url === "/admin-get-knowledge" && req.method === "GET")
@@ -622,6 +737,80 @@ http.createServer(async (req, res) => {
     return send(res, 200, { ok:true });
   }
 
+  // ── SEND OTP ──
+  if (url === "/send-otp" && req.method === "POST") {
+    const body = await getBody(req);
+    const { email, context } = body;
+    if (!email || !context) return send(res, 400, { ok:false, msg:"Email and context required." });
+
+    // For forgot-password: check user exists
+    if (context === "forgot") {
+      const users = getUsers();
+      if (!users.find(u => u.email === email && !u.googleUser))
+        return send(res, 400, { ok:false, msg:"No account found with that email." });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const key = email + "_" + context;
+    otpStore[key] = { otp, expires: Date.now() + 10 * 60 * 1000 }; // 10 min
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+    });
+
+    const subject = context === "forgot" ? "SVS College — Password Reset OTP" : "SVS College — Verify Your Email";
+    const html = `
+      <div style="font-family:Arial,sans-serif;max-width:480px;margin:auto;border:1px solid #ddd;border-radius:10px;padding:30px;">
+        <h2 style="color:#0b1f3a;">${context === "forgot" ? "🔑 Password Reset" : "✉️ Email Verification"}</h2>
+        <p style="color:#444;">Your One-Time Password for SVS College portal:</p>
+        <div style="font-size:36px;font-weight:bold;letter-spacing:10px;color:#d4af37;text-align:center;padding:20px 0;">${otp}</div>
+        <p style="color:#888;font-size:13px;">This OTP is valid for <strong>10 minutes</strong>. Do not share it with anyone.</p>
+        <hr style="border:none;border-top:1px solid #eee;margin:20px 0;">
+        <p style="color:#aaa;font-size:12px;">SVS College, Bantwal — If you didn't request this, ignore this email.</p>
+      </div>`;
+
+    try {
+      await transporter.sendMail({ from: `"SVS College" <${process.env.EMAIL_USER}>`, to: email, subject, html });
+      return send(res, 200, { ok:true });
+    } catch(err) {
+      console.error("Email send error:", err.message);
+      return send(res, 500, { ok:false, msg:"Failed to send OTP. Check server email config." });
+    }
+  }
+
+  // ── VERIFY OTP ──
+  if (url === "/verify-otp" && req.method === "POST") {
+    const body = await getBody(req);
+    const { email, otp, context } = body;
+    const key = email + "_" + context;
+    const record = otpStore[key];
+    if (!record) return send(res, 400, { ok:false, msg:"No OTP sent to this email. Request a new one." });
+    if (Date.now() > record.expires) { delete otpStore[key]; return send(res, 400, { ok:false, msg:"OTP expired. Request a new one." }); }
+    if (record.otp !== otp) return send(res, 400, { ok:false, msg:"Incorrect OTP." });
+    delete otpStore[key];
+    return send(res, 200, { ok:true });
+  }
+
+  // ── RESET PASSWORD ──
+  if (url === "/reset-password" && req.method === "POST") {
+    const body = await getBody(req);
+    const { email, otp, password } = body;
+    const key = email + "_forgot";
+    const record = otpStore[key];
+    if (!record) return send(res, 400, { ok:false, msg:"No OTP found. Please request a new one." });
+    if (Date.now() > record.expires) { delete otpStore[key]; return send(res, 400, { ok:false, msg:"OTP expired." }); }
+    if (record.otp !== otp) return send(res, 400, { ok:false, msg:"Incorrect OTP." });
+    if (!password || password.length < 6) return send(res, 400, { ok:false, msg:"Password must be at least 6 characters." });
+    const users = getUsers();
+    const idx = users.findIndex(u => u.email === email && !u.googleUser);
+    if (idx === -1) return send(res, 400, { ok:false, msg:"Account not found." });
+    users[idx].password = password;
+    saveUsers(users);
+    delete otpStore[key];
+    return send(res, 200, { ok:true });
+  }
+
   // ── CHAT ──
   if (url === "/chat" && req.method === "POST") {
     const body = await getBody(req);
@@ -690,7 +879,7 @@ http.createServer(async (req, res) => {
   }
 
   // ── STATIC FILES ──
-  const filePath = path.join(__dirname,url === "/" ? "index.html" : url);
+  const filePath = path.join(__dirname, "public", url === "/" ? "index.html" : url);
   serveFile(res, filePath);
 
 }).listen(PORT, () => {

@@ -516,7 +516,10 @@ http.createServer(async (req, res) => {
   if (url === "/admin-change-email" && req.method === "POST") {
     const body = await getBody(req);
     if (!body.newEmail) return send(res, 400, { ok:false, msg:"New email is required." });
-    const admin = getAdmin(); admin.email = body.newEmail; saveAdmin(admin);
+    const admin = getAdmin();
+    if (body.currentPassword !== admin.password)
+      return send(res, 400, { ok:false, msg:"Current password is incorrect." });
+    admin.email = body.newEmail; saveAdmin(admin);
     return send(res, 200, { ok:true });
   }
 
@@ -712,6 +715,25 @@ http.createServer(async (req, res) => {
   if (url === "/admin-get-courses" && req.method === "GET")
     return send(res, 200, { ok:true, courses: getCourses() });
 
+  if (url === "/admin-add-course" && req.method === "POST") {
+    if (!isAdminAuth(req)) return send(res, 401, { ok:false, msg:"Unauthorized" });
+    const body = await getBody(req);
+    if (!body.id || !body.title || !body.fullName)
+      return send(res, 400, { ok:false, msg:"ID, title and fullName are required." });
+    const courses = getCourses();
+    if (courses.find(c => c.id === body.id))
+      return send(res, 400, { ok:false, msg:"A course with this ID already exists." });
+    const newCourse = {
+      id: body.id, title: body.title, fullName: body.fullName,
+      icon: body.icon || "📚", duration: body.duration || "",
+      eligibility: body.eligibility || "", languages: body.languages || "",
+      combinations: body.combinations || "", description: body.description || "",
+      semesters: Array.isArray(body.semesters) ? body.semesters : []
+    };
+    courses.push(newCourse); saveCourses(courses);
+    return send(res, 200, { ok:true, course: newCourse });
+  }
+
   if (url === "/admin-update-course" && req.method === "POST") {
     const body = await getBody(req);
     if (!body.id) return send(res, 400, { ok:false, msg:"Course ID required." });
@@ -734,6 +756,17 @@ http.createServer(async (req, res) => {
     const idx = courses.findIndex(c => c.id === body.id);
     if (idx !== -1) courses[idx] = defCourse;
     saveCourses(courses);
+    return send(res, 200, { ok:true });
+  }
+
+  if (url === "/admin-delete-course" && req.method === "POST") {
+    if (!isAdminAuth(req)) return send(res, 401, { ok:false, msg:"Unauthorized" });
+    const body = await getBody(req);
+    if (!body.id) return send(res, 400, { ok:false, msg:"Course ID required." });
+    const courses = getCourses();
+    const filtered = courses.filter(c => c.id !== body.id);
+    if (filtered.length === courses.length) return send(res, 404, { ok:false, msg:"Course not found." });
+    saveCourses(filtered);
     return send(res, 200, { ok:true });
   }
 

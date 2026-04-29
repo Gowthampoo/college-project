@@ -52,7 +52,7 @@
 
         <li>
           <a href="courses.html">Courses</a>
-          <div class="dropdown">
+          <div class="dropdown" id="navCoursesDropdown">
             <a href="courses.html?course=bca">&#128187; B.C.A.</a>
             <a href="courses.html?course=bcom">&#128188; B.Com</a>
             <a href="courses.html?course=bsc">&#128300; B.Sc.</a>
@@ -188,7 +188,7 @@
       <h2>Courses <span>Offered</span></h2>
       <p>5 undergraduate programmes across Arts, Science, Commerce and Design</p>
     </div>
-    <div class="courses-grid">
+    <div class="courses-grid" id="coursesGrid">
       <a href="courses.html?course=bca"      class="course-card reveal"><div class="course-icon">&#128187;</div><h4>B.C.A.</h4><p>Bachelor of Computer Applications</p></a>
       <a href="courses.html?course=bcom"     class="course-card reveal"><div class="course-icon">&#128188;</div><h4>B.Com</h4><p>Bachelor of Commerce</p></a>
       <a href="courses.html?course=bsc"      class="course-card reveal"><div class="course-icon">&#128300;</div><h4>B.Sc.</h4><p>Bachelor of Science</p></a>
@@ -455,5 +455,46 @@
     loadEvents();
   </script>
 
+  <script>
+    // ── DYNAMIC COURSES ──
+    async function loadCourses() {
+      try {
+        const res = await fetch('/courses-data');
+        if (!res.ok) return;
+        const d = await res.json();
+        if (!d.ok || !Array.isArray(d.courses) || !d.courses.length) return;
+
+        // Update nav dropdown
+        const nav = document.getElementById('navCoursesDropdown');
+        if (nav) {
+          nav.innerHTML = d.courses.map(c =>
+            `<a href="courses.html?course=${encodeURIComponent(c.id)}">${c.icon || '📚'} ${c.title}</a>`
+          ).join('');
+        }
+
+        // Update courses grid
+        const grid = document.getElementById('coursesGrid');
+        if (grid) {
+          grid.innerHTML = d.courses.map(c =>
+            `<a href="courses.html?course=${encodeURIComponent(c.id)}" class="course-card reveal">
+              <div class="course-icon">${c.icon || '📚'}</div>
+              <h4>${c.title}</h4>
+              <p>${c.fullName}</p>
+            </a>`
+          ).join('');
+          // Re-observe new reveal elements
+          if (typeof revealObserver !== 'undefined' && revealObserver) {
+            grid.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+          }
+        }
+
+        // Update stat counter if present
+        const statCourses = document.getElementById('stat-courses');
+        if (statCourses) statCourses.setAttribute('data-target', d.courses.length);
+
+      } catch(e) { /* silently fall back to hardcoded */ }
+    }
+    loadCourses();
+  </script>
 </body>
 </html>

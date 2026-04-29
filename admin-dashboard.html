@@ -654,7 +654,10 @@
 
     <!-- COURSES EDITOR -->
     <div class="panel" id="panel-courses">
-      <div class="panel-title">&#127891; Courses Editor</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap;gap:12px;">
+        <div class="panel-title" style="margin-bottom:0;">&#127891; Courses Editor</div>
+        <button onclick="openAddCourseModal()" style="padding:11px 26px;border:none;border-radius:25px;background:linear-gradient(135deg,#d4af37,#f5e6c8);color:#0a1f44;font-size:13px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;box-shadow:0 4px 16px rgba(212,175,55,0.35);transition:all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">&#43; Add Course</button>
+      </div>
       <div class="course-tabs" id="courseEditorTabs">Loading…</div>
       <div id="courseEditorPanels"></div>
     </div>
@@ -941,7 +944,7 @@
       d.courses.forEach((c,idx)=>{
         const btn=document.createElement('button'); btn.className='ct-btn'+(idx===0?' active':''); btn.textContent=c.icon+' '+c.title; btn.onclick=()=>{ document.querySelectorAll('.ct-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.course-edit-panel').forEach(p=>p.classList.remove('active')); document.getElementById('cep-'+c.id).classList.add('active'); }; tabs.appendChild(btn);
         const panel=document.createElement('div'); panel.id='cep-'+c.id; panel.className='course-edit-panel'+(idx===0?' active':'');
-        panel.innerHTML=`<div class="form-section"><h3>&#9998; Edit: ${esc(c.title)}</h3><div class="form-grid"><div class="field"><label>Title (Short)</label><input type="text" id="ce-title-${c.id}" value="${esc(c.title)}"/></div><div class="field"><label>Full Name</label><input type="text" id="ce-fullname-${c.id}" value="${esc(c.fullName)}"/></div><div class="field"><label>Icon (emoji)</label><input type="text" id="ce-icon-${c.id}" value="${esc(c.icon)}" maxlength="4"/></div><div class="field"><label>Duration</label><input type="text" id="ce-duration-${c.id}" value="${esc(c.duration)}"/></div><div class="field"><label>Eligibility</label><input type="text" id="ce-eligibility-${c.id}" value="${esc(c.eligibility)}"/></div><div class="field"><label>Languages / Streams</label><input type="text" id="ce-languages-${c.id}" value="${esc(c.languages)}"/></div></div><div class="form-grid single"><div class="field"><label>Combinations</label><input type="text" id="ce-combinations-${c.id}" value="${esc(c.combinations)}"/></div><div class="field" style="margin-top:12px;"><label>Description</label><textarea id="ce-desc-${c.id}">${esc(c.description)}</textarea></div></div><div class="sem-editor"><h3 style="font-size:13px;color:#d4af37;margin-bottom:12px;">&#128197; Semesters</h3><div id="sems-${c.id}">${c.semesters.map((s,si)=>`<div class="sem-row" id="semrow-${c.id}-${si}"><div class="sem-row-header"><input class="sem-label-input" id="semlabel-${c.id}-${si}" value="${esc(s.label)}"/><button class="action-btn del" onclick="removeSem('${c.id}',${si})">&#128465; Remove</button></div><textarea class="subjects-input" id="semsubjects-${c.id}-${si}" placeholder="One subject per line">${s.subjects.join('\n')}</textarea></div>`).join('')}</div><button class="add-sem-btn" onclick="addSem('${c.id}')">&#10133; Add Semester</button></div><div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;"><button class="save-btn" onclick="saveCourse('${c.id}')">&#128190; Save Changes</button><button class="save-btn danger" onclick="resetCourse('${c.id}')">&#8635; Reset to Default</button></div></div>`;
+        panel.innerHTML=`<div class="form-section"><h3>&#9998; Edit: ${esc(c.title)}</h3><div class="form-grid"><div class="field"><label>Title (Short)</label><input type="text" id="ce-title-${c.id}" value="${esc(c.title)}"/></div><div class="field"><label>Full Name</label><input type="text" id="ce-fullname-${c.id}" value="${esc(c.fullName)}"/></div><div class="field"><label>Icon (emoji)</label><input type="text" id="ce-icon-${c.id}" value="${esc(c.icon)}" maxlength="4"/></div><div class="field"><label>Duration</label><input type="text" id="ce-duration-${c.id}" value="${esc(c.duration)}"/></div><div class="field"><label>Eligibility</label><input type="text" id="ce-eligibility-${c.id}" value="${esc(c.eligibility)}"/></div><div class="field"><label>Languages / Streams</label><input type="text" id="ce-languages-${c.id}" value="${esc(c.languages)}"/></div></div><div class="form-grid single"><div class="field"><label>Combinations</label><input type="text" id="ce-combinations-${c.id}" value="${esc(c.combinations)}"/></div><div class="field" style="margin-top:12px;"><label>Description</label><textarea id="ce-desc-${c.id}">${esc(c.description)}</textarea></div></div><div class="sem-editor"><h3 style="font-size:13px;color:#d4af37;margin-bottom:12px;">&#128197; Semesters</h3><div id="sems-${c.id}">${c.semesters.map((s,si)=>`<div class="sem-row" id="semrow-${c.id}-${si}"><div class="sem-row-header"><input class="sem-label-input" id="semlabel-${c.id}-${si}" value="${esc(s.label)}"/><button class="action-btn del" onclick="removeSem('${c.id}',${si})">&#128465; Remove</button></div><textarea class="subjects-input" id="semsubjects-${c.id}-${si}" placeholder="One subject per line">${s.subjects.join('\n')}</textarea></div>`).join('')}</div><button class="add-sem-btn" onclick="addSem('${c.id}')">&#10133; Add Semester</button></div><div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;"><button class="save-btn" onclick="saveCourse('${c.id}')">&#128190; Save Changes</button><button class="save-btn danger" onclick="resetCourse('${c.id}')">&#8635; Reset to Default</button><button class="save-btn danger" onclick="deleteCourse('${c.id}')" style="background:rgba(231,76,60,1);">&#128465; Delete Course</button></div></div>`;
         panels.appendChild(panel);
       });
     } catch(e){document.getElementById('courseEditorTabs').innerHTML='<p style="color:#fca5a5;font-size:13px;">Failed to load courses.</p>';}
@@ -964,6 +967,10 @@
   async function resetCourse(courseId) {
     if(!confirm('Reset this course to default data?'))return;
     try { const r=await fetch('/admin-reset-course',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:courseId})}); const d=await r.json(); if(d.ok){toast('✅ Course reset!');loadCoursesEditor();}else toast('❌ '+d.msg,'error'); } catch(e){toast('❌ Server error','error');}
+  }
+  async function deleteCourse(courseId) {
+    if(!confirm('Delete this course permanently? This cannot be undone.'))return;
+    try { const r=await fetch('/admin-delete-course',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+getAdminToken()},body:JSON.stringify({id:courseId})}); const d=await r.json(); if(d.ok){toast('🗑️ Course deleted!');loadCoursesEditor();}else toast('❌ '+d.msg,'error'); } catch(e){toast('❌ Server error','error');}
   }
 
   let kbItems=[];
@@ -1012,13 +1019,13 @@
   async function changeEmail() {
     const email=document.getElementById('new-email').value.trim(),password=document.getElementById('email-pass').value;
     if(!email||!password)return toast('⚠️ Fill all fields','error');
-    try { const r=await fetch('/admin-change-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})}); const d=await r.json(); d.ok?toast('✅ Email updated! Please re-login.'):toast('❌ '+d.msg,'error'); } catch(e){toast('❌ Server error','error');}
+    try { const r=await fetch('/admin-change-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({newEmail:email,currentPassword:password})}); const d=await r.json(); d.ok?toast('✅ Email updated! Please re-login.'):toast('❌ '+d.msg,'error'); } catch(e){toast('❌ Server error','error');}
   }
   async function changePassword() {
     const oldPass=document.getElementById('old-pass').value,newPass=document.getElementById('new-pass').value,confPass=document.getElementById('conf-pass').value;
     if(!oldPass||!newPass||!confPass)return toast('⚠️ Fill all fields','error');
     if(newPass!==confPass)return toast('⚠️ New passwords do not match','error');
-    try { const r=await fetch('/admin-change-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({oldPassword:oldPass,newPassword:newPass})}); const d=await r.json(); d.ok?toast('✅ Password updated!'):toast('❌ '+d.msg,'error'); } catch(e){toast('❌ Server error','error');}
+    try { const r=await fetch('/admin-change-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({currentPassword:oldPass,newPassword:newPass})}); const d=await r.json(); d.ok?toast('✅ Password updated!'):toast('❌ '+d.msg,'error'); } catch(e){toast('❌ Server error','error');}
   }
 
   // ===== EVENTS MANAGEMENT =====
@@ -1359,7 +1366,7 @@
     for (const u of inactive) {
       await fetch('/admin-delete-user', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAdminToken() },
         body: JSON.stringify({ email: u.email })
       });
     }
@@ -1704,5 +1711,64 @@
 
 
 </script>
+<!-- ADD COURSE MODAL -->
+<div class="ev-modal-overlay" id="addCourseModal">
+  <div class="ev-modal" style="max-width:560px;">
+    <h3>&#127891; Add New Course</h3>
+    <div class="ev-field"><label>Course ID (unique slug, e.g. "mba")</label><input type="text" id="nc-id" placeholder="mba"></div>
+    <div class="ev-field"><label>Title (short)</label><input type="text" id="nc-title" placeholder="M.B.A."></div>
+    <div class="ev-field"><label>Full Name</label><input type="text" id="nc-fullname" placeholder="Master of Business Administration"></div>
+    <div class="ev-field"><label>Icon (emoji)</label><input type="text" id="nc-icon" placeholder="🎓" maxlength="4"></div>
+    <div class="ev-field"><label>Duration</label><input type="text" id="nc-duration" placeholder="2 Years · 4 Semesters"></div>
+    <div class="ev-field"><label>Eligibility</label><input type="text" id="nc-eligibility" placeholder="Graduation in any stream"></div>
+    <div class="ev-field"><label>Languages</label><input type="text" id="nc-languages" placeholder="English · Kannada"></div>
+    <div class="ev-field"><label>Combinations</label><input type="text" id="nc-combinations" placeholder="All compulsory subjects"></div>
+    <div class="ev-field"><label>Description</label><textarea id="nc-desc" rows="3" placeholder="Brief description of the course..."></textarea></div>
+    <div class="ev-modal-actions">
+      <button class="btn-ev-save" onclick="addNewCourse()">&#128190; Add Course</button>
+      <button class="btn-ev-cancel" onclick="document.getElementById('addCourseModal').classList.remove('active')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openAddCourseModal() {
+    ['nc-id','nc-title','nc-fullname','nc-icon','nc-duration','nc-eligibility','nc-languages','nc-combinations','nc-desc'].forEach(id => {
+      const el = document.getElementById(id); if(el) el.value = '';
+    });
+    document.getElementById('addCourseModal').classList.add('active');
+  }
+
+  async function addNewCourse() {
+    const id = document.getElementById('nc-id').value.trim().toLowerCase().replace(/\s+/g,'-');
+    const title = document.getElementById('nc-title').value.trim();
+    const fullName = document.getElementById('nc-fullname').value.trim();
+    if (!id || !title || !fullName) return toast('⚠️ ID, title and full name required', 'error');
+    const payload = {
+      id, title, fullName,
+      icon: document.getElementById('nc-icon').value.trim() || '📚',
+      duration: document.getElementById('nc-duration').value.trim(),
+      eligibility: document.getElementById('nc-eligibility').value.trim(),
+      languages: document.getElementById('nc-languages').value.trim(),
+      combinations: document.getElementById('nc-combinations').value.trim(),
+      description: document.getElementById('nc-desc').value.trim(),
+      semesters: []
+    };
+    try {
+      const r = await fetch('/admin-add-course', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getAdminToken() },
+        body: JSON.stringify(payload)
+      });
+      const d = await r.json();
+      if (d.ok) {
+        toast('✅ Course added!');
+        document.getElementById('addCourseModal').classList.remove('active');
+        loadCoursesEditor();
+      } else toast('❌ ' + d.msg, 'error');
+    } catch(e) { toast('❌ Server error', 'error'); }
+  }
+</script>
+
 </body>
 </html>

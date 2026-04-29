@@ -1,197 +1,442 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unimate - SVS College Bantwal</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --navy:#0b1f3a;--navy2:#142f54;--navy3:#1c3d6e;
-      --gold:#d4af37;--gold-light:#f5e6c8;--gold-dim:rgba(212,175,55,0.18);
-      --border:rgba(212,175,55,0.25);--border2:rgba(212,175,55,0.45);
-      --muted:rgba(255,255,255,0.5);--white8:rgba(255,255,255,0.08);--white12:rgba(255,255,255,0.12);
-    }
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:'DM Sans',sans-serif;background:linear-gradient(145deg,var(--navy),var(--navy2) 50%,var(--navy3));color:#fff;display:flex;flex-direction:column;overflow:hidden;height:100vh;height:100dvh;}
-    body::before,body::after{content:'';position:fixed;border-radius:50%;pointer-events:none;filter:blur(90px);opacity:0.1;animation:drift 14s ease-in-out infinite alternate;}
-    body::before{width:500px;height:500px;background:radial-gradient(circle,var(--gold),transparent 70%);top:-150px;left:-150px;}
-    body::after{width:400px;height:400px;background:radial-gradient(circle,var(--gold),transparent 70%);bottom:-120px;right:-100px;animation-delay:5s;}
-    @keyframes drift{from{transform:translate(0,0)scale(1)}to{transform:translate(50px,40px)scale(1.2)}}
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Unimate — SVS College Bantwal</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Syne:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0a0514;
+  --bg2:#0f0820;
+  --bg3:#160d2e;
+  --purple:#6c3bff;
+  --purple2:#9b6bff;
+  --purple3:#c49fff;
+  --pink:#ff3baa;
+  --cyan:#3bffee;
+  --border:rgba(108,59,255,0.3);
+  --border2:rgba(108,59,255,0.6);
+  --glow:rgba(108,59,255,0.4);
+  --muted:rgba(196,159,255,0.5);
+  --white6:rgba(255,255,255,0.06);
+  --white10:rgba(255,255,255,0.1);
+}
 
-    header{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(11,31,58,0.6);border-bottom:1px solid var(--border);backdrop-filter:blur(16px);flex-shrink:0;z-index:10;}
-    .h-left{display:flex;align-items:center;gap:14px;}
-    .logo-ring{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:16px;color:var(--navy);font-weight:700;box-shadow:0 0 20px rgba(212,175,55,0.3);flex-shrink:0;}
-    .h-titles h1{font-family:'DM Serif Display',serif;font-size:14px;font-weight:400;line-height:1.3;}
-    .h-titles p{font-size:11px;color:var(--gold);letter-spacing:0.5px;}
-    .h-right{display:flex;align-items:center;gap:12px;}
-    .status-pill{display:flex;align-items:center;gap:7px;padding:6px 16px;border-radius:30px;background:var(--gold-dim);border:1px solid var(--border);font-size:12px;color:var(--gold-light);}
-    .pulse-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;animation:blink 2s infinite;}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.35}}
-    .home-btn{display:inline-flex;align-items:center;gap:7px;padding:7px 18px;border-radius:25px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:0.2s;white-space:nowrap;box-shadow:0 3px 12px rgba(212,175,55,0.25);}
-    .home-btn:hover{transform:scale(1.04);box-shadow:0 5px 18px rgba(212,175,55,0.4);}
+*{margin:0;padding:0;box-sizing:border-box;}
 
-    .layout{display:flex;flex:1;overflow:hidden;min-height:0;height:0;}
+body{
+  font-family:'Syne',sans-serif;
+  background:var(--bg);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  height:100dvh;
+  overflow:hidden;
+  position:relative;
+}
 
-    /* SIDEBAR */
-    .sidebar{width:230px;flex-shrink:0;background:rgba(255,255,255,0.03);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:18px 12px;gap:4px;overflow-y:auto;transition:transform 0.3s ease;}
-    .sidebar::-webkit-scrollbar{width:4px;}
-    .sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px;}
-    .s-label{font-size:10px;font-weight:600;letter-spacing:1.3px;text-transform:uppercase;color:var(--gold);padding:4px 8px;margin-top:10px;margin-bottom:4px;}
-    .s-btn{width:100%;padding:10px 14px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);font-weight:600;font-size:13px;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;margin-bottom:12px;transition:0.2s;box-shadow:0 4px 14px rgba(212,175,55,0.25);}
-    .s-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,175,55,0.4);}
-    .s-item{padding:9px 12px;border-radius:8px;font-size:12.5px;color:var(--muted);cursor:pointer;border:1px solid transparent;transition:0.2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .s-item:hover{background:var(--gold-dim);color:var(--gold-light);border-color:var(--border);}
-    .s-divider{height:1px;background:var(--border);margin:8px 0;}
+/* ── BACKGROUND ── */
+.bg-grid{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(108,59,255,0.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(108,59,255,0.07) 1px,transparent 1px);
+  background-size:48px 48px;
+  animation:gridShift 20s linear infinite;
+}
+@keyframes gridShift{from{background-position:0 0}to{background-position:48px 48px}}
 
-    /* Sidebar toggle button (mobile) */
-    .sidebar-toggle{display:none;position:fixed;bottom:80px;left:14px;z-index:300;width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));border:none;cursor:pointer;font-size:18px;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(212,175,55,0.35);}
+.bg-orb1{position:fixed;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(108,59,255,0.18),transparent 65%);top:-200px;left:-100px;pointer-events:none;z-index:0;animation:orbPulse 8s ease-in-out infinite alternate;}
+.bg-orb2{position:fixed;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,59,170,0.12),transparent 65%);bottom:-150px;right:-100px;pointer-events:none;z-index:0;animation:orbPulse 10s ease-in-out infinite alternate-reverse;}
+.bg-orb3{position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(59,255,238,0.08),transparent 65%);top:40%;left:50%;transform:translateX(-50%);pointer-events:none;z-index:0;animation:orbPulse 6s ease-in-out infinite alternate;}
+@keyframes orbPulse{from{transform:scale(1) translate(0,0)}to{transform:scale(1.15) translate(20px,15px)}}
+.bg-orb3{animation:orbPulse3 6s ease-in-out infinite alternate;}
+@keyframes orbPulse3{from{transform:translateX(-50%) scale(1)}to{transform:translateX(-50%) scale(1.2)}}
 
-    /* Sidebar overlay for mobile — clicking it closes sidebar */
-    .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:99;}
-    .sidebar-overlay.active{display:block;}
+/* ── SCANLINES ── */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px);animation:scanMove 8s linear infinite;}
+@keyframes scanMove{from{background-position:0 0}to{background-position:0 100px}}
 
-    /* CHAT */
-    .chat{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;height:100%;}
-    .messages{flex:1;overflow-y:auto;padding:28px 36px;display:flex;flex-direction:column;gap:18px;scroll-behavior:smooth;min-height:0;height:0;}
-    .messages::-webkit-scrollbar{width:5px;}
-    .messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px;}
-    /* welcome must not use flex:1 — it should be centered without expanding beyond messages height */
-    .welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:24px 20px;animation:fadeUp 0.6s ease both;margin:auto;width:100%;}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-    .w-icon{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 0 36px rgba(212,175,55,0.3);animation:float 3s ease-in-out infinite;}
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-    .welcome h2{font-family:'DM Serif Display',serif;font-size:26px;font-weight:400;}
-    .welcome p{font-size:13.5px;color:var(--muted);max-width:420px;line-height:1.75;}
-    .chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:6px;}
-    .chip{padding:9px 18px;border-radius:30px;background:var(--gold-dim);border:1px solid var(--border);font-size:12.5px;color:var(--gold-light);cursor:pointer;transition:0.2s;}
-    .chip:hover{background:rgba(212,175,55,0.3);transform:translateY(-2px);}
-    .row{display:flex;gap:12px;align-items:flex-end;animation:fadeUp 0.3s ease both;}
-    .row.user{flex-direction:row-reverse;}
-    .av{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:13px;}
-    .av.bot{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);box-shadow:0 0 12px rgba(212,175,55,0.3);}
-    .av.user{background:var(--white12);border:1px solid var(--border);color:var(--gold-light);}
-    .bubble{max-width:68%;padding:13px 18px;border-radius:16px;font-size:13.5px;line-height:1.75;}
-    .bubble.bot{background:var(--white8);border:1px solid var(--border);border-radius:4px 16px 16px 16px;}
-    .bubble.user{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);font-weight:500;border-radius:16px 4px 16px 16px;box-shadow:0 4px 16px rgba(212,175,55,0.25);}
-    .ts{font-size:10px;color:var(--muted);margin-top:5px;padding:0 4px;}
-    .row.user .ts{text-align:right;}
-    .typing-dots{display:flex;gap:5px;align-items:center;padding:14px 18px;}
-    .typing-dots span{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:bounce 1.2s infinite;}
-    .typing-dots span:nth-child(2){animation-delay:0.2s}
-    .typing-dots span:nth-child(3){animation-delay:0.4s}
-    @keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:0.5}30%{transform:translateY(-8px);opacity:1}}
+/* ── HEADER ── */
+header{
+  position:relative;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 28px;
+  background:rgba(10,5,20,0.7);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(20px);
+  flex-shrink:0;
+}
 
-    /* FIX 1 — Input bar always visible, pinned to bottom */
-    .input-bar{padding:14px 28px 18px;background:rgba(255,255,255,0.03);border-top:1px solid var(--border);flex-shrink:0;}
-    .input-row{display:flex;align-items:center;gap:12px;background:var(--white8);border:1px solid var(--border);border-radius:14px;padding:10px 14px;transition:0.25s;}
-    .input-row:focus-within{border-color:var(--border2);box-shadow:0 0 0 3px rgba(212,175,55,0.1);}
-    .t-input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;resize:none;max-height:120px;line-height:1.6;}
-    .t-input::placeholder{color:var(--muted);}
-    .send-btn{width:38px;height:38px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;transition:0.2s;box-shadow:0 3px 12px rgba(212,175,55,0.3);flex-shrink:0;}
-    .send-btn:hover:not(:disabled){transform:scale(1.08);}
-    .send-btn:disabled{opacity:0.35;cursor:default;}
-    .hint{font-size:11px;color:var(--muted);text-align:center;margin-top:8px;}
+.h-logo{display:flex;align-items:center;gap:14px;}
 
-    /* ── TABLET ── */
-    @media (max-width:1024px) {
-      header { padding: 12px 20px; }
-      .h-titles h1 { font-size: 12px; }
-      .sidebar { width: 200px; }
-      .messages { padding: 20px 24px; }
-    }
+.logo-hex{
+  width:48px;height:48px;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron',monospace;font-size:13px;font-weight:700;
+  color:#fff;
+  box-shadow:0 0 24px var(--glow),0 0 48px rgba(108,59,255,0.2);
+  animation:hexPulse 3s ease-in-out infinite;
+  flex-shrink:0;
+}
+@keyframes hexPulse{0%,100%{box-shadow:0 0 24px var(--glow),0 0 48px rgba(108,59,255,0.2)}50%{box-shadow:0 0 36px rgba(108,59,255,0.7),0 0 72px rgba(108,59,255,0.3)}}
 
-    /* ── MOBILE ── */
-    @media (max-width: 768px) {
-      header { padding: 10px 16px; }
-      .h-titles h1 { font-size: 11px; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .h-titles p { display: none; }
-      .status-pill { padding: 5px 10px; font-size: 11px; }
-      .status-pill span:last-child { display: none; }
+.h-text h1{font-family:'Orbitron',monospace;font-size:13px;font-weight:600;letter-spacing:1px;background:linear-gradient(90deg,#fff,var(--purple3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.h-text p{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
 
-      /* FIX — layout must fill remaining height exactly */
-      .layout {
-        height: 0;
-        flex: 1;
-        overflow: hidden;
-        min-height: 0;
-      }
+.h-right{display:flex;align-items:center;gap:10px;}
 
-      /* FIX — chat fills layout height exactly */
-      .chat {
-        height: 100%;
-        min-height: 0;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        flex: 1;
-      }
+.status-pill{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 14px;border-radius:30px;
+  background:rgba(59,255,238,0.08);
+  border:1px solid rgba(59,255,238,0.25);
+  font-size:11px;color:var(--cyan);
+  letter-spacing:0.5px;
+}
+.pulse-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 8px var(--cyan)}50%{opacity:0.3;box-shadow:none}}
 
-      /* FIX — messages scroll within available space only */
-      .messages {
-        flex: 1;
-        overflow-y: auto;
-        min-height: 0;
-        height: 0;
-        padding: 16px;
-        -webkit-overflow-scrolling: touch;
-      }
+.home-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:7px 18px;border-radius:8px;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  color:#fff;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;
+  text-decoration:none;border:1px solid var(--border2);
+  cursor:pointer;transition:0.2s;
+  box-shadow:0 0 16px var(--glow);
+}
+.home-btn:hover{transform:translateY(-2px);box-shadow:0 0 28px var(--glow);}
 
-      /* FIX — input bar never pushed off screen */
-      .input-bar {
-        flex-shrink: 0;
-        padding: 10px 14px 14px;
-      }
+/* ── LAYOUT ── */
+.layout{display:flex;flex:1;overflow:hidden;min-height:0;height:0;position:relative;z-index:2;}
 
-      /* Sidebar hidden on mobile, slides in */
-      .sidebar {
-        position: fixed;
-        top: 0; left: 0; bottom: 0;
-        z-index: 200;
-        width: 260px;
-        transform: translateX(-100%);
-        background: rgba(6,15,30,0.97);
-        backdrop-filter: blur(16px);
-        padding-top: 60px;
-      }
-      .sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.5); }
-      .sidebar-toggle { display: flex; }
+/* ── SIDEBAR ── */
+.sidebar{
+  width:240px;flex-shrink:0;
+  background:rgba(15,8,32,0.6);
+  border-right:1px solid var(--border);
+  backdrop-filter:blur(16px);
+  display:flex;flex-direction:column;
+  padding:16px 10px;gap:3px;
+  overflow-y:auto;
+}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px;}
 
-      .bubble { max-width: 85%; font-size: 13px; }
-      .welcome { gap: 10px; padding: 16px 14px; }
-      .welcome h2 { font-size: 18px; }
-      .welcome p  { font-size: 12px; }
-      .w-icon { width: 52px; height: 52px; font-size: 24px; }
-      .chips { gap: 8px; }
-      .chip { font-size: 11.5px; padding: 7px 14px; }
-      .hint { display: none; }
-      .w-icon { width: 60px; height: 60px; font-size: 28px; }
-    }
+.s-label{
+  font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--purple2);padding:4px 10px;margin-top:10px;margin-bottom:3px;
+}
 
-    @media (max-width: 480px) {
-      .home-btn span { display: none; }
-      .home-btn { padding: 7px 12px; }
-      .welcome { padding: 20px 14px; gap: 12px; }
-    }
-  </style>
+.s-btn{
+  width:100%;padding:10px 14px;border-radius:8px;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  color:#fff;font-weight:700;font-size:12px;
+  border:none;cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:10px;transition:0.2s;
+  box-shadow:0 0 20px var(--glow);
+  font-family:'Syne',sans-serif;
+}
+.s-btn:hover{transform:translateY(-2px);box-shadow:0 0 32px var(--glow);}
+
+.s-item{
+  padding:8px 12px;border-radius:6px;
+  font-size:12px;color:var(--muted);
+  cursor:pointer;border:1px solid transparent;
+  transition:0.15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.s-item:hover{background:rgba(108,59,255,0.12);color:var(--purple3);border-color:var(--border);box-shadow:inset 0 0 12px rgba(108,59,255,0.08);}
+.s-divider{height:1px;background:var(--border);margin:8px 0;opacity:0.5;}
+
+/* ── SIDEBAR MOBILE ── */
+.sidebar-toggle{display:none;position:fixed;bottom:80px;left:14px;z-index:300;width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--pink));border:none;cursor:pointer;font-size:18px;align-items:center;justify-content:center;box-shadow:0 0 20px var(--glow);}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99;backdrop-filter:blur(4px);}
+.sidebar-overlay.active{display:block;}
+
+/* ── CHAT ── */
+.chat{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;height:100%;}
+.messages{flex:1;overflow-y:auto;padding:28px 36px;display:flex;flex-direction:column;gap:20px;scroll-behavior:smooth;min-height:0;height:0;}
+.messages::-webkit-scrollbar{width:4px;}
+.messages::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px;}
+
+/* ── WELCOME ── */
+.welcome{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;gap:20px;padding:24px 20px;margin:auto;width:100%;
+  animation:fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── BIG ROBOT ── */
+.robot-wrap{position:relative;width:180px;height:180px;display:flex;align-items:center;justify-content:center;}
+
+.robot-ring{
+  position:absolute;
+  width:180px;height:180px;
+  border-radius:50%;
+  border:2px solid transparent;
+  background:linear-gradient(var(--bg),var(--bg)) padding-box,
+             linear-gradient(135deg,var(--purple),var(--pink),var(--cyan)) border-box;
+  animation:ringRotate 6s linear infinite;
+}
+.robot-ring2{
+  position:absolute;
+  width:155px;height:155px;
+  border-radius:50%;
+  border:1px solid rgba(108,59,255,0.3);
+  animation:ringRotate 4s linear infinite reverse;
+}
+@keyframes ringRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+.robot-dots{position:absolute;width:180px;height:180px;animation:ringRotate 8s linear infinite;}
+.robot-dots::before,.robot-dots::after{
+  content:'';position:absolute;width:8px;height:8px;border-radius:50%;
+  background:var(--cyan);box-shadow:0 0 12px var(--cyan);
+}
+.robot-dots::before{top:4px;left:50%;transform:translateX(-50%);}
+.robot-dots::after{bottom:4px;left:50%;transform:translateX(-50%);background:var(--pink);box-shadow:0 0 12px var(--pink);}
+
+.robot-body{
+  position:relative;z-index:2;
+  width:120px;height:120px;
+  background:linear-gradient(145deg,#1a0d3a,#2d1060,#1a0d3a);
+  border-radius:50%;
+  border:3px solid rgba(108,59,255,0.5);
+  box-shadow:0 0 40px rgba(108,59,255,0.4),inset 0 0 30px rgba(108,59,255,0.15);
+  display:flex;align-items:center;justify-content:center;
+  animation:robotFloat 3s ease-in-out infinite;
+  overflow:hidden;
+}
+@keyframes robotFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-10px) scale(1.02)}}
+
+.robot-face{display:flex;flex-direction:column;align-items:center;gap:14px;}
+
+.robot-eyes{display:flex;gap:18px;}
+.robot-eye{
+  width:22px;height:22px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,#fff 0%,var(--purple2) 40%,var(--purple) 100%);
+  box-shadow:0 0 12px var(--purple2),0 0 24px rgba(108,59,255,0.6);
+  animation:eyeBlink 4s ease-in-out infinite;
+  position:relative;
+}
+.robot-eye::after{
+  content:'';position:absolute;width:7px;height:7px;border-radius:50%;
+  background:#fff;top:4px;left:4px;opacity:0.9;
+}
+@keyframes eyeBlink{0%,90%,100%{transform:scaleY(1)}93%,97%{transform:scaleY(0.05)}}
+
+.robot-mouth{
+  width:36px;height:10px;border-radius:0 0 18px 18px;
+  border:2px solid var(--purple2);
+  border-top:none;
+  box-shadow:0 0 8px var(--purple2);
+  animation:mouthTalk 0.4s ease-in-out infinite alternate paused;
+}
+.robot-mouth.talking{animation-play-state:running;}
+
+/* glow inner lines on robot body */
+.robot-body::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 30%,rgba(108,59,255,0.25),transparent 60%);
+  border-radius:50%;
+}
+
+.welcome h2{
+  font-family:'Orbitron',monospace;
+  font-size:32px;font-weight:700;
+  background:linear-gradient(90deg,#fff 0%,var(--purple3) 50%,var(--pink) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  letter-spacing:1px;
+  animation:textGlow 3s ease-in-out infinite alternate;
+}
+@keyframes textGlow{from{filter:drop-shadow(0 0 8px rgba(108,59,255,0.6))}to{filter:drop-shadow(0 0 16px rgba(255,59,170,0.6))}}
+
+.welcome-sub{font-size:14px;color:var(--muted);max-width:480px;line-height:1.75;letter-spacing:0.3px;}
+.welcome-sub strong{color:var(--purple3);}
+
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:4px;}
+.chip{
+  padding:9px 20px;border-radius:8px;
+  background:rgba(108,59,255,0.1);
+  border:1px solid var(--border);
+  font-size:12.5px;color:var(--purple3);
+  cursor:pointer;transition:0.2s;
+  backdrop-filter:blur(8px);
+  font-family:'Syne',sans-serif;
+}
+.chip:hover{background:rgba(108,59,255,0.25);transform:translateY(-3px);box-shadow:0 0 20px var(--glow);border-color:var(--border2);}
+
+/* ── MESSAGES ── */
+.row{display:flex;gap:12px;align-items:flex-end;animation:fadeUp 0.3s ease both;}
+.row.user{flex-direction:row-reverse;}
+
+.av{
+  width:36px;height:36px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron',monospace;font-size:10px;font-weight:700;
+  position:relative;
+}
+.av.bot{
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  box-shadow:0 0 16px var(--glow);
+}
+.av.user{
+  background:rgba(108,59,255,0.15);
+  border:1px solid var(--border);
+  color:var(--purple3);
+}
+
+.av.bot::before{
+  content:'';position:absolute;inset:-2px;border-radius:12px;
+  border:1px solid rgba(108,59,255,0.5);
+  animation:avPulse 2s ease-in-out infinite;
+}
+@keyframes avPulse{0%,100%{opacity:0.5}50%{opacity:1;box-shadow:0 0 12px var(--glow)}}
+
+.bubble{max-width:68%;padding:13px 18px;border-radius:12px;font-size:13.5px;line-height:1.8;}
+.bubble.bot{
+  background:rgba(108,59,255,0.08);
+  border:1px solid var(--border);
+  border-radius:4px 12px 12px 12px;
+  backdrop-filter:blur(8px);
+  box-shadow:0 0 20px rgba(108,59,255,0.05);
+}
+.bubble.user{
+  background:linear-gradient(135deg,var(--purple),#8b55ff);
+  color:#fff;font-weight:500;
+  border-radius:12px 4px 12px 12px;
+  box-shadow:0 0 24px var(--glow);
+}
+.ts{font-size:10px;color:var(--muted);margin-top:5px;padding:0 4px;}
+.row.user .ts{text-align:right;}
+
+/* ── TYPING ── */
+.typing-dots{display:flex;gap:6px;align-items:center;padding:14px 18px;}
+.typing-dots span{width:8px;height:8px;border-radius:50%;background:var(--purple2);animation:bounceDot 1.2s infinite;}
+.typing-dots span:nth-child(1){animation-delay:0s;background:var(--purple);}
+.typing-dots span:nth-child(2){animation-delay:0.2s;background:var(--purple2);}
+.typing-dots span:nth-child(3){animation-delay:0.4s;background:var(--cyan);}
+@keyframes bounceDot{0%,60%,100%{transform:translateY(0);opacity:0.4}30%{transform:translateY(-10px);opacity:1;box-shadow:0 0 8px currentColor}}
+
+/* ── INPUT BAR ── */
+.input-bar{
+  padding:14px 28px 18px;
+  background:rgba(10,5,20,0.6);
+  border-top:1px solid var(--border);
+  flex-shrink:0;
+  backdrop-filter:blur(16px);
+}
+.input-row{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(108,59,255,0.06);
+  border:1px solid var(--border);
+  border-radius:12px;padding:10px 14px;
+  transition:0.25s;
+}
+.input-row:focus-within{border-color:var(--border2);box-shadow:0 0 0 3px rgba(108,59,255,0.15),0 0 24px rgba(108,59,255,0.1);}
+.t-input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-family:'Syne',sans-serif;font-size:14px;resize:none;max-height:120px;line-height:1.6;}
+.t-input::placeholder{color:var(--muted);}
+
+.send-btn{
+  width:40px;height:40px;border-radius:10px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  display:flex;align-items:center;justify-content:center;
+  transition:0.2s;
+  box-shadow:0 0 16px var(--glow);
+  flex-shrink:0;
+}
+.send-btn:hover:not(:disabled){transform:scale(1.1);box-shadow:0 0 28px var(--glow);}
+.send-btn:disabled{opacity:0.3;cursor:default;box-shadow:none;}
+
+.hint{font-size:10.5px;color:var(--muted);text-align:center;margin-top:8px;letter-spacing:0.3px;}
+
+/* ── PARTICLE CANVAS ── */
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0;}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  header{padding:10px 16px;}
+  .h-text h1{font-size:10px;}
+  .h-text p{display:none;}
+  .layout{height:0;flex:1;overflow:hidden;min-height:0;}
+  .chat{height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden;flex:1;}
+  .messages{flex:1;overflow-y:auto;min-height:0;height:0;padding:16px;-webkit-overflow-scrolling:touch;}
+  .input-bar{flex-shrink:0;padding:10px 14px 14px;}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;z-index:200;width:260px;transform:translateX(-100%);background:rgba(10,5,20,0.97);backdrop-filter:blur(16px);padding-top:60px;}
+  .sidebar.open{transform:translateX(0);box-shadow:4px 0 24px rgba(108,59,255,0.4);}
+  .sidebar-toggle{display:flex;}
+  .bubble{max-width:85%;font-size:13px;}
+  .welcome{gap:12px;padding:16px 14px;}
+  .welcome h2{font-size:22px;}
+  .robot-wrap{width:130px;height:130px;}
+  .robot-body{width:88px;height:88px;}
+  .robot-ring{width:130px;height:130px;}
+  .robot-ring2{width:108px;height:108px;}
+  .hint{display:none;}
+}
+@media(max-width:480px){
+  .home-btn span{display:none;}
+  .home-btn{padding:7px 12px;}
+  .status-pill span:last-child{display:none;}
+}
+
+/* ── CUTE CHARACTER ── */
+.cute-char{
+  position:relative;z-index:2;
+  width:90px;height:90px;
+  background:linear-gradient(145deg,#3d1f7a,#5a2db5,#3d1f7a);
+  border-radius:28px;
+  border:2px solid rgba(108,59,255,0.7);
+  box-shadow:0 0 30px rgba(108,59,255,0.6),inset 0 0 20px rgba(108,59,255,0.2);
+  display:flex;align-items:center;justify-content:center;
+  animation:robotFloat 3s ease-in-out infinite;
+}
+.cute-eyes{display:flex;gap:14px;}
+.cute-eye{
+  width:14px;height:14px;border-radius:50%;
+  background:#1a0d3a;
+  border:2px solid rgba(255,255,255,0.15);
+  position:relative;
+}
+.cute-eye::after{
+  content:'';position:absolute;
+  width:5px;height:5px;border-radius:50%;
+  background:rgba(255,255,255,0.25);
+  top:2px;left:2px;
+}
+</style>
 </head>
 <body>
+
+<canvas id="particles"></canvas>
+<div class="bg-grid"></div>
+<div class="bg-orb1"></div>
+<div class="bg-orb2"></div>
+<div class="bg-orb3"></div>
+
 <header>
-  <div class="h-left">
-    <div class="logo-ring">UM</div>
-    <div class="h-titles">
+  <div class="h-logo">
+    <div class="logo-hex">UM</div>
+    <div class="h-text">
       <h1>Sri Venkataramana Swamy College, Bantwal</h1>
       <p>Unimate · AI Student Assistant</p>
     </div>
   </div>
   <div class="h-right">
-    <div class="status-pill"><div class="pulse-dot"></div> <span>Online</span></div>
+    <div class="status-pill"><div class="pulse-dot"></div><span>Online</span></div>
     <a href="index.html" class="home-btn">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span>Home</span>
     </a>
   </div>
 </header>
+
 <div class="layout">
   <aside class="sidebar" id="sidebar">
     <button class="s-btn" onclick="newChat()">
@@ -215,15 +460,24 @@
     <div class="s-item" onclick="ask('Where is SVS College located?')">📍 Location</div>
   </aside>
 
-  <!-- FIX 2 — overlay div that closes sidebar when clicked -->
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
   <div class="chat">
     <div class="messages" id="msgs">
       <div class="welcome" id="welcome">
-        <div class="w-icon">🎓</div>
-        <h2>Hello! I'm Unimate 👋</h2>
-        <p>Your AI-powered assistant for <strong style="color:var(--gold)">Sri Venkataramana Swamy College, Bantwal</strong>. Ask me anything!</p>
+        <div class="robot-wrap">
+          <div class="robot-ring"></div>
+          <div class="robot-ring2"></div>
+          <div class="robot-dots"></div>
+          <div class="cute-char" id="robotBody">
+            <div class="cute-eyes">
+              <div class="cute-eye"></div>
+              <div class="cute-eye"></div>
+            </div>
+          </div>
+        </div>
+        <h2>Hello! I am Unimate</h2>
+        <p class="welcome-sub">Your AI-powered assistant for <strong>SVS College, Bantwal</strong>.<br>Ask me anything about the college!</p>
         <div class="chips">
           <div class="chip" onclick="ask('Tell me about SVS College Bantwal')">🏛️ About the college</div>
           <div class="chip" onclick="ask('What courses are offered at SVS College?')">📘 Courses offered</div>
@@ -234,11 +488,12 @@
         </div>
       </div>
     </div>
+
     <div class="input-bar">
       <div class="input-row">
         <textarea class="t-input" id="tinput" rows="1" placeholder="Ask me anything about SVS College…"></textarea>
         <button class="send-btn" id="sbtn" onclick="sendMsg()" disabled>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0b1f3a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
       </div>
       <p class="hint">Press Enter to send · Shift+Enter for new line</p>
@@ -246,102 +501,170 @@
   </div>
 </div>
 
-<!-- Mobile sidebar toggle -->
 <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">☰</button>
 
 <script>
-  // ── FIX 2: Sidebar toggle + outside-click close ──
-  function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
-    const isOpen  = sidebar.classList.toggle('open');
-    overlay.classList.toggle('active', isOpen);
+/* ── PARTICLES ── */
+(function(){
+  const canvas=document.getElementById('particles');
+  const ctx=canvas.getContext('2d');
+  let W,H,particles=[];
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+
+  const colors=['rgba(108,59,255,','rgba(255,59,170,','rgba(59,255,238,'];
+  for(let i=0;i<60;i++){
+    particles.push({
+      x:Math.random()*1920,y:Math.random()*1080,
+      vx:(Math.random()-0.5)*0.4,vy:(Math.random()-0.5)*0.4,
+      r:Math.random()*2+0.5,
+      c:colors[Math.floor(Math.random()*3)],
+      a:Math.random()*0.6+0.1
+    });
   }
 
-  // FIX 2: Clicking the overlay closes the sidebar
-  document.getElementById('sidebarOverlay').addEventListener('click', function () {
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.c+p.a+')';
+      ctx.fill();
+    });
+
+    // draw faint connections
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx=particles[i].x-particles[j].x;
+        const dy=particles[i].y-particles[j].y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<120){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x,particles[i].y);
+          ctx.lineTo(particles[j].x,particles[j].y);
+          ctx.strokeStyle='rgba(108,59,255,'+(0.12*(1-dist/120))+')';
+          ctx.lineWidth=0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── SIDEBAR ── */
+function toggleSidebar(){
+  const s=document.getElementById('sidebar');
+  const o=document.getElementById('sidebarOverlay');
+  const open=s.classList.toggle('open');
+  o.classList.toggle('active',open);
+}
+document.getElementById('sidebarOverlay').addEventListener('click',function(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('active');
+});
+document.querySelectorAll('.s-item,.s-btn').forEach(el=>el.addEventListener('click',function(){
+  if(window.innerWidth<=768){
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('sidebarOverlay').classList.remove('active');
-  });
-
-  // Close sidebar when a topic is clicked on mobile
-  document.querySelectorAll('.s-item, .s-btn').forEach(function(el) {
-    el.addEventListener('click', function() {
-      if (window.innerWidth <= 768) {
-        document.getElementById('sidebar').classList.remove('open');
-        document.getElementById('sidebarOverlay').classList.remove('active');
-      }
-    });
-  });
-
-  // ── Chat logic ──
-  const input = document.getElementById('tinput');
-  const sbtn  = document.getElementById('sbtn');
-  const msgs  = document.getElementById('msgs');
-  let history = [];
-  let welcomeGone = false;
-
-  input.addEventListener('input', () => {
-    input.style.height = 'auto';
-    input.style.height = Math.min(input.scrollHeight, 120) + 'px';
-    sbtn.disabled = input.value.trim() === '';
-  });
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (!sbtn.disabled) sendMsg(); }
-  });
-
-  function now() { return new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }); }
-
-  function hideWelcome() {
-    if (!welcomeGone) { const w = document.getElementById('welcome'); if (w) w.remove(); welcomeGone = true; }
   }
+}));
 
-  function addMsg(html, role) {
-    hideWelcome();
-    const row = document.createElement('div'); row.className = 'row ' + role;
-    const av  = document.createElement('div'); av.className = 'av ' + role; av.textContent = role === 'bot' ? 'UM' : 'U';
-    const col = document.createElement('div');
-    const bub = document.createElement('div'); bub.className = 'bubble ' + role; bub.innerHTML = html;
-    const ts  = document.createElement('div'); ts.className = 'ts'; ts.textContent = now();
-    col.appendChild(bub); col.appendChild(ts);
-    row.appendChild(av); row.appendChild(col);
-    msgs.appendChild(row);
-    msgs.scrollTop = msgs.scrollHeight;
-  }
+/* ── CHAT ── */
+const input=document.getElementById('tinput');
+const sbtn=document.getElementById('sbtn');
+const msgs=document.getElementById('msgs');
+const mouth=document.getElementById('robotMouth');
+let history=[];let welcomeGone=false;
 
-  function showTyping() {
-    hideWelcome();
-    const row = document.createElement('div'); row.id = 'typing'; row.className = 'row bot';
-    const av  = document.createElement('div'); av.className = 'av bot'; av.textContent = 'UM';
-    const bub = document.createElement('div'); bub.className = 'bubble bot';
-    bub.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
-    row.appendChild(av); row.appendChild(bub);
-    msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
-  }
+input.addEventListener('input',()=>{
+  input.style.height='auto';
+  input.style.height=Math.min(input.scrollHeight,120)+'px';
+  sbtn.disabled=input.value.trim()==='';
+});
+input.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(!sbtn.disabled)sendMsg();}
+});
 
-  function removeTyping() { const t = document.getElementById('typing'); if (t) t.remove(); }
+function now(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
 
-  async function sendMsg() {
-    const text = input.value.trim(); if (!text) return;
-    addMsg(text, 'user'); history.push({ role:'user', content:text });
-    input.value = ''; input.style.height = 'auto'; sbtn.disabled = true;
-    showTyping();
-    try {
-      const res  = await fetch('/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ message:text, history:history.slice(-10) }) });
-      const data = await res.json(); removeTyping();
-      if (data.ok) { history.push({ role:'assistant', content:data.reply }); addMsg(data.reply.replace(/\n/g,'<br>'), 'bot'); }
-      else addMsg('⚠️ ' + data.msg, 'bot');
-    } catch(err) { removeTyping(); addMsg('⚠️ Could not connect to server.', 'bot'); }
-  }
+function hideWelcome(){
+  if(!welcomeGone){const w=document.getElementById('welcome');if(w)w.remove();welcomeGone=true;}
+}
 
-  function ask(q) { input.value = q; sbtn.disabled = false; sendMsg(); }
+function addMsg(html,role){
+  hideWelcome();
+  const row=document.createElement('div');row.className='row '+role;
+  const av=document.createElement('div');av.className='av '+role;av.textContent=role==='bot'?'UM':'U';
+  const col=document.createElement('div');
+  const bub=document.createElement('div');bub.className='bubble '+role;bub.innerHTML=html;
+  const ts=document.createElement('div');ts.className='ts';ts.textContent=now();
+  col.appendChild(bub);col.appendChild(ts);
+  row.appendChild(av);row.appendChild(col);
+  msgs.appendChild(row);
+  msgs.scrollTop=msgs.scrollHeight;
+}
 
-  function newChat() {
-    msgs.innerHTML = ''; history = []; welcomeGone = false;
-    const w = document.createElement('div'); w.id = 'welcome'; w.className = 'welcome';
-    w.innerHTML = '<div class="w-icon">🎓</div><h2>Hello! I\'m Unimate 👋</h2><p>Your AI-powered assistant for <strong style="color:var(--gold)">SVS College, Bantwal</strong>. Ask me anything!</p><div class="chips"><div class="chip" onclick="ask(\'Tell me about SVS College Bantwal\')">🏛️ About the college</div><div class="chip" onclick="ask(\'What courses are offered at SVS College?\')">📘 Courses offered</div></div>';
-    msgs.appendChild(w);
-  }
+function showTyping(){
+  hideWelcome();
+  const row=document.createElement('div');row.id='typing';row.className='row bot';
+  const av=document.createElement('div');av.className='av bot';av.textContent='UM';
+  const bub=document.createElement('div');bub.className='bubble bot';
+  bub.innerHTML='<div class="typing-dots"><span></span><span></span><span></span></div>';
+  row.appendChild(av);row.appendChild(bub);
+  msgs.appendChild(row);msgs.scrollTop=msgs.scrollHeight;
+  if(mouth)mouth.classList.add('talking');
+}
+
+function removeTyping(){
+  const t=document.getElementById('typing');if(t)t.remove();
+  if(mouth)mouth.classList.remove('talking');
+}
+
+async function sendMsg(){
+  const text=input.value.trim();if(!text)return;
+  addMsg(text,'user');history.push({role:'user',content:text});
+  input.value='';input.style.height='auto';sbtn.disabled=true;
+  showTyping();
+  try{
+    const res=await fetch('/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text,history:history.slice(-10)})});
+    const data=await res.json();removeTyping();
+    if(data.ok){history.push({role:'assistant',content:data.reply});addMsg(data.reply.replace(/\n/g,'<br>'),'bot');}
+    else addMsg('⚠️ '+data.msg,'bot');
+  }catch(err){removeTyping();addMsg('⚠️ Could not connect to server.','bot');}
+}
+
+function ask(q){input.value=q;sbtn.disabled=false;sendMsg();}
+
+function newChat(){
+  msgs.innerHTML='';history=[];welcomeGone=false;
+  const w=document.createElement('div');w.id='welcome';w.className='welcome';
+  w.innerHTML=`
+    <div class="robot-wrap">
+      <div class="robot-ring"></div><div class="robot-ring2"></div><div class="robot-dots"></div>
+      <div class="robot-body" id="robotBody">
+        <div class="robot-face">
+          <div class="robot-eyes"><div class="robot-eye"></div><div class="robot-eye"></div></div>
+          <div class="robot-mouth" id="robotMouth"></div>
+        </div>
+      </div>
+    </div>
+    <h2>Hello! I am Unimate</h2>
+    <p class="welcome-sub">Your AI-powered assistant for <strong>SVS College, Bantwal</strong>.<br>Ask me anything about the college!</p>
+    <div class="chips">
+      <div class="chip" onclick="ask('Tell me about SVS College Bantwal')">🏛️ About the college</div>
+      <div class="chip" onclick="ask('What courses are offered at SVS College?')">📘 Courses offered</div>
+      <div class="chip" onclick="ask('How to apply for admission at SVS College?')">📋 Admission process</div>
+      <div class="chip" onclick="ask('What campus facilities does SVS College have?')">🏫 Campus facilities</div>
+      <div class="chip" onclick="ask('What scholarships are available at SVS College?')">💰 Scholarships</div>
+      <div class="chip" onclick="ask('What are the contact details of SVS College Bantwal?')">📞 Contact details</div>
+    </div>`;
+  msgs.appendChild(w);
+}
 </script>
 </body>
 </html>

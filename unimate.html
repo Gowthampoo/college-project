@@ -77,7 +77,7 @@ header{
   background:linear-gradient(135deg,var(--purple),var(--pink));
   clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
   display:flex;align-items:center;justify-content:center;
-  font-family:'Orbitron',monospace;font-size:13px;font-weight:700;
+  font-family:'Orbitron',monospace;font-size: 15px;font-weight:700;
   color:#fff;
   box-shadow:0 0 24px var(--glow),0 0 48px rgba(108,59,255,0.2);
   animation:hexPulse 3s ease-in-out infinite;
@@ -85,8 +85,8 @@ header{
 }
 @keyframes hexPulse{0%,100%{box-shadow:0 0 24px var(--glow),0 0 48px rgba(108,59,255,0.2)}50%{box-shadow:0 0 36px rgba(108,59,255,0.7),0 0 72px rgba(108,59,255,0.3)}}
 
-.h-text h1{font-family:'Orbitron',monospace;font-size:13px;font-weight:600;letter-spacing:1px;background:linear-gradient(90deg,#fff,var(--purple3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.h-text p{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
+.h-text h1{font-family:'Orbitron',monospace;font-size: 15px;font-weight:600;letter-spacing:1px;background:linear-gradient(90deg,#fff,var(--purple3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.h-text p{font-size: 12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
 
 .h-right{display:flex;align-items:center;gap:10px;}
 
@@ -95,7 +95,7 @@ header{
   padding:5px 14px;border-radius:30px;
   background:rgba(59,255,238,0.08);
   border:1px solid rgba(59,255,238,0.25);
-  font-size:11px;color:var(--cyan);
+  font-size: 13px;color:var(--cyan);
   letter-spacing:0.5px;
 }
 .pulse-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation:blink 2s infinite;}
@@ -105,7 +105,7 @@ header{
   display:inline-flex;align-items:center;gap:7px;
   padding:7px 18px;border-radius:8px;
   background:linear-gradient(135deg,var(--purple),var(--purple2));
-  color:#fff;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;
+  color:#fff;font-family:'Syne',sans-serif;font-size: 14px;font-weight:600;
   text-decoration:none;border:1px solid var(--border2);
   cursor:pointer;transition:0.2s;
   box-shadow:0 0 16px var(--glow);
@@ -129,14 +129,14 @@ header{
 .sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px;}
 
 .s-label{
-  font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
-  color:var(--purple2);padding:4px 10px;margin-top:10px;margin-bottom:3px;
+  font-size: 11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--pink);padding:4px 10px;margin-top:10px;margin-bottom:3px;
 }
 
 .s-btn{
   width:100%;padding:10px 14px;border-radius:8px;
   background:linear-gradient(135deg,var(--purple),var(--pink));
-  color:#fff;font-weight:700;font-size:12px;
+  color:#fff;font-weight:700;font-size: 14px;
   border:none;cursor:pointer;
   display:flex;align-items:center;gap:8px;
   margin-bottom:10px;transition:0.2s;
@@ -147,7 +147,7 @@ header{
 
 .s-item{
   padding:8px 12px;border-radius:6px;
-  font-size:12px;color:var(--muted);
+  font-size: 14px;color:rgba(220,200,255,0.92);
   cursor:pointer;border:1px solid transparent;
   transition:0.15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
@@ -155,7 +155,7 @@ header{
 .s-divider{height:1px;background:var(--border);margin:8px 0;opacity:0.5;}
 
 /* ── SIDEBAR MOBILE ── */
-.sidebar-toggle{display:none;position:fixed;bottom:80px;left:14px;z-index:300;width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--pink));border:none;cursor:pointer;font-size:18px;align-items:center;justify-content:center;box-shadow:0 0 20px var(--glow);}
+.sidebar-toggle{display:none;position:fixed;bottom:80px;left:14px;z-index:300;width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--pink));border:none;cursor:pointer;font-size: 21px;align-items:center;justify-content:center;box-shadow:0 0 20px var(--glow);}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99;backdrop-filter:blur(4px);}
 .sidebar-overlay.active{display:block;}
 
@@ -249,7 +249,7 @@ header{
 
 .welcome h2{
   font-family:'Orbitron',monospace;
-  font-size:32px;font-weight:700;
+  font-size: 37px;font-weight:700;
   background:linear-gradient(90deg,#fff 0%,var(--purple3) 50%,var(--pink) 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   letter-spacing:1px;
@@ -257,7 +257,7 @@ header{
 }
 @keyframes textGlow{from{filter:drop-shadow(0 0 8px rgba(108,59,255,0.6))}to{filter:drop-shadow(0 0 16px rgba(255,59,170,0.6))}}
 
-.welcome-sub{font-size:14px;color:var(--muted);max-width:480px;line-height:1.75;letter-spacing:0.3px;}
+.welcome-sub{font-size: 16px;color:var(--muted);max-width:480px;line-height:1.75;letter-spacing:0.3px;}
 .welcome-sub strong{color:var(--purple3);}
 
 .chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:4px;}
@@ -265,7 +265,7 @@ header{
   padding:9px 20px;border-radius:8px;
   background:rgba(108,59,255,0.1);
   border:1px solid var(--border);
-  font-size:12.5px;color:var(--purple3);
+  font-size: 15px;color:var(--purple3);
   cursor:pointer;transition:0.2s;
   backdrop-filter:blur(8px);
   font-family:'Syne',sans-serif;
@@ -279,7 +279,7 @@ header{
 .av{
   width:36px;height:36px;border-radius:10px;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
-  font-family:'Orbitron',monospace;font-size:10px;font-weight:700;
+  font-family:'Orbitron',monospace;font-size: 12px;font-weight:700;
   position:relative;
 }
 .av.bot{
@@ -299,7 +299,7 @@ header{
 }
 @keyframes avPulse{0%,100%{opacity:0.5}50%{opacity:1;box-shadow:0 0 12px var(--glow)}}
 
-.bubble{max-width:68%;padding:13px 18px;border-radius:12px;font-size:13.5px;line-height:1.8;}
+.bubble{max-width:68%;padding:13px 18px;border-radius:12px;font-size: 16px;line-height:1.8;}
 .bubble.bot{
   background:rgba(108,59,255,0.08);
   border:1px solid var(--border);
@@ -313,7 +313,7 @@ header{
   border-radius:12px 4px 12px 12px;
   box-shadow:0 0 24px var(--glow);
 }
-.ts{font-size:10px;color:var(--muted);margin-top:5px;padding:0 4px;}
+.ts{font-size: 12px;color:var(--muted);margin-top:5px;padding:0 4px;}
 .row.user .ts{text-align:right;}
 
 /* ── TYPING ── */
@@ -340,7 +340,7 @@ header{
   transition:0.25s;
 }
 .input-row:focus-within{border-color:var(--border2);box-shadow:0 0 0 3px rgba(108,59,255,0.15),0 0 24px rgba(108,59,255,0.1);}
-.t-input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-family:'Syne',sans-serif;font-size:14px;resize:none;max-height:120px;line-height:1.6;}
+.t-input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-family:'Syne',sans-serif;font-size: 16px;resize:none;max-height:120px;line-height:1.6;}
 .t-input::placeholder{color:var(--muted);}
 
 .send-btn{
@@ -354,7 +354,17 @@ header{
 .send-btn:hover:not(:disabled){transform:scale(1.1);box-shadow:0 0 28px var(--glow);}
 .send-btn:disabled{opacity:0.3;cursor:default;box-shadow:none;}
 
-.hint{font-size:10.5px;color:var(--muted);text-align:center;margin-top:8px;letter-spacing:0.3px;}
+.voice-btn{
+  width:38px;height:38px;border-radius:10px;border:1px solid var(--border);cursor:pointer;
+  background:rgba(108,59,255,0.12);
+  display:flex;align-items:center;justify-content:center;
+  transition:0.2s;flex-shrink:0;color:var(--purple3);
+}
+.voice-btn:hover{background:rgba(108,59,255,0.25);border-color:var(--border2);transform:scale(1.08);}
+.voice-btn.listening{background:rgba(255,59,170,0.25);border-color:rgba(255,59,170,0.6);color:var(--pink);animation:voicePulse 1s ease-in-out infinite;}
+@keyframes voicePulse{0%,100%{box-shadow:0 0 8px rgba(255,59,170,0.4)}50%{box-shadow:0 0 20px rgba(255,59,170,0.8);}}
+
+.hint{font-size: 12px;color:var(--muted);text-align:center;margin-top:8px;letter-spacing:0.3px;}
 
 /* ── PARTICLE CANVAS ── */
 #particles{position:fixed;inset:0;pointer-events:none;z-index:0;}
@@ -362,7 +372,7 @@ header{
 /* ── MOBILE ── */
 @media(max-width:768px){
   header{padding:10px 16px;}
-  .h-text h1{font-size:10px;}
+  .h-text h1{font-size: 12px;}
   .h-text p{display:none;}
   .layout{height:0;flex:1;overflow:hidden;min-height:0;}
   .chat{height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden;flex:1;}
@@ -371,9 +381,9 @@ header{
   .sidebar{position:fixed;top:0;left:0;bottom:0;z-index:200;width:260px;transform:translateX(-100%);background:rgba(10,5,20,0.97);backdrop-filter:blur(16px);padding-top:60px;}
   .sidebar.open{transform:translateX(0);box-shadow:4px 0 24px rgba(108,59,255,0.4);}
   .sidebar-toggle{display:flex;}
-  .bubble{max-width:85%;font-size:13px;}
+  .bubble{max-width:85%;font-size: 15px;}
   .welcome{gap:12px;padding:16px 14px;}
-  .welcome h2{font-size:22px;}
+  .welcome h2{font-size: 25px;}
   .robot-wrap{width:130px;height:130px;}
   .robot-body{width:88px;height:88px;}
   .robot-ring{width:130px;height:130px;}
@@ -491,15 +501,21 @@ header{
 
     <div class="input-bar">
       <div class="input-row">
+        <button class="voice-btn" id="voiceBtn" title="Voice input" onclick="toggleVoice()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        </button>
         <textarea class="t-input" id="tinput" rows="1" placeholder="Ask me anything about SVS College…"></textarea>
         <button class="send-btn" id="sbtn" onclick="sendMsg()" disabled>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
       </div>
-      <p class="hint">Press Enter to send · Shift+Enter for new line</p>
+      <p class="hint">Press Enter to send · 🎤 Voice · Shift+Enter new line</p>
     </div>
+
   </div>
 </div>
+
+
 
 <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">☰</button>
 
@@ -640,30 +656,68 @@ async function sendMsg(){
 
 function ask(q){input.value=q;sbtn.disabled=false;sendMsg();}
 
-function newChat(){
-  msgs.innerHTML='';history=[];welcomeGone=false;
-  const w=document.createElement('div');w.id='welcome';w.className='welcome';
-  w.innerHTML=`
-    <div class="robot-wrap">
-      <div class="robot-ring"></div><div class="robot-ring2"></div><div class="robot-dots"></div>
-      <div class="robot-body" id="robotBody">
-        <div class="robot-face">
-          <div class="robot-eyes"><div class="robot-eye"></div><div class="robot-eye"></div></div>
-          <div class="robot-mouth" id="robotMouth"></div>
-        </div>
-      </div>
-    </div>
-    <h2>Hello! I am Unimate</h2>
-    <p class="welcome-sub">Your AI-powered assistant for <strong>SVS College, Bantwal</strong>.<br>Ask me anything about the college!</p>
-    <div class="chips">
-      <div class="chip" onclick="ask('Tell me about SVS College Bantwal')">🏛️ About the college</div>
-      <div class="chip" onclick="ask('What courses are offered at SVS College?')">📘 Courses offered</div>
-      <div class="chip" onclick="ask('How to apply for admission at SVS College?')">📋 Admission process</div>
-      <div class="chip" onclick="ask('What campus facilities does SVS College have?')">🏫 Campus facilities</div>
-      <div class="chip" onclick="ask('What scholarships are available at SVS College?')">💰 Scholarships</div>
-      <div class="chip" onclick="ask('What are the contact details of SVS College Bantwal?')">📞 Contact details</div>
-    </div>`;
-  msgs.appendChild(w);
+
+/* ── VOICE RECOGNITION ── */
+let recognition = null;
+let isListening = false;
+
+function toggleVoice() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert('Voice recognition is not supported in your browser. Please use Chrome or Edge.');
+    return;
+  }
+
+  if (isListening) {
+    recognition.stop();
+    return;
+  }
+
+  recognition = new SpeechRecognition();
+  recognition.lang = 'en-IN'; // Indian English
+  recognition.interimResults = true;
+  recognition.continuous = false;
+
+  const voiceBtn = document.getElementById('voiceBtn');
+
+  recognition.onstart = () => {
+    isListening = true;
+    voiceBtn.classList.add('listening');
+    voiceBtn.title = 'Listening… click to stop';
+    document.getElementById('tinput').placeholder = '🎤 Listening…';
+  };
+
+  recognition.onresult = (e) => {
+    const transcript = Array.from(e.results).map(r => r[0].transcript).join('');
+    const tinput = document.getElementById('tinput');
+    tinput.value = transcript;
+    tinput.style.height = 'auto';
+    tinput.style.height = Math.min(tinput.scrollHeight, 120) + 'px';
+    sbtn.disabled = transcript.trim() === '';
+  };
+
+  recognition.onerror = (e) => {
+    console.error('Voice error:', e.error);
+    stopListening();
+    if (e.error === 'not-allowed') alert('Microphone access denied. Please allow microphone permissions.');
+  };
+
+  recognition.onend = () => {
+    stopListening();
+    // Auto-send if text captured
+    const text = document.getElementById('tinput').value.trim();
+    if (text) { sbtn.disabled = false; }
+  };
+
+  recognition.start();
+}
+
+function stopListening() {
+  isListening = false;
+  const voiceBtn = document.getElementById('voiceBtn');
+  voiceBtn.classList.remove('listening');
+  voiceBtn.title = 'Voice input';
+  document.getElementById('tinput').placeholder = 'Ask me anything about SVS College…';
 }
 </script>
 </body>
